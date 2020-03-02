@@ -6,6 +6,7 @@ class MBDropdownElement extends MBElement {
 
   MBDropdownElement({Map<String, dynamic> dictionary})
       : super(dictionary: dictionary) {
+    print(dictionary);
     selectedOption = dictionary['value'];
     List<Map<String, dynamic>> options =
         List<Map<String, dynamic>>.from(dictionary['options']);
