@@ -15,7 +15,7 @@ class MBDropdownElement extends MBElement {
   }
 }
 
-class MBDropdownElementOption extends MBElement {
+class MBDropdownElementOption {
   String key;
   String value;
 
