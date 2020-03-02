@@ -1,4 +1,4 @@
-import 'package:modena_volley/mburger/elements/mb_poll_element.dart';
+import 'mb_poll_element.dart';
 
 import 'mb_address_element.dart';
 import 'mb_checkbox_element.dart';

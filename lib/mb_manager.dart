@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:device_info/device_info.dart';
-import 'package:modena_volley/mburger/elements/mb_poll_element.dart';
+import 'elements/mb_poll_element.dart';
 
 import 'mb_auth/mb_auth.dart';
 import 'mb_exception.dart';
