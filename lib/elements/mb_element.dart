@@ -1,3 +1,5 @@
+import 'package:mburger/elements/mb_dropdown_element.dart';
+
 import 'mb_poll_element.dart';
 
 import 'mb_address_element.dart';
@@ -88,6 +90,9 @@ class MBElementsUtilities {
         break;
       case MBElementType.poll:
         return MBPollElement(dictionary: dictionary);
+        break;
+      case MBElementType.dropdown:
+        return MBDropdownElement(dictionary: dictionary);
         break;
       default:
         return MBGeneralElement(dictionary: dictionary);
