@@ -71,6 +71,6 @@ class MBAdmin {
     http.StreamedResponse response = await request.send();
     final responseString = await response.stream.bytesToString();
 
-    MBManager.checkResponse(responseString);
+    MBManager.checkResponse(responseString, checkBody: false);
   }
 }
