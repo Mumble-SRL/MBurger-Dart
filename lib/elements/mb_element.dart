@@ -1,4 +1,5 @@
 import 'package:mburger/elements/mb_dropdown_element.dart';
+import 'package:mburger/elements/mb_media_element.dart';
 
 import 'mb_poll_element.dart';
 
@@ -37,13 +38,18 @@ abstract class MBElement {
 class MBElementsUtilities {
   static MBElementType elementTypeFromString(String string) {
     switch (string.toLowerCase()) {
-      case 'text': case 'textarea':
+      case 'text':
+      case 'textarea':
         return MBElementType.text;
         break;
       case 'image':
         return MBElementType.images;
         break;
-      case 'audio': case 'video': case 'document': case 'file': case 'media':
+      case 'audio':
+      case 'video':
+      case 'document':
+      case 'file':
+      case 'media':
         return MBElementType.media;
         break;
       case 'checkbox':
@@ -94,6 +100,10 @@ class MBElementsUtilities {
       case MBElementType.dropdown:
         return MBDropdownElement(dictionary: dictionary);
         break;
+      case MBElementType.media:
+        return MBMediaElement(dictionary: dictionary);
+        break;
+
       default:
         return MBGeneralElement(dictionary: dictionary);
         break;

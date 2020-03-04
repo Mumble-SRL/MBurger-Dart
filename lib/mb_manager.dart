@@ -40,6 +40,47 @@ class MBManager {
     return 'it';
   }
 
+  Future<MBPaginatedResponse<MBSection>> getBlock({
+    int blockId,
+    List<MBParameter> parameters: const [],
+    bool includeElements: false,
+  }) async {
+    if (blockId == null) {
+      throw MBException('blockId must not be null');
+    }
+
+    Map<String, String> apiParameters = {};
+
+    if (includeElements) {
+      apiParameters['include'] = 'elements';
+    }
+    if (parameters != null) {
+      parameters.forEach((parameter) {
+        Map<String, String> representation = parameter.representation;
+        if (representation != null) {
+          apiParameters.addAll(representation);
+        }
+      });
+    }
+
+    String apiName = 'api/blocks/' + blockId.toString() + '/sections';
+
+    apiParameters.addAll(await defaultParameters());
+
+    var uri = Uri.https(endpoint, apiName, apiParameters);
+    var response = await http.get(uri, headers: await headers());
+    Map<String, dynamic> body = MBManager.checkResponse(response.body);
+    Map<String, dynamic> meta = body['meta'];
+    List<Map<String, dynamic>> items =
+    List<Map<String, dynamic>>.from(body['items']);
+    return MBPaginatedResponse<MBSection>(
+      from: meta['from'],
+      to: meta['to'],
+      total: meta['total'],
+      items: items.map((item) => MBSection.fromDictionary(item)).toList(),
+    );
+  }
+
   Future<MBPaginatedResponse<MBSection>> getSections({
     int blockId,
     List<MBParameter> parameters: const [],

@@ -17,6 +17,7 @@ export 'elements/mb_text_element.dart';
 export 'elements/mb_images_element.dart';
 export 'elements/mb_checkbox_element.dart';
 export 'elements/mb_poll_element.dart';
+export 'elements/mb_media_element.dart';
 
 export 'parameters/mb_parameter.dart';
 export 'parameters/mb_sort_parameter.dart';
