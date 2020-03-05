@@ -1,6 +1,7 @@
 import 'package:mburger/elements/mb_date_element.dart';
 import 'package:mburger/elements/mb_dropdown_element.dart';
 import 'package:mburger/elements/mb_media_element.dart';
+import 'package:mburger/elements/mb_relation_element.dart';
 
 import 'mb_poll_element.dart';
 
@@ -106,6 +107,9 @@ class MBElementsUtilities {
         break;
       case MBElementType.date:
         return MBDateElement(dictionary: dictionary);
+        break;
+      case MBElementType.relation:
+        return MBRelationElement(dictionary: dictionary);
         break;
       default:
         return MBGeneralElement(dictionary: dictionary);
