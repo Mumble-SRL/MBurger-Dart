@@ -5,7 +5,9 @@ class MBRelationElement extends MBElement {
   int sectionId;
 
   MBRelationElement({Map<String, dynamic> dictionary}) : super(dictionary: dictionary) {
-    blockId = int.tryParse(dictionary['block_id']) ?? 0;
-    sectionId = int.tryParse(dictionary['section_id']) ?? 0;
+    if (dictionary['block_id'] != null && dictionary['section_id'] != null) {
+      blockId = int.tryParse(dictionary['block_id']) ?? 0;
+      sectionId = int.tryParse(dictionary['section_id']) ?? 0;
+    }
   }
 }
