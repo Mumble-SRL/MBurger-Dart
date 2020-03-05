@@ -1,3 +1,4 @@
+import 'package:mburger/elements/mb_date_element.dart';
 import 'package:mburger/elements/mb_dropdown_element.dart';
 import 'package:mburger/elements/mb_media_element.dart';
 
@@ -103,7 +104,9 @@ class MBElementsUtilities {
       case MBElementType.media:
         return MBMediaElement(dictionary: dictionary);
         break;
-
+      case MBElementType.date:
+        return MBDateElement(dictionary: dictionary);
+        break;
       default:
         return MBGeneralElement(dictionary: dictionary);
         break;
