@@ -72,7 +72,7 @@ class MBManager {
     Map<String, dynamic> body = MBManager.checkResponse(response.body);
     Map<String, dynamic> meta = body['meta'];
     List<Map<String, dynamic>> items =
-    List<Map<String, dynamic>>.from(body['items']);
+        List<Map<String, dynamic>>.from(body['items']);
     return MBPaginatedResponse<MBSection>(
       from: meta['from'],
       to: meta['to'],
@@ -122,6 +122,31 @@ class MBManager {
     );
   }
 
+  Future<MBPaginatedResponse<MBSection>> getSection({
+    int sectionId,
+    bool includeElements: false,
+  }) async {
+    if (sectionId == null) {
+      throw MBException('sectionId must not be null');
+    }
+
+    Map<String, String> apiParameters = {};
+
+    if (includeElements) {
+      apiParameters['include'] = 'elements';
+    }
+
+    String apiName = 'api/sections/' + sectionId.toString();
+
+    apiParameters.addAll(await defaultParameters());
+
+    var uri = Uri.https(endpoint, apiName, apiParameters);
+    var response = await http.get(uri, headers: await headers());
+    Map<String, dynamic> body = MBManager.checkResponse(response.body);
+
+    MBSection.fromDictionary(body);
+  }
+
   Future<MBProject> getProject({bool includeContracts: false}) async {
     Map<String, String> apiParameters = {};
 
@@ -151,7 +176,8 @@ class MBManager {
 
     var requestBody = json.encode(apiParameters);
 
-    Map<String, String> headers = await MBManager.shared.headers(contentTypeJson: true);
+    Map<String, String> headers =
+        await MBManager.shared.headers(contentTypeJson: true);
 
     var uri = Uri.https(MBManager.shared.endpoint, apiName);
 
