@@ -144,7 +144,7 @@ class MBManager {
     var response = await http.get(uri, headers: await headers());
     Map<String, dynamic> body = MBManager.checkResponse(response.body);
 
-    MBSection.fromDictionary(body);
+    return MBSection.fromDictionary(body);
   }
 
   Future<MBProject> getProject({bool includeContracts: false}) async {
