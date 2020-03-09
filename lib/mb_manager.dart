@@ -122,7 +122,7 @@ class MBManager {
     );
   }
 
-  Future<MBPaginatedResponse<MBSection>> getSection({
+  Future<MBSection> getSection({
     int sectionId,
     bool includeElements: false,
   }) async {
