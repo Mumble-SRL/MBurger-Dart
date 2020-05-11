@@ -3,6 +3,7 @@ import 'package:mburger/elements/mb_dropdown_element.dart';
 import 'package:mburger/elements/mb_media_element.dart';
 import 'package:mburger/elements/mb_relation_element.dart';
 
+import 'mb_color_element.dart';
 import 'mb_poll_element.dart';
 
 import 'mb_address_element.dart';
@@ -23,6 +24,7 @@ enum MBElementType {
   poll,
   markdown,
   relation,
+  color,
 }
 
 abstract class MBElement {
@@ -75,6 +77,9 @@ class MBElementsUtilities {
       case 'relation':
         return MBElementType.relation;
         break;
+      case 'color':
+        return MBElementType.color;
+        break;
       default:
         return MBElementType.undefined;
     }
@@ -110,6 +115,9 @@ class MBElementsUtilities {
         break;
       case MBElementType.relation:
         return MBRelationElement(dictionary: dictionary);
+        break;
+      case MBElementType.color:
+        return MBColorElement(dictionary: dictionary);
         break;
       default:
         return MBGeneralElement(dictionary: dictionary);
