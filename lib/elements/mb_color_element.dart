@@ -9,14 +9,14 @@ class MBColorElement extends MBElement {
 
   Color _hexToColor(String hexString, {String alphaChannel = 'FF'}) {
     if (colorString == null) {
-      return Color.fromRGBO(0, 0, 0, 1);
+      return null;
     }
 
     int intValue = int.tryParse(hexString.replaceFirst('#', '0x$alphaChannel'));
     if (intValue != null) {
       return Color(intValue);
     } else {
-      return Color.fromRGBO(0, 0, 0, 1);
+      return null;
     }
   }
 
