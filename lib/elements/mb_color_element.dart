@@ -11,7 +11,13 @@ class MBColorElement extends MBElement {
     if (colorString == null) {
       return Color.fromRGBO(0, 0, 0, 1);
     }
-    return Color(int.parse(hexString.replaceFirst('#', '0x$alphaChannel')));
+
+    int intValue = int.tryParse(hexString.replaceFirst('#', '0x$alphaChannel'));
+    if (intValue != null) {
+      return Color(intValue);
+    } else {
+      return Color.fromRGBO(0, 0, 0, 1);
+    }
   }
 
   MBColorElement({Map<String, dynamic> dictionary}) : super(dictionary: dictionary) {
