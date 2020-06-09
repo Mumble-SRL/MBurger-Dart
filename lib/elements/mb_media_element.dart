@@ -31,6 +31,15 @@ class MBMediaElement extends MBElement {
     }
     return MBMediaType.file;
   }
+
+  MBFile firstMedia() {
+    if (medias != null) {
+      if (medias.length != 0) {
+        return medias.first;
+      }
+    }
+    return null;
+  }
 }
 
 class MBFile {

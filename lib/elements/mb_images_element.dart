@@ -5,11 +5,21 @@ class MBImagesElement extends MBElement {
 
   MBImagesElement({Map<String, dynamic> dictionary})
       : super(dictionary: dictionary) {
-    List<Map<String, dynamic>> value = List<Map<String, dynamic>>.from(dictionary['value']);
+    List<Map<String, dynamic>> value =
+        List<Map<String, dynamic>>.from(dictionary['value']);
 
     if (value != null) {
       images = value.map((img) => MBImage(dictionary: img)).toList();
     }
+  }
+
+  MBImage firstImage() {
+    if (images != null) {
+      if (images.length != 0) {
+        return images.first;
+      }
+    }
+    return null;
   }
 }
 

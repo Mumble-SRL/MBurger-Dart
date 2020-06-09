@@ -17,6 +17,15 @@ class MBRelationElement extends MBElement {
       }
     }
   }
+
+  MBRelation firstRelation() {
+    if (relations != null) {
+      if (relations.length != 0) {
+        return relations.first;
+      }
+    }
+    return null;
+  }
 }
 
 class MBRelation {
