@@ -1,19 +1,32 @@
 import 'mb_element.dart';
 
 class MBRelationElement extends MBElement {
-  int blockId;
-  int sectionId;
+  List<MBRelation> relations;
 
   MBRelationElement({Map<String, dynamic> dictionary})
       : super(dictionary: dictionary) {
-    if (dictionary['value'] != null) {
-      if (dictionary['value'] is Map<String, dynamic>) {
-        Map<String, dynamic> value = dictionary['value'];
-        if (value['block_id'] != null && value['section_id'] != null) {
-          blockId = value['block_id'];
-          sectionId = value['section_id'];
-        }
+    dynamic value = dictionary['value'];
+    if (value != null) {
+      if (value is Map<String, dynamic>) {
+        relations = [MBRelation(dictionary: value)];
+      } else if (value is List<dynamic>) {
+        List<Map<String, dynamic>> relationsFromDict =
+            List.castFrom<dynamic, Map<String, dynamic>>(value);
+        relations =
+            relationsFromDict.map((r) => MBRelation(dictionary: r)).toList();
       }
+    }
+  }
+}
+
+class MBRelation {
+  int blockId;
+  int sectionId;
+
+  MBRelation({Map<String, dynamic> dictionary}) {
+    if (dictionary['block_id'] != null && dictionary['section_id'] != null) {
+      blockId = dictionary['block_id'];
+      sectionId = dictionary['section_id'];
     }
   }
 }
