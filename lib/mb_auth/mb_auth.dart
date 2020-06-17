@@ -272,6 +272,24 @@ class MBAuth {
     return MBUser.fromDictionary(body);
   }
 
+  static Future<void> deleteProfile() async {
+    String apiName = 'api/profile/delete';
+
+    Map<String, String> apiParameters =
+        await MBManager.shared.defaultParameters();
+    var uri = Uri.https(MBManager.shared.endpoint, apiName, apiParameters);
+
+    Map<String, String> headers = await MBManager.shared.headers();
+
+    http.Response response = await http.delete(
+      uri,
+      headers: headers,
+    );
+
+    MBManager.checkResponse(response.body);
+    await _setUserLoggedOut();
+  }
+
 //region token
 
   static String _logedInKey() => 'com.mumble.mburger.userLoggedIn';
