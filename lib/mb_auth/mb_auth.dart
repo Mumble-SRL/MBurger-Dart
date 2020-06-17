@@ -286,7 +286,7 @@ class MBAuth {
       headers: headers,
     );
 
-    MBManager.checkResponse(response.body);
+    MBManager.checkResponse(response.body, checkBody: false);
     await _setUserLoggedOut();
   }
 
