@@ -227,7 +227,7 @@ class MBAuth {
     String name,
     String surname,
     String phone,
-    String base64Image,
+    Uint8List image,
     Map<String, dynamic> data,
     List<MBAuthContractAcceptanceParameter> contracts,
   }) async {
@@ -244,8 +244,8 @@ class MBAuth {
     if (phone != null) {
       apiParameters['phone'] = phone;
     }
-    if (base64Image != null) {
-      apiParameters['image'] = base64Image;
+    if (image != null) {
+      apiParameters['image'] = base64.encode(image);
     }
     if (data != null) {
       apiParameters['data'] = jsonEncode(data);
