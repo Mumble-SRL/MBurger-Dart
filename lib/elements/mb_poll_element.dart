@@ -7,7 +7,8 @@ class MBPollElement extends MBGeneralElement {
   MBPollAnswer answer;
   DateTime expiration;
 
-  MBPollElement({Map<String, dynamic> dictionary}) : super(dictionary: dictionary) {
+  MBPollElement({Map<String, dynamic> dictionary})
+      : super(dictionary: dictionary) {
     Map<String, dynamic> value = dictionary['value'];
     List<dynamic> answersFromApi = value['answers'];
     List<dynamic> resultsFromApi = value['results'];
@@ -37,7 +38,6 @@ class MBPollElement extends MBGeneralElement {
       }
     }
   }
-
 }
 
 class MBPollAnswer {
@@ -54,7 +54,7 @@ class MBPollVoteResponse {
   MBPollVoteResponse({Map<String, dynamic> dictionary}) {
     if (dictionary["mine"] is String) {
       myVoteIndex = int.tryParse(dictionary["mine"]) ?? 0;
-    } else if (dictionary["mine"] is int){
+    } else if (dictionary["mine"] is int) {
       myVoteIndex = dictionary["mine"];
     }
     if (dictionary["results"] != null) {

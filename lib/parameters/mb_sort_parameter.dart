@@ -1,4 +1,3 @@
-
 import 'mb_parameter.dart';
 
 class MBSortParameter extends MBParameter {

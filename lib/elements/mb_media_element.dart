@@ -10,7 +10,8 @@ class MBMediaElement extends MBElement {
       : super(dictionary: dictionary) {
     String type = dictionary['type'] as String;
     mediaType = _mediaTypeForString(type);
-    List<Map<String, dynamic>> value = List<Map<String, dynamic>>.from(dictionary['value']);
+    List<Map<String, dynamic>> value =
+        List<Map<String, dynamic>>.from(dictionary['value']);
 
     if (value != null) {
       medias = value.map((img) => MBFile(dictionary: img)).toList();

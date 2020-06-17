@@ -4,5 +4,6 @@ class MBAuthContractAcceptanceParameter {
 
   MBAuthContractAcceptanceParameter({this.contractId, this.accepted});
 
-  Map<String, dynamic> get representation => {"id": contractId, "accepted": accepted};
+  Map<String, dynamic> get representation =>
+      {"id": contractId, "accepted": accepted};
 }

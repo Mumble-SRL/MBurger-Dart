@@ -21,7 +21,8 @@ class MBSection {
     this.elements = {};
     if (elements != null) {
       for (String key in elements.keys) {
-        this.elements[key] = MBElementsUtilities.elementFromDictionary(elements[key]);
+        this.elements[key] =
+            MBElementsUtilities.elementFromDictionary(elements[key]);
       }
     }
   }

@@ -9,8 +9,7 @@ class MBUploadableElement {
 
   MBUploadableElement(this.localeIdentifier, this.elementName);
 
-  List<MBMultipartForm> toForm(){
+  List<MBMultipartForm> toForm() {
     return null;
   }
-
 }

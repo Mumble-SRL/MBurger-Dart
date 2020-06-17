@@ -10,7 +10,8 @@ class MBDropdownElement extends MBElement {
     List<Map<String, dynamic>> options =
         List<Map<String, dynamic>>.from(dictionary['options']);
     if (options != null) {
-      this.options = options.map((o) => MBDropdownElementOption(dictionary: o)).toList();
+      this.options =
+          options.map((o) => MBDropdownElementOption(dictionary: o)).toList();
     }
   }
 }

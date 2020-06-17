@@ -13,7 +13,8 @@ class MBUploadableElementsFactory {
     return MBUploadableTextElement(localeIdentifier, name, text);
   }
 
-  MBUploadableImagesElement createImageElement(String name, String imagePath, MediaType mediaType) {
+  MBUploadableImagesElement createImageElement(
+      String name, String imagePath, MediaType mediaType) {
     return MBUploadableImagesElement(
         localeIdentifier, name, [imagePath], mediaType);
   }

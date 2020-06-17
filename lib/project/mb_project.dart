@@ -9,8 +9,10 @@ class MBProject {
     id = dictionary['id'];
     name = dictionary['name'];
     if (dictionary['contracts'] != null) {
-      List<Map<String, dynamic>> contractsList = List<Map<String, dynamic>>.from(dictionary['contracts']);
-      contracts = contractsList.map((c) => MBContract.fromDictionary(c)).toList();
+      List<Map<String, dynamic>> contractsList =
+          List<Map<String, dynamic>>.from(dictionary['contracts']);
+      contracts =
+          contractsList.map((c) => MBContract.fromDictionary(c)).toList();
     }
   }
 }

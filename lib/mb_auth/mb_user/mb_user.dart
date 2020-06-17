@@ -1,12 +1,6 @@
 import 'mb_user_contract_status.dart';
 
-enum MBUserAuthMode {
-  email,
-  facebook,
-  google,
-  apple,
-  shopify
-}
+enum MBUserAuthMode { email, facebook, google, apple, shopify }
 
 class MBUser {
   int id;
@@ -43,7 +37,8 @@ class MBUser {
     imageUrl = dictionary['image'];
 
     if (dictionary['contracts'] != null) {
-      List<Map<String, dynamic>> contractsArray = List.from(dictionary['contracts']);
+      List<Map<String, dynamic>> contractsArray =
+          List.from(dictionary['contracts']);
       contracts = contractsArray
           .map((d) => MBUserContractStatus.fromDictionary(d))
           .toList();
