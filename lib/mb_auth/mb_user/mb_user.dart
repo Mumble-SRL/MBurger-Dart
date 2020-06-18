@@ -49,7 +49,7 @@ class MBUser {
     if (dictionary['data'] != null) {
       if (dictionary['data'] is Map) {
         data = dictionary['data'];
-    }
+      }
     }
   }
 
