@@ -45,6 +45,12 @@ class MBUser {
     }
 
     authMode = authModeFromString(dictionary["auth_mode"]);
+
+    if (dictionary['data'] != null) {
+      if (dictionary['data'] is Map) {
+        data = dictionary['data'];
+    }
+    }
   }
 
   Map<String, dynamic> toDictionary() {
