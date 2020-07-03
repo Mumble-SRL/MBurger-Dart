@@ -33,9 +33,9 @@ abstract class MBElement {
   MBElementType type;
 
   MBElement({Map<String, dynamic> dictionary}) {
-    id = dictionary['id'];
-    order = dictionary['order'];
-    type = MBElementsUtilities.elementTypeFromString(dictionary['type']);
+    id = dictionary['id'] as int;
+    order = dictionary['order'] as int;
+    type = MBElementsUtilities.elementTypeFromString(dictionary['type'] as String);
   }
 }
 
@@ -86,7 +86,7 @@ class MBElementsUtilities {
   }
 
   static MBElement elementFromDictionary(Map<String, dynamic> dictionary) {
-    String typeString = dictionary['type'];
+    String typeString = dictionary['type'] as String;
     MBElementType type = MBElementsUtilities.elementTypeFromString(typeString);
     switch (type) {
       case MBElementType.text:

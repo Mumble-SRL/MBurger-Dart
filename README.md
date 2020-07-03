@@ -1,6 +1,6 @@
-# MBurger-Dart
+# MBurger-Flutter
 
-MBurger Dart client.
+MBurger Flutter client.
 
 You can use this library to interact with the [MBurger](https://www.mburger.cloud) platform.
 

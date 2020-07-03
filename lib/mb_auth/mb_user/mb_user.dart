@@ -29,26 +29,26 @@ class MBUser {
   });
 
   MBUser.fromDictionary(Map<String, dynamic> dictionary) {
-    id = dictionary['id'];
-    name = dictionary['name'];
-    surname = dictionary['surname'];
-    email = dictionary['email'];
-    phone = dictionary['phone'];
-    imageUrl = dictionary['image'];
+    id = dictionary['id'] as int;
+    name = dictionary['name'] as String;
+    surname = dictionary['surname'] as String;
+    email = dictionary['email'] as String;
+    phone = dictionary['phone'] as String;
+    imageUrl = dictionary['image'] as String;
 
     if (dictionary['contracts'] != null) {
       List<Map<String, dynamic>> contractsArray =
-          List.from(dictionary['contracts']);
+          List.from(dictionary['contracts'] as List);
       contracts = contractsArray
           .map((d) => MBUserContractStatus.fromDictionary(d))
           .toList();
     }
 
-    authMode = authModeFromString(dictionary["auth_mode"]);
+    authMode = authModeFromString(dictionary["auth_mode"] as String);
 
     if (dictionary['data'] != null) {
-      if (dictionary['data'] is Map) {
-        data = dictionary['data'];
+      if (dictionary['data'] is Map<String, dynamic>) {
+        data = dictionary['data'] as Map<String, dynamic>;
       }
     }
   }

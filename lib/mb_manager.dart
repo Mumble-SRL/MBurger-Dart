@@ -42,8 +42,8 @@ class MBManager {
 
   Future<MBPaginatedResponse<MBSection>> getBlock({
     int blockId,
-    List<MBParameter> parameters: const [],
-    bool includeElements: false,
+    List<MBParameter> parameters = const [],
+    bool includeElements = false,
   }) async {
     if (blockId == null) {
       throw MBException('blockId must not be null');
@@ -70,21 +70,21 @@ class MBManager {
     var uri = Uri.https(endpoint, apiName, apiParameters);
     var response = await http.get(uri, headers: await headers());
     Map<String, dynamic> body = MBManager.checkResponse(response.body);
-    Map<String, dynamic> meta = body['meta'];
+    Map<String, dynamic> meta = body['meta'] as Map<String, dynamic>;
     List<Map<String, dynamic>> items =
-        List<Map<String, dynamic>>.from(body['items']);
+        List<Map<String, dynamic>>.from(body['items'] as List);
     return MBPaginatedResponse<MBSection>(
-      from: meta['from'],
-      to: meta['to'],
-      total: meta['total'],
+      from: meta['from'] as int,
+      to: meta['to'] as int,
+      total: meta['total'] as int,
       items: items.map((item) => MBSection.fromDictionary(item)).toList(),
     );
   }
 
   Future<MBPaginatedResponse<MBSection>> getSections({
     int blockId,
-    List<MBParameter> parameters: const [],
-    bool includeElements: false,
+    List<MBParameter> parameters = const [],
+    bool includeElements = false,
   }) async {
     if (blockId == null) {
       throw MBException('blockId must not be null');
@@ -111,20 +111,20 @@ class MBManager {
     var uri = Uri.https(endpoint, apiName, apiParameters);
     var response = await http.get(uri, headers: await headers());
     Map<String, dynamic> body = MBManager.checkResponse(response.body);
-    Map<String, dynamic> meta = body['meta'];
+    Map<String, dynamic> meta = body['meta'] as Map<String, dynamic>;
     List<Map<String, dynamic>> items =
-        List<Map<String, dynamic>>.from(body['items']);
+        List<Map<String, dynamic>>.from(body['items'] as List);
     return MBPaginatedResponse<MBSection>(
-      from: meta['from'],
-      to: meta['to'],
-      total: meta['total'],
+      from: meta['from'] as int,
+      to: meta['to'] as int,
+      total: meta['total'] as int,
       items: items.map((item) => MBSection.fromDictionary(item)).toList(),
     );
   }
 
   Future<MBSection> getSection({
     int sectionId,
-    bool includeElements: false,
+    bool includeElements = false,
   }) async {
     if (sectionId == null) {
       throw MBException('sectionId must not be null');
@@ -147,7 +147,7 @@ class MBManager {
     return MBSection.fromDictionary(body);
   }
 
-  Future<MBProject> getProject({bool includeContracts: false}) async {
+  Future<MBProject> getProject({bool includeContracts = false}) async {
     Map<String, String> apiParameters = {};
 
     if (includeContracts) {
@@ -193,7 +193,7 @@ class MBManager {
 
   static Map<String, dynamic> checkResponse(
     String response, {
-    bool checkBody: true,
+    bool checkBody = true,
   }) {
     final responseJson = json.decode(response);
     Map<String, dynamic> responseDecoded = responseJson as Map<String, dynamic>;
@@ -226,7 +226,7 @@ class MBManager {
     String message = responseDecoded["message"] as String;
     if (responseDecoded["errors"] != null) {
       String errorsString = '';
-      Map<String, dynamic> errors = responseDecoded["errors"];
+      Map<String, dynamic> errors = responseDecoded["errors"] as Map<String, dynamic>;
       for (String key in errors.keys) {
         dynamic value = errors[key];
         if (value is String) {
@@ -246,7 +246,7 @@ class MBManager {
     return message;
   }
 
-  Future<Map<String, String>> headers({contentTypeJson: false}) async {
+  Future<Map<String, String>> headers({bool contentTypeJson = false}) async {
     Map<String, String> headers = {
       'Accept': 'application/json',
       'X-MBurger-Token': apiToken,

@@ -22,6 +22,6 @@ class MBColorElement extends MBElement {
 
   MBColorElement({Map<String, dynamic> dictionary})
       : super(dictionary: dictionary) {
-    colorString = dictionary['value'];
+    colorString = dictionary['value'] as String;
   }
 }

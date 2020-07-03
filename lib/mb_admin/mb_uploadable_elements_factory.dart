@@ -5,7 +5,7 @@ import 'mb_uploadable_images_elements.dart';
 import 'mb_uploadable_text_element.dart';
 
 class MBUploadableElementsFactory {
-  final localeIdentifier;
+  final String localeIdentifier;
 
   MBUploadableElementsFactory(this.localeIdentifier);
 

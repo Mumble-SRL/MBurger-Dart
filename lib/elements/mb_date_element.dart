@@ -7,7 +7,7 @@ class MBDateElement extends MBElement {
   MBDateElement({Map<String, dynamic> dictionary})
       : super(dictionary: dictionary) {
     DateFormat dateFormat = DateFormat('dd/MM/yyyy HH:mm');
-    String dateString = dictionary['value'];
+    String dateString = dictionary['value'] as String;
     date = dateFormat.parse(dateString);
   }
 }

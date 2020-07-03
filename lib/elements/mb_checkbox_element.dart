@@ -5,6 +5,6 @@ class MBCheckboxElement extends MBElement {
 
   MBCheckboxElement({Map<String, dynamic> dictionary})
       : super(dictionary: dictionary) {
-    value = dictionary['value'];
+    value = dictionary['value'] as bool;
   }
 }

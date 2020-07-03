@@ -20,7 +20,7 @@ class MBRelationElement extends MBElement {
 
   MBRelation firstRelation() {
     if (relations != null) {
-      if (relations.length != 0) {
+      if (relations.isNotEmpty) {
         return relations.first;
       }
     }
@@ -34,8 +34,8 @@ class MBRelation {
 
   MBRelation({Map<String, dynamic> dictionary}) {
     if (dictionary['block_id'] != null && dictionary['section_id'] != null) {
-      blockId = dictionary['block_id'];
-      sectionId = dictionary['section_id'];
+      blockId = dictionary['block_id'] as int;
+      sectionId = dictionary['section_id'] as int;
     }
   }
 }

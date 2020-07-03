@@ -9,9 +9,9 @@ class MBPollElement extends MBGeneralElement {
 
   MBPollElement({Map<String, dynamic> dictionary})
       : super(dictionary: dictionary) {
-    Map<String, dynamic> value = dictionary['value'];
-    List<dynamic> answersFromApi = value['answers'];
-    List<dynamic> resultsFromApi = value['results'];
+    Map<String, dynamic> value = dictionary['value'] as Map<String, dynamic>;
+    List<dynamic> answersFromApi = value['answers'] as List;
+    List<dynamic> resultsFromApi = value['results'] as List;
 
     answers = [];
 
@@ -30,8 +30,8 @@ class MBPollElement extends MBGeneralElement {
       index++;
     }
 
-    answered = value['answered'];
-    int answerInt = value['answer'];
+    answered = value['answered'] as bool;
+    int answerInt = value['answer'] as int;
     if (answerInt != null && answers != null) {
       if (answerInt < answers.length) {
         answer = answers[answerInt];
@@ -53,12 +53,12 @@ class MBPollVoteResponse {
 
   MBPollVoteResponse({Map<String, dynamic> dictionary}) {
     if (dictionary["mine"] is String) {
-      myVoteIndex = int.tryParse(dictionary["mine"]) ?? 0;
+      myVoteIndex = int.tryParse(dictionary["mine"] as String) ?? 0;
     } else if (dictionary["mine"] is int) {
-      myVoteIndex = dictionary["mine"];
+      myVoteIndex = dictionary["mine"] as int;
     }
     if (dictionary["results"] != null) {
-      List<dynamic> dynamicRes = dictionary["results"];
+      List<dynamic> dynamicRes = dictionary["results"] as List;
       votes = List<int>();
       for (dynamic res in dynamicRes) {
         if (res is int) {

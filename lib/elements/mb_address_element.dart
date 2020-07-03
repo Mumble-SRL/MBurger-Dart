@@ -7,9 +7,10 @@ class MBAddressElement extends MBElement {
 
   MBAddressElement({Map<String, dynamic> dictionary})
       : super(dictionary: dictionary) {
-    Map<String, dynamic> addressDictionary = dictionary['value'];
-    address = addressDictionary['address'];
-    latitude = addressDictionary['latitude'];
-    longitude = addressDictionary['longitude'];
+    Map<String, dynamic> addressDictionary =
+        dictionary['value'] as Map<String, dynamic>;
+    address = addressDictionary['address'] as String;
+    latitude = addressDictionary['latitude'] as double;
+    longitude = addressDictionary['longitude'] as double;
   }
 }

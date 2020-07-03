@@ -10,20 +10,25 @@ class MBSection {
   bool inEvidence;
 
   MBSection.fromDictionary(Map<String, dynamic> dictionary) {
-    id = dictionary['id'];
-    order = dictionary['order'];
+    id = dictionary['id'] as int;
+    order = dictionary['order'] as int;
 
-    int timestamp = dictionary['available_at'];
+    int timestamp = dictionary['available_at'] as int;
     availableAt = DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
-    inEvidence = dictionary['in_evidence'];
+    inEvidence = dictionary['in_evidence'] as bool;
 
-    Map<String, dynamic> elements = dictionary['elements'];
-    this.elements = {};
-    if (elements != null) {
-      for (String key in elements.keys) {
-        this.elements[key] =
-            MBElementsUtilities.elementFromDictionary(elements[key]);
+    if (dictionary['elements'] is Map<String, dynamic>) {
+      Map<String, dynamic> elements =
+          dictionary['elements'] as Map<String, dynamic>;
+      this.elements = {};
+      if (elements != null) {
+        for (String key in elements.keys) {
+          this.elements[key] = MBElementsUtilities.elementFromDictionary(
+              elements[key] as Map<String, dynamic>);
+        }
       }
+    } else {
+      this.elements = {};
     }
   }
 }

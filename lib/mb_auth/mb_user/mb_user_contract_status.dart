@@ -7,8 +7,8 @@ class MBUserContractStatus {
   });
 
   MBUserContractStatus.fromDictionary(Map<String, dynamic> dictionary) {
-    id = dictionary['id'];
-    accepted = dictionary['accepted'];
+    id = dictionary['id'] as int;
+    accepted = dictionary['accepted'] as bool;
   }
 
   Map<String, dynamic> toDictionary() {

@@ -5,6 +5,6 @@ class MBTextElement extends MBElement {
 
   MBTextElement({Map<String, dynamic> dictionary})
       : super(dictionary: dictionary) {
-    value = dictionary['value'];
+    value = dictionary['value'] as String;
   }
 }

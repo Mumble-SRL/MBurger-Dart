@@ -6,9 +6,9 @@ class MBDropdownElement extends MBElement {
 
   MBDropdownElement({Map<String, dynamic> dictionary})
       : super(dictionary: dictionary) {
-    selectedOption = dictionary['value'];
+    selectedOption = dictionary['value'] as String;
     List<Map<String, dynamic>> options =
-        List<Map<String, dynamic>>.from(dictionary['options']);
+        List<Map<String, dynamic>>.from(dictionary['options'] as List);
     if (options != null) {
       this.options =
           options.map((o) => MBDropdownElementOption(dictionary: o)).toList();
@@ -21,7 +21,7 @@ class MBDropdownElementOption {
   String value;
 
   MBDropdownElementOption({Map<String, dynamic> dictionary}) {
-    key = dictionary['key'];
-    value = dictionary['value'];
+    key = dictionary['key'] as String;
+    value = dictionary['value'] as String;
   }
 }

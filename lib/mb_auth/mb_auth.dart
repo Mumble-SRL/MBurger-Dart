@@ -297,16 +297,16 @@ class MBAuth {
 
   static Future<void> _setUserLoggedIn(String token) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool(_logedInKey(), true);
+    await prefs.setBool(_logedInKey(), true);
     final storage = FlutterSecureStorage();
     await storage.write(key: _tokenKey(), value: token);
   }
 
   static Future<void> _setUserLoggedOut() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool(_logedInKey(), false);
+    await prefs.setBool(_logedInKey(), false);
     final storage = FlutterSecureStorage();
-    storage.delete(key: _tokenKey());
+    await storage.delete(key: _tokenKey());
   }
 
   static Future<bool> userLoggedIn() async {
