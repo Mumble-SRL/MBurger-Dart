@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:device_info/device_info.dart';
+import 'package:mburger/mb_block.dart';
 import 'elements/mb_poll_element.dart';
 
 import 'mb_auth/mb_auth.dart';
@@ -53,11 +54,13 @@ class MBManager {
   /// - Parameters:
   ///   - [blockId]: The [blockId] of the block.
   ///   - [parameters]: An optional array of [MBParameter] used to sort, an empty array by default.
-  ///   - [includeElements]: If [true] of the elements in the sections of the blocks are included in the response, `false` by default.
+  ///   - [includeSections]: If [true] the sections of the block are included in the response, `false` by default.
+  ///   - [includeElements]: If [true] the elements in the sections of the blocks are included in the response, `false` by default.
   /// - Returns a [Future] that completes with a paginated response of [MBSection]: the sections retrieved and information about pagination.
-  Future<MBPaginatedResponse<MBSection>> getBlock({
+  Future<MBBlock> getBlock({
     int blockId,
     List<MBParameter> parameters = const [],
+    bool includeSections = false,
     bool includeElements = false,
   }) async {
     if (blockId == null) {
@@ -66,9 +69,10 @@ class MBManager {
 
     Map<String, String> apiParameters = {};
 
-    if (includeElements) {
-      apiParameters['include'] = 'elements';
+    if (includeSections) {
+      apiParameters['include'] = includeElements ? 'sections.elements' : 'sections';
     }
+
     if (parameters != null) {
       parameters.forEach((parameter) {
         Map<String, String> representation = parameter.representation;
@@ -78,22 +82,16 @@ class MBManager {
       });
     }
 
-    String apiName = 'api/blocks/' + blockId.toString() + '/sections';
+    String apiName = 'api/blocks/' + blockId.toString();
 
     apiParameters.addAll(await defaultParameters());
 
     var uri = Uri.https(endpoint, apiName, apiParameters);
     var response = await http.get(uri, headers: await headers());
     Map<String, dynamic> body = MBManager.checkResponse(response.body);
-    Map<String, dynamic> meta = body['meta'] as Map<String, dynamic>;
-    List<Map<String, dynamic>> items =
-        List<Map<String, dynamic>>.from(body['items'] as List);
-    return MBPaginatedResponse<MBSection>(
-      from: meta['from'] as int,
-      to: meta['to'] as int,
-      total: meta['total'] as int,
-      items: items.map((item) => MBSection.fromDictionary(item)).toList(),
-    );
+    MBBlock block = MBBlock.fromDictionary(body);
+
+    return block;
   }
 
   /// Retrieve the sections of the block with the specified id.

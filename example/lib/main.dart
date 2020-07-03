@@ -58,16 +58,13 @@ class MBurgerExample extends StatelessWidget {
 
   /// Retrieves all the sections of a block with the id passed
   _getBlock() async {
-    MBPaginatedResponse<MBSection> response = await MBManager.shared
+    MBBlock block = await MBManager.shared
         .getBlock(
           blockId: 1,
           includeElements: true,
         )
         .catchError((error) => print(error));
-    print('From: ${response.from}');
-    print('To: ${response.to}');
-    print('Total: ${response.total}');
-    print(response.items);
+    print(block);
   }
 
   /// Retrieves a sections with the id passed
