@@ -12,34 +12,72 @@ import 'mb_general_element.dart';
 import 'mb_images_element.dart';
 import 'mb_text_element.dart';
 
+/// The type of elements.
 enum MBElementType {
+  /// Used when the type of the element can't be defined.
   undefined,
+
+  /// A text element.
   text,
+
+  /// An image element.
   images,
+
+  /// A general media element.
   media,
+
+  /// A checkbox element.
   checkbox,
+
+  /// A date element.
   date,
+
+  /// An address element.
   address,
+
+  /// A dropdown element.
   dropdown,
+
+  /// A poll element.
   poll,
+
+  /// A markdown element.
   markdown,
+
+  /// A relation element.
   relation,
+
+  /// A color element.
   color,
 }
 
+/// This class represents the base class for all MBurger elements. All the specialized elements are subclasses of this class.
 abstract class MBElement {
+  /// The order of the element.
   int order;
+
+  /// The id of the element.
   int id;
+
+  /// The type of the element.
   MBElementType type;
 
+  /// Initializes the element with the dictionary returned by the MBurger APIs.
+  /// - Parameters:
+  ///   - [dictionary]: The [dictionary] returned by the APIs.
   MBElement({Map<String, dynamic> dictionary}) {
     id = dictionary['id'] as int;
     order = dictionary['order'] as int;
-    type = MBElementsUtilities.elementTypeFromString(dictionary['type'] as String);
+    type =
+        MBElementsUtilities.elementTypeFromString(dictionary['type'] as String);
   }
 }
 
+/// Utility class for elements
 class MBElementsUtilities {
+  /// Returns the [MBElementType] from its [String] representation.
+  /// - Parameters:
+  ///   - [string]: the string representation of the element type.
   static MBElementType elementTypeFromString(String string) {
     switch (string.toLowerCase()) {
       case 'text':
@@ -85,6 +123,10 @@ class MBElementsUtilities {
     }
   }
 
+  /// Returns the specialized [MBElement] from the dictionary returned by the API.
+  /// - Parameters:
+  ///   - [dictionary]: the dictionary from the API.
+  /// - Returns: the specific [MBElement] type or a [MBGeneralElement].
   static MBElement elementFromDictionary(Map<String, dynamic> dictionary) {
     String typeString = dictionary['type'] as String;
     MBElementType type = MBElementsUtilities.elementTypeFromString(typeString);

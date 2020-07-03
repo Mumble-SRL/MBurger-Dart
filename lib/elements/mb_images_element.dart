@@ -1,8 +1,13 @@
 import 'mb_element.dart';
 
+/// This class represents a MBurger images element.
 class MBImagesElement extends MBElement {
+  /// The images of the element.
   List<MBImage> images;
 
+  /// Initializes an images element with the dictionary returned by the MBurger APIs.
+  /// - Parameters:
+  ///   - [dictionary]: The [dictionary] returned by the APIs.
   MBImagesElement({Map<String, dynamic> dictionary})
       : super(dictionary: dictionary) {
     List<Map<String, dynamic>> value =
@@ -13,6 +18,7 @@ class MBImagesElement extends MBElement {
     }
   }
 
+  /// Returns the first image of this element, if the element has no images it returns [null].
   MBImage firstImage() {
     if (images != null) {
       if (images.isNotEmpty) {
@@ -23,12 +29,23 @@ class MBImagesElement extends MBElement {
   }
 }
 
+/// An image of MBurger
 class MBImage {
+  /// The id of the image.
   int id;
+
+  /// The url of the image.
   String url;
+
+  /// The size of the image.
   int size;
+
+  /// The MIME type of the image.
   String mimeType;
 
+  /// Initializes an image with the dictionary returned by the MBurger APIs.
+  /// - Parameters:
+  ///   - [dictionary]: The [dictionary] returned by the APIs.
   MBImage({Map<String, dynamic> dictionary}) {
     id = dictionary['id'] as int;
     url = dictionary['url'] as String;

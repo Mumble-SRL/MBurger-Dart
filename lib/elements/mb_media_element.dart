@@ -1,11 +1,31 @@
 import 'mb_element.dart';
 
-enum MBMediaType { file, audio, video, document }
+/// The type of the media.
+enum MBMediaType {
+  /// A general file.
+  file,
 
+  /// An audio.
+  audio,
+
+  /// A video.
+  video,
+
+  /// A document(e.g. PDF).
+  document,
+}
+
+/// This class represents a MBurger media element.
 class MBMediaElement extends MBElement {
+  /// The medias of the element.
   List<MBFile> medias;
+
+  /// The type of media.
   MBMediaType mediaType;
 
+  /// Initializes a media element with the dictionary returned by the MBurger APIs.
+  /// - Parameters:
+  ///   - [dictionary]: The [dictionary] returned by the APIs.
   MBMediaElement({Map<String, dynamic> dictionary})
       : super(dictionary: dictionary) {
     String type = dictionary['type'] as String;
@@ -33,6 +53,7 @@ class MBMediaElement extends MBElement {
     return MBMediaType.file;
   }
 
+  /// The first media of the element if exists, [null] otherwise.
   MBFile firstMedia() {
     if (medias != null) {
       if (medias.isNotEmpty) {
@@ -43,12 +64,23 @@ class MBMediaElement extends MBElement {
   }
 }
 
+/// This class represents a file in MBurger.
 class MBFile {
+  /// The id of the file.
   int id;
+
+  /// The url of the media.
   String url;
+
+  /// The size of the image.
   int size;
+
+  /// The MIME type of the media.
   String mimeType;
 
+  /// Initializes a file with the dictionary returned by the MBurger APIs.
+  /// - Parameters:
+  ///   - [dictionary]: The [dictionary] returned by the APIs.
   MBFile({Map<String, dynamic> dictionary}) {
     id = dictionary['id'] as int;
     url = dictionary['url'] as String;

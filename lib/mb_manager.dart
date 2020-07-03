@@ -12,19 +12,27 @@ import 'parameters/mb_parameter.dart';
 import 'project/mb_project.dart';
 import 'response/mb_paginated_response.dart';
 
+/// The manager of the MBurger SDK, you will use this class to make requests to MBurger.
 class MBManager {
   MBManager._privateConstructor();
 
   static final MBManager _shared = MBManager._privateConstructor();
 
+  /// The singleton that manages all the data sent and received to/from MBurger.
   static MBManager get shared {
     return _shared;
   }
 
+  /// The API token used to make all the requests to the apis.
   String apiToken;
+
+  /// It's true if it's in development mode. Set this flag to use the MBurger development environment.
   bool development = false;
+
+  /// The locale used to make the requests.
   String locale;
 
+  /// The endpoint of MBurger, it uses the [development] flag to switch between dev and prod environments.
   String get endpoint {
     if (development) {
       return 'dev.mburger.cloud';
@@ -33,6 +41,7 @@ class MBManager {
     }
   }
 
+  /// The locale sent by the manger to the apis.
   String get localeForApi {
     if (locale != null) {
       locale.substring(0, 1);
@@ -40,6 +49,12 @@ class MBManager {
     return 'it';
   }
 
+  /// Retrieve the block of the project with the specified id.
+  /// - Parameters:
+  ///   - [blockId]: The [blockId] of the block.
+  ///   - [parameters]: An optional array of [MBParameter] used to sort, an empty array by default.
+  ///   - [includeElements]: If [true] of the elements in the sections of the blocks are included in the response, `false` by default.
+  /// - Returns a [Future] that completes with a paginated response of [MBSection]: the sections retrieved and information about pagination.
   Future<MBPaginatedResponse<MBSection>> getBlock({
     int blockId,
     List<MBParameter> parameters = const [],
@@ -81,6 +96,12 @@ class MBManager {
     );
   }
 
+  /// Retrieve the sections of the block with the specified id.
+  /// - Parameters:
+  ///   - [blockId]: The [blockId] of the block.
+  ///   - [parameters]: An optional array of [MBParameter] used to sort, an empty array by default.
+  ///   - [includeElements]: If [true] of the elements in the sections of the blocks are included in the response, `false` by default.
+  /// - Returns a [Future] that completes with a paginated response of [MBSection]: the sections retrieved and information about pagination.
   Future<MBPaginatedResponse<MBSection>> getSections({
     int blockId,
     List<MBParameter> parameters = const [],
@@ -122,6 +143,11 @@ class MBManager {
     );
   }
 
+  /// Retrieve the sections with the specified id.
+  /// - Parameters:
+  ///   - [sectionId]: The [sectionId] of the section.
+  ///   - [includeElements]: If [true] of the elements in the sections of the blocks are included in the response, `false` by default.
+  /// - Returns a [Future] that completes with the [MBSection] retrieved.
   Future<MBSection> getSection({
     int sectionId,
     bool includeElements = false,
@@ -147,6 +173,10 @@ class MBManager {
     return MBSection.fromDictionary(body);
   }
 
+  /// Retrieve the MBurger project.
+  /// - Parameters:
+  ///   - [includeContracts]: if this is [true] the contracts are included in the project object.
+  /// - Returns a [Future] that completes with the [MBProject] retrieved.
   Future<MBProject> getProject({bool includeContracts = false}) async {
     Map<String, String> apiParameters = {};
 
@@ -164,6 +194,11 @@ class MBManager {
     return MBProject.fromDictionary(body);
   }
 
+  /// Votes for a poll.
+  /// - Parameters:
+  ///   - [pollId]: the id of the poll element.
+  ///   - [answerIndex]: this index of the answer voted for.
+  /// - Returns a [Future] that completes with the [MBPollVoteResponse] posted to MBurger.
   Future<MBPollVoteResponse> votePoll(int pollId, int answerIndex) async {
     Map<String, dynamic> apiParameters = {};
 
@@ -191,6 +226,11 @@ class MBManager {
     return MBPollVoteResponse(dictionary: body);
   }
 
+  /// Checks the response of the api call and returns the body, it throws a [MBException] if it encounters an error.
+  /// - Parameters:
+  ///   - [response]: The [response] string that needs to be checked.
+  ///   - [checkBody]: If [true] this function checks if in the response there's a "body" value, otherwise it skips this check, `true` by default.
+  /// - Returns a Map<String, dynamic> object which is the body of the response.
   static Map<String, dynamic> checkResponse(
     String response, {
     bool checkBody = true,
@@ -226,7 +266,8 @@ class MBManager {
     String message = responseDecoded["message"] as String;
     if (responseDecoded["errors"] != null) {
       String errorsString = '';
-      Map<String, dynamic> errors = responseDecoded["errors"] as Map<String, dynamic>;
+      Map<String, dynamic> errors =
+          responseDecoded["errors"] as Map<String, dynamic>;
       for (String key in errors.keys) {
         dynamic value = errors[key];
         if (value is String) {
@@ -246,6 +287,10 @@ class MBManager {
     return message;
   }
 
+  /// Default headers sent to MBurger.
+  /// - Parameters:
+  ///   - [contentTypeJson]: if [true] it adds this header [Content-Type: application/json].
+  /// - Returns a Future that completes with the map of default headers.
   Future<Map<String, String>> headers({bool contentTypeJson = false}) async {
     Map<String, String> headers = {
       'Accept': 'application/json',
@@ -263,6 +308,8 @@ class MBManager {
     return headers;
   }
 
+  /// Default parameters sent to MBurger.
+  /// - Returns a Future that completes with the map of default parameters.
   Future<Map<String, String>> defaultParameters() async {
     Map<String, String> defaultParameters = {
       'os': Platform.isIOS ? 'ios' : 'android',
