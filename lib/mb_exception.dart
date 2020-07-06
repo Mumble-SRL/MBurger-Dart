@@ -1,6 +1,5 @@
 /// An exception of MBurger
 class MBException implements Exception {
-
   /// The cause of the exception.
   String cause;
 

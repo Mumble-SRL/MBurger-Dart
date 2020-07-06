@@ -45,7 +45,9 @@ class MBManager {
   /// The locale sent by the manger to the apis.
   String get localeForApi {
     if (locale != null) {
-      locale.substring(0, 1);
+      if (locale.length >= 2) {
+        return locale.substring(0, 2);
+      }
     }
     return 'it';
   }
@@ -70,7 +72,8 @@ class MBManager {
     Map<String, String> apiParameters = {};
 
     if (includeSections) {
-      apiParameters['include'] = includeElements ? 'sections.elements' : 'sections';
+      apiParameters['include'] =
+          includeElements ? 'sections.elements' : 'sections';
     }
 
     if (parameters != null) {
