@@ -1,5 +1,4 @@
-## [0.0.1+12] - 03/07/2020
+## [0.0.1+14] - 03/07/2020
 
-* Various fixes and enhancements
-* Start adding comments for documentation
-* Bugfix for locale
+* Added name and surname in social sign in
+* Bugfix and enhancements

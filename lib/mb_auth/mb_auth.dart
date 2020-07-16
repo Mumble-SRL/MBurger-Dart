@@ -78,6 +78,8 @@ class MBAuth {
   static Future<void> authenticateUserWithSocial(
     String token,
     MBAuthSocialLoginType loginType, {
+    String name,
+    String surname,
     List<MBAuthContractAcceptanceParameter> contracts,
   }) {
     Map<String, String> parameters = {};
@@ -91,7 +93,12 @@ class MBAuth {
       parameters['mode'] = 'google';
       parameters['google_token'] = token;
     }
-
+    if (name != null) {
+      parameters['name'] = name;
+    }
+    if (surname != null) {
+      parameters['surname'] = surname;
+    }
     if (contracts != null) {
       List<Map<String, dynamic>> contractsArray =
           contracts.map((c) => c.representation).toList();
