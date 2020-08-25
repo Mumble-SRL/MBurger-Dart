@@ -66,7 +66,7 @@ class MBManager {
     bool includeElements = false,
   }) async {
     if (blockId == null) {
-      throw MBException('blockId must not be null');
+      throw MBException(statusCode: 1001, message: 'blockId must not be null');
     }
 
     Map<String, String> apiParameters = {};
@@ -109,7 +109,7 @@ class MBManager {
     bool includeElements = false,
   }) async {
     if (blockId == null) {
-      throw MBException('blockId must not be null');
+      throw MBException(statusCode: 1002, message: 'blockId must not be null');
     }
 
     Map<String, String> apiParameters = {};
@@ -154,7 +154,8 @@ class MBManager {
     bool includeElements = false,
   }) async {
     if (sectionId == null) {
-      throw MBException('sectionId must not be null');
+      throw MBException(
+          statusCode: 1002, message: 'sectionId must not be null');
     }
 
     Map<String, String> apiParameters = {};
@@ -247,45 +248,43 @@ class MBManager {
           return responseBody;
         } else {
           throw MBException(
-            "Can't find response body",
             statusCode: statusCode,
+            message: "Can't find response body",
           );
         }
       } else {
         return null;
       }
     } else {
-      String errorString = _errorString(responseDecoded);
-      throw MBException(
-        errorString ?? "There was an error, retry later",
-        statusCode: statusCode,
-      );
+      MBException exception = _exceptionFromResponse(responseDecoded);
+      throw exception;
     }
   }
 
-  static String _errorString(Map<String, dynamic> responseDecoded) {
+  static MBException _exceptionFromResponse(
+      Map<String, dynamic> responseDecoded) {
+    int statusCode = responseDecoded["status_code"] as int ?? -1;
     String message = responseDecoded["message"] as String;
+    List<String> errors;
     if (responseDecoded["errors"] != null) {
-      String errorsString = '';
-      Map<String, dynamic> errors =
+      errors = [];
+      Map<String, dynamic> errorsDictionary =
           responseDecoded["errors"] as Map<String, dynamic>;
-      for (String key in errors.keys) {
-        dynamic value = errors[key];
+      for (String key in errorsDictionary.keys) {
+        dynamic value = errorsDictionary[key];
         if (value is String) {
-          errorsString += errorsString == '' ? value : '\n$value';
+          errors.add(value);
         } else if (value is List) {
-          for (var v in value) {
-            if (v is String) {
-              errorsString += errorsString == '' ? v : '\n$v';
-            }
-          }
+          List<String> valueAsStrings = List.castFrom<dynamic, String>(value);
+          errors.add(valueAsStrings.join(', '));
         }
       }
-      if (errorsString != '') {
-        return errorsString;
-      }
     }
-    return message;
+    return MBException(
+      statusCode: statusCode,
+      message: message,
+      errors: errors,
+    );
   }
 
   /// Default headers sent to MBurger.

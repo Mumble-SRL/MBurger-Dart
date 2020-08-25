@@ -1,18 +1,29 @@
+import 'package:flutter/material.dart';
+
 /// An exception of MBurger
 class MBException implements Exception {
-  /// The cause of the exception.
-  String cause;
-
   /// The status code of the exception.
   int statusCode;
 
-  MBException(
-    this.cause, {
-    this.statusCode,
+  /// The message of the exception.
+  String message;
+
+  /// The errors of the exceptions.
+  List<String> errors;
+
+  MBException({
+    @required this.statusCode,
+    this.message,
+    this.errors,
   });
 
   @override
   String toString() {
-    return cause;
+    if (this.errors != null) {
+      if (this.errors.isNotEmpty) {
+        return this.errors.join('\n');
+      }
+    }
+    return this.message;
   }
 }

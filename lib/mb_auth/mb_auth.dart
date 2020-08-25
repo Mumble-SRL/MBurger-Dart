@@ -134,7 +134,7 @@ class MBAuth {
     String token = body['access_token'] as String;
 
     if (token == null) {
-      throw MBException('Token can\'t be found');
+      throw MBException(statusCode: 1000, message: 'Token can\'t be found');
     }
     await _setUserLoggedIn(token);
   }
