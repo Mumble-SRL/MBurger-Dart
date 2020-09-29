@@ -1,19 +1,43 @@
 import 'mb_user_contract_status.dart';
 
-enum MBUserAuthMode { email, facebook, google, apple, shopify }
+/// The type of authentication used by the user
+enum MBUserAuthMode {
+  /// Email authentication
+  email,
+  /// Facebook authentication
+  facebook,
+  /// Google authentication
+  google,
+  /// Apple authentication
+  apple,
+  /// Shopify authentication
+  shopify,
+}
 
+/// An MBurger user
 class MBUser {
+  /// The id of the user
   int id;
 
+  /// The name of the user
   String name;
+  /// The surname of the user
   String surname;
+  /// The email of the user
   String email;
+  /// The phone of the user
   String phone;
+
+  /// The url of the profile image
   String imageUrl;
+
+  /// Additional data for this user
   Map<String, dynamic> data;
 
+  /// Contracts associated with the user
   List<MBUserContractStatus> contracts;
 
+  /// The auth mode used to login
   MBUserAuthMode authMode;
 
   MBUser({
@@ -28,6 +52,7 @@ class MBUser {
     this.authMode,
   });
 
+  /// Initializes a user from the dictionary returned by the api
   MBUser.fromDictionary(Map<String, dynamic> dictionary) {
     id = dictionary['id'] as int;
     name = dictionary['name'] as String;
@@ -53,6 +78,7 @@ class MBUser {
     }
   }
 
+  /// Converts this user to a dictionary
   Map<String, dynamic> toDictionary() {
     Map<String, dynamic> dictionary = {
       'id': id,
@@ -70,6 +96,7 @@ class MBUser {
     return dictionary;
   }
 
+  /// Generates a MBUserAuthMode from the string returned by the api
   MBUserAuthMode authModeFromString(String authMode) {
     if (authMode == null) {
       return null;
@@ -89,6 +116,7 @@ class MBUser {
     return MBUserAuthMode.email;
   }
 
+  /// Generates a string from a MBUserAuthMode
   String authModeToString(MBUserAuthMode authMode) {
     if (authMode == null) {
       return null;

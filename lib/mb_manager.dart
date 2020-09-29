@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:device_info/device_info.dart';
 import 'package:mburger/mb_block.dart';
+import 'package:mburger/mb_plugin/mb_plugin.dart';
 import 'elements/mb_poll_element.dart';
 
 import 'mb_auth/mb_auth.dart';
@@ -52,13 +53,61 @@ class MBManager {
     return 'it';
   }
 
+  /// Additional plugins for MBurger
+  List<MBPlugin> plugins;
+
+  /// Retrieve the blocks of the project.
+  /// - Parameters:
+  ///   - [parameters]: An optional array of [MBParameter] used to sort, an empty array by default.
+  ///   - [includeSections]: If [true] the sections of the block are included in the response, `false` by default.
+  ///   - [includeElements]: If [true] the elements in the sections of the blocks are included in the response, `false` by default.
+  /// - Returns a [Future] that completes with a paginated response of [MBBlock]: the blocks retrieved and information about pagination.
+  Future<MBPaginatedResponse<MBBlock>> getBlocks({
+    List<MBParameter> parameters = const [],
+    bool includeSections = false,
+    bool includeElements = false,
+  }) async {
+    Map<String, String> apiParameters = {};
+
+    if (includeSections) {
+      apiParameters['include'] =
+          includeElements ? 'sections.elements' : 'sections';
+    }
+
+    if (parameters != null) {
+      parameters.forEach((parameter) {
+        Map<String, String> representation = parameter.representation;
+        if (representation != null) {
+          apiParameters.addAll(representation);
+        }
+      });
+    }
+
+    String apiName = 'api/blocks/';
+
+    apiParameters.addAll(await defaultParameters());
+
+    var uri = Uri.https(endpoint, apiName, apiParameters);
+    var response = await http.get(uri, headers: await headers());
+    Map<String, dynamic> body = MBManager.checkResponse(response.body);
+    Map<String, dynamic> meta = body['meta'] as Map<String, dynamic>;
+    List<Map<String, dynamic>> items =
+        List<Map<String, dynamic>>.from(body['items'] as List);
+    return MBPaginatedResponse<MBBlock>(
+      from: meta['from'] as int,
+      to: meta['to'] as int,
+      total: meta['total'] as int,
+      items: items.map((item) => MBBlock.fromDictionary(item)).toList(),
+    );
+  }
+
   /// Retrieve the block of the project with the specified id.
   /// - Parameters:
   ///   - [blockId]: The [blockId] of the block.
   ///   - [parameters]: An optional array of [MBParameter] used to sort, an empty array by default.
   ///   - [includeSections]: If [true] the sections of the block are included in the response, `false` by default.
   ///   - [includeElements]: If [true] the elements in the sections of the blocks are included in the response, `false` by default.
-  /// - Returns a [Future] that completes with a paginated response of [MBSection]: the sections retrieved and information about pagination.
+  /// - Returns a [Future] that completes with a MBBlock which is the block retrieved.
   Future<MBBlock> getBlock({
     int blockId,
     List<MBParameter> parameters = const [],
