@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mburger/mburger.dart';
+import 'package:mburger/mb_auth/mb_auth.dart';
 
 void main() {
   MBManager.shared.apiToken = 'YOUR_API_TOKEN';

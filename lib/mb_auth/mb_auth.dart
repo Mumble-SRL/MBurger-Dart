@@ -10,9 +10,31 @@ import '../mb_exception.dart';
 import '../mb_manager.dart';
 import 'mb_auth_contract_acceptance_parameter.dart';
 
-enum MBAuthSocialLoginType { apple, facebook, google }
+/// The types of social login
+enum MBAuthSocialLoginType {
+  /// Apple social login
+  apple,
 
+  /// Facebook social login
+  facebook,
+
+  /// Google social login
+  google,
+}
+
+/// The main class to handle MBurger authorization
 class MBAuth {
+  /// Registers a user to MBurger.
+  /// - Parameters:
+  ///   - [name]: The name of the user.
+  ///   - [surname]: The surname of the user.
+  ///   - [email]: The email of the user.
+  ///   - [password]: The password of the user.
+  ///   - [phone]: An optional telephone number.
+  ///   - [image]: An optional profile image.
+  ///   - [contracts]: If there are contracts in the project the user can accept/decline them and you can tell this to MBurger with this parameter.
+  ///   - [data]: Optional additional data.
+  /// - Returns a [Future] that completes when the user is registered correctly.
   static Future<void> registerUser(
     String name,
     String surname,
@@ -67,14 +89,27 @@ class MBAuth {
     MBManager.checkResponse(response.body, checkBody: false);
   }
 
+  /// Authenticate a user with email and password.
+  /// - Parameters:
+  ///   - [email]: The email.
+  ///   - [password]: The password.
+  /// - Returns a [Future] that completes when the user is authenticated correctly.
   static Future<void> authenticateUser(String email, String password) {
-    return authenticateUserWithParameters({
+    return _authenticateUserWithParameters({
       'mode': 'email',
       'email': email,
       'password': password,
     });
   }
 
+  /// Authenticate a user with social.
+  /// - Parameters:
+  ///   - [token]: The social token.
+  ///   - [loginType]: The social the user used to authenticate.
+  ///   - [name]: Used only when logging with apple, to set the name in MBurger.
+  ///   - [surname]: Used only when logging with apple, to set the surname in MBurger.
+  ///   - [contracts]: If there are contracts in the project the user can accept/decline them and you can tell this to MBurger with this parameter.
+  /// - Returns a [Future] that completes when the user is authenticated correctly.
   static Future<void> authenticateUserWithSocial(
     String token,
     MBAuthSocialLoginType loginType, {
@@ -105,11 +140,12 @@ class MBAuth {
       parameters['contracts'] = json.encode(contractsArray);
     }
 
-    return authenticateUserWithParameters(parameters);
+    return _authenticateUserWithParameters(parameters);
   }
 
-  static Future<void> authenticateUserWithParameters(
-      Map<String, String> parameters) async {
+  static Future<void> _authenticateUserWithParameters(
+    Map<String, String> parameters,
+  ) async {
     String apiName = 'api/authenticate';
 
     var uri = Uri.https(MBManager.shared.endpoint, apiName);
@@ -139,6 +175,8 @@ class MBAuth {
     await _setUserLoggedIn(token);
   }
 
+  /// Logs out the current user.
+  /// - Returns a [Future] that completes when the user is logged out correctly.
   static Future<void> logoutCurrentUser() async {
     String apiName = 'api/logout';
 
@@ -160,6 +198,10 @@ class MBAuth {
     await _setUserLoggedOut();
   }
 
+  /// Password reset, an email is sent to the user with the instructions to re-set the password.
+  /// - Parameters:
+  ///   - [email]: The email of the user.
+  /// - Returns a [Future] that completes when the api is called with success.
   static Future<void> forgotPassword(String email) async {
     String apiName = 'api/forgot-password';
 
@@ -183,6 +225,11 @@ class MBAuth {
     MBManager.checkResponse(response.body, checkBody: false);
   }
 
+  /// Change the password of the current logged in user.
+  /// - Parameters:
+  ///   - [oldPassword]: The old password of the user.
+  ///   - [newPassword]: The new password of the user.
+  /// - Returns a [Future] that completes when the api is called with success.
   static Future<void> changePassword(
     String oldPassword,
     String newPassword,
@@ -212,6 +259,8 @@ class MBAuth {
 
 //region profile
 
+  /// Returns the profile of the current user.
+  /// - Returns a [Future] that completes with the profile of the current logged in user.
   static Future<MBUser> getUserProfile() async {
     String apiName = 'api/profile';
 
@@ -230,6 +279,15 @@ class MBAuth {
     return MBUser.fromDictionary(body);
   }
 
+  /// Updates user information, only data that are passed to this function are changed, the fields not passed will remain untouched.
+  /// - Parameters:
+  ///   - [name]: The name of the user.
+  ///   - [surname]: The surname of the user.
+  ///   - [phone]: An optional telephone number.
+  ///   - [image]: An optional profile image.
+  ///   - [contracts]: If there are contracts in the project the user can accept/decline them and you can tell this to MBurger with this parameter.
+  ///   - [data]: Optional additional data.
+  /// - Returns a [Future] that completes when the profile is changed correctly.
   static Future<MBUser> updateUser({
     String name,
     String surname,
@@ -279,6 +337,8 @@ class MBAuth {
     return MBUser.fromDictionary(body);
   }
 
+  /// Deletes the profile for the current logged in user.
+  /// - Returns a [Future] that completes when the profile is deleted correctly.
   static Future<void> deleteProfile() async {
     String apiName = 'api/profile/delete';
 
@@ -316,12 +376,16 @@ class MBAuth {
     await storage.delete(key: _tokenKey());
   }
 
+  /// If the user is logged in.
+  /// - Returns a [Future] that completes with a bool that represents if the user is logged in.
   static Future<bool> userLoggedIn() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool loggedIn = prefs.getBool(_logedInKey()) ?? false;
     return loggedIn;
   }
 
+  /// The token of the user.
+  /// - Returns a [Future] that completes with the user token.
   static Future<String> userToken() async {
     final storage = FlutterSecureStorage();
     String token = await storage.read(key: _tokenKey());

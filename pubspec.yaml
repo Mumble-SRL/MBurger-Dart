@@ -1,7 +1,7 @@
 name: mburger
 description: MBurger Dart client. You can use this package to interact with the MBurger platform (https://www.mburger.cloud).
 documentation: https://docs.mumbleideas.it/mburger/
-version: 0.0.1+15
+version: 0.0.1+16
 authors:
   - Lorenzo Oliveto <lorenzo.oliveto@mumbleideas.it>
 homepage: https://github.com/Mumble-SRL/MBurger-Dart

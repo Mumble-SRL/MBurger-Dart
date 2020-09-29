@@ -1,3 +1,4 @@
-## [0.0.1+15] - 25/08/2020
+## [0.0.1+16] - 25/08/2020
 
-* Updated MBException class to reflect validation messages
+* Updated Readme
+* Added function to retrieve all blocks
