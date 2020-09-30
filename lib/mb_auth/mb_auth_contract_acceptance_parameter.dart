@@ -2,6 +2,7 @@
 class MBAuthContractAcceptanceParameter {
   /// The id of the contract
   final String contractId;
+
   /// If the contract is accepted or not
   final bool accepted;
 

@@ -4,12 +4,16 @@ import 'mb_user_contract_status.dart';
 enum MBUserAuthMode {
   /// Email authentication
   email,
+
   /// Facebook authentication
   facebook,
+
   /// Google authentication
   google,
+
   /// Apple authentication
   apple,
+
   /// Shopify authentication
   shopify,
 }
@@ -21,10 +25,13 @@ class MBUser {
 
   /// The name of the user
   String name;
+
   /// The surname of the user
   String surname;
+
   /// The email of the user
   String email;
+
   /// The phone of the user
   String phone;
 
