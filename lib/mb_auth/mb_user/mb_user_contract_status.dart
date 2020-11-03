@@ -2,6 +2,7 @@
 class MBUserContractStatus {
   /// The id of the contract
   int id;
+
   /// If the contract has been accepted or declined
   bool accepted;
 

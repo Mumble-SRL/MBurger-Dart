@@ -54,7 +54,27 @@ class MBManager {
   }
 
   /// Additional plugins for MBurger
-  List<MBPlugin> plugins;
+  List<MBPlugin> _plugins;
+
+  /// Additional plugins for MBurger
+  set plugins(List<MBPlugin> plugins) {
+    plugins.sort((p1, p2) => p1.startupOrder.compareTo(p2.startupOrder));
+    _plugins = plugins;
+    for (MBPlugin plugin in plugins) {
+      if (plugin.startupBlock != null) {
+        plugin.startupBlock();
+      }
+    }
+  }
+
+  /// Additional plugins for MBurger
+  List<MBPlugin> get plugins => _plugins;
+
+  /// Returns the plugin of the specified type in the array of plugins
+  MBPlugin pluginOf<T>() => plugins.firstWhere(
+        (plugin) => plugin is T,
+        orElse: () => null,
+      );
 
   /// Retrieve the blocks of the project.
   /// - Parameters:
@@ -302,7 +322,7 @@ class MBManager {
           );
         }
       } else {
-        return null;
+        return responseDecoded;
       }
     } else {
       MBException exception = _exceptionFromResponse(responseDecoded);
