@@ -1,3 +1,3 @@
-## [0.0.1+18] - 25/08/2020
+## [0.0.1+19] - 25/08/2020
 
-* Updated formatting
+* Added plugins handling
