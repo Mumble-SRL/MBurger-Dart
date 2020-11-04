@@ -4,7 +4,7 @@ abstract class MBPlugin {
   int startupOrder = -1;
 
   /// The function called to startup the plugin
-  Future<void> startupBlock() {}
+  Future<void> startupBlock() async {}
 
   void tagChanged(
     String tag, {
