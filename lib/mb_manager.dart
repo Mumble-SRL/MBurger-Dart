@@ -216,10 +216,12 @@ class MBManager {
   /// Retrieve the sections with the specified id.
   /// - Parameters:
   ///   - [sectionId]: The [sectionId] of the section.
+  ///   - [parameters]: An optional array of [MBParameter] used to sort, an empty array by default.
   ///   - [includeElements]: If [true] of the elements in the sections of the blocks are included in the response, `false` by default.
   /// - Returns a [Future] that completes with the [MBSection] retrieved.
   Future<MBSection> getSection({
     int sectionId,
+    List<MBParameter> parameters = const [],
     bool includeElements = false,
   }) async {
     if (sectionId == null) {
@@ -231,6 +233,15 @@ class MBManager {
 
     if (includeElements) {
       apiParameters['include'] = 'elements';
+    }
+
+    if (parameters != null) {
+      parameters.forEach((parameter) {
+        Map<String, String> representation = parameter.representation;
+        if (representation != null) {
+          apiParameters.addAll(representation);
+        }
+      });
     }
 
     String apiName = 'api/sections/' + sectionId.toString();
