@@ -1,3 +1,3 @@
-## [0.0.1+20]
+## [0.0.1+21]
 
-* Fixed plugin startupBlock return type.
+* Added more parameters.
