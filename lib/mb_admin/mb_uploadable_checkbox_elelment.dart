@@ -1,7 +1,9 @@
 import 'mb_multipart_form.dart';
 import 'mb_uploadable_element.dart';
 
+/// An uploadable element representing a checkbox.
 class MBUploadableCheckboxElement extends MBUploadableElement {
+  /// The value of the checkbox.
   final bool value;
 
   MBUploadableCheckboxElement(
