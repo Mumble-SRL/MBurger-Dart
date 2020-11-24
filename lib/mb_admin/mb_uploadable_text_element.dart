@@ -1,7 +1,9 @@
 import 'mb_multipart_form.dart';
 import 'mb_uploadable_element.dart';
 
+/// An uploadable element representing the text.
 class MBUploadableTextElement extends MBUploadableElement {
+  /// The text of the element.
   final String text;
 
   MBUploadableTextElement(

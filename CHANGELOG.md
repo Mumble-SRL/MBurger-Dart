@@ -1,3 +1,3 @@
-## [0.0.1+20]
+## [0.0.1+23]
 
-* Fixed plugin startupBlock return type.
+* Added get section with slug.

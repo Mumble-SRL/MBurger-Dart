@@ -7,7 +7,13 @@
 
 MBurger Flutter client.
 
-You can use this library to interact with the [MBurger](https://www.mburger.cloud) platform.
+You can use this library to interact with the [MBurger](https://www.mburger.cloud) platform. 
+
+If you're new to MBurger you can use [this tutorial](https://web.mburger.cloud/article/how-to-deliver-contents-to-your-flutter-app) as a starting point.
+
+<a href="https://web.mburger.cloud/article/how-to-deliver-contents-to-your-flutter-app">
+   <img alt="Qries" src="https://cdn.mburger.cloud/184523/Features-Model-content-–-2.png" height=200>
+</a>
 
 # Installation
 
@@ -15,7 +21,7 @@ You can install the MBurger SDK using pub, add this to your `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  mburger: ^0.0.1+17
+  mburger: ^0.0.1+23
 ```
 
 And then install packages from the command line with:
