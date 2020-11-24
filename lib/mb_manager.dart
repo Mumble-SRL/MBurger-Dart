@@ -267,8 +267,7 @@ class MBManager {
     bool includeElements = false,
   }) async {
     if (slug == null) {
-      throw MBException(
-          statusCode: 1002, message: 'slug must not be null');
+      throw MBException(statusCode: 1002, message: 'slug must not be null');
     }
 
     Map<String, String> apiParameters = {};
