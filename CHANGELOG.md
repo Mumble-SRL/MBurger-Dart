@@ -1,3 +1,3 @@
-## [0.0.1+22]
+## [0.0.1+23]
 
-* Added more uploadable elements.
+* Added get section with slug.

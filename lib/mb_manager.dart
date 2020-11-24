@@ -216,7 +216,7 @@ class MBManager {
   /// Retrieve the sections with the specified id.
   /// - Parameters:
   ///   - [sectionId]: The [sectionId] of the section.
-  ///   - [parameters]: An optional array of [MBParameter] used to sort, an empty array by default.
+  ///   - [parameters]: An optional array of [MBParameter], an empty array by default.
   ///   - [includeElements]: If [true] of the elements in the sections of the blocks are included in the response, `false` by default.
   /// - Returns a [Future] that completes with the [MBSection] retrieved.
   Future<MBSection> getSection({
@@ -245,6 +245,49 @@ class MBManager {
     }
 
     String apiName = 'api/sections/' + sectionId.toString();
+
+    apiParameters.addAll(await defaultParameters());
+
+    var uri = Uri.https(endpoint, apiName, apiParameters);
+    var response = await http.get(uri, headers: await headers());
+    Map<String, dynamic> body = MBManager.checkResponse(response.body);
+
+    return MBSection.fromDictionary(body);
+  }
+
+  /// Retrieve the sections with the specified slug.
+  /// - Parameters:
+  ///   - [slug]: The [slug] of the section.
+  ///   - [parameters]: An optional array of [MBParameter], an empty array by default.
+  ///   - [includeElements]: If [true] of the elements in the sections of the blocks are included in the response, `false` by default.
+  /// - Returns a [Future] that completes with the [MBSection] retrieved.
+  Future<MBSection> getSectionWithSlug({
+    String slug,
+    List<MBParameter> parameters = const [],
+    bool includeElements = false,
+  }) async {
+    if (slug == null) {
+      throw MBException(
+          statusCode: 1002, message: 'slug must not be null');
+    }
+
+    Map<String, String> apiParameters = {};
+
+    apiParameters['use_slug'] = 'true';
+    if (includeElements) {
+      apiParameters['include'] = 'elements';
+    }
+
+    if (parameters != null) {
+      parameters.forEach((parameter) {
+        Map<String, String> representation = parameter.representation;
+        if (representation != null) {
+          apiParameters.addAll(representation);
+        }
+      });
+    }
+
+    String apiName = 'api/sections/' + slug;
 
     apiParameters.addAll(await defaultParameters());
 
