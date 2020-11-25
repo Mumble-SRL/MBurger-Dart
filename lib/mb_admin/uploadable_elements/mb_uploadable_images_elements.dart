@@ -2,6 +2,8 @@ import 'mb_multipart_form.dart';
 import 'mb_uploadable_element.dart';
 import 'package:http_parser/http_parser.dart';
 
+export 'package:http_parser/http_parser.dart' show MediaType;
+
 /// An uploadable element representing some images.
 class MBUploadableImagesElement extends MBUploadableElement {
   /// The array of images.
