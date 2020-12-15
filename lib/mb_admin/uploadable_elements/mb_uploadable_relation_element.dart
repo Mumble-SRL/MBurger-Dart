@@ -24,6 +24,6 @@ class MBUploadableRelationElement extends MBUploadableElement {
   }
 
   String _parameterNameForIndex(int index) {
-    return parameterName + '[' + index.toString() + ']';
+    return "$elementName[${index.toString()}]";
   }
 }
