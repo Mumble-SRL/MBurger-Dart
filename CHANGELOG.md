@@ -1,5 +1,3 @@
-## [0.0.2]
+## [0.0.2+1]
 
-* Added the ability set the SLUG of a section.
-* Added the ability to configure the visibility of a section when creating/updating it.
-* Added the ability to configure the push notifications of a section when creating/updating it.
+* Fixed uploadable relation element.
