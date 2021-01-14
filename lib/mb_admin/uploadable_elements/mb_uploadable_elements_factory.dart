@@ -1,11 +1,13 @@
 import 'package:http_parser/http_parser.dart';
+import 'package:mburger/mb_admin/uploadable_elements/mb_uploadable_files_element.dart';
+import 'package:mburger/mb_admin/uploadable_elements/mb_uploadable_media_element.dart';
 
 import 'mb_uploadable_dropdown_element.dart';
 import 'mb_uploadable_multiple_element.dart';
 import 'mb_uploadable_relation_element.dart';
 
 import 'mb_uploadable_checkbox_elelment.dart';
-import 'mb_uploadable_images_elements.dart';
+import 'mb_uploadable_images_element.dart';
 import 'mb_uploadable_text_element.dart';
 
 /// Used to create MBUploadableElement without specifiyng the locale for every item.
@@ -33,27 +35,65 @@ class MBUploadableElementsFactory {
   MBUploadableImagesElement createImageElement(
     String name,
     String imagePath,
-    MediaType mediaType,
-  ) {
-    return MBUploadableImagesElement(
-      localeIdentifier,
-      name,
-      [imagePath],
-      mediaType,
-    );
-  }
+  ) =>
+      createImagesElement(
+        name,
+        [imagePath],
+      );
 
   /// Creates an images element with a [name], a list of paths ([imagePaths]), and their [mediaType].
   MBUploadableImagesElement createImagesElement(
     String name,
     List<String> imagePaths,
-    MediaType mediaType,
   ) {
     return MBUploadableImagesElement(
       localeIdentifier,
       name,
       imagePaths,
-      mediaType,
+    );
+  }
+
+  /// Creates a files element with a [name] and the [path] of the file.
+  MBUploadableFilesElement createFileElement(
+    String name,
+    String filePath,
+  ) =>
+      cerateFilesElement(
+        name,
+        [filePath],
+      );
+
+  /// Creates a files element with a [name] and the array of [path] of the files.
+  MBUploadableFilesElement cerateFilesElement(
+    String name,
+    List<String> filePaths,
+  ) {
+    return MBUploadableFilesElement(
+      localeIdentifier,
+      name,
+      filePaths,
+    );
+  }
+
+  /// Creates a media element with a [name] and a [uuid].
+  MBUploadableMediaElement createMediaElement(
+    String name,
+    String uuid,
+  ) =>
+      createMediaListElement(
+        name,
+        [uuid],
+      );
+
+  /// Creates a media element with a [name] and a list of uuids ([uuids]).
+  MBUploadableMediaElement createMediaListElement(
+    String name,
+    List<String> uuids,
+  ) {
+    return MBUploadableMediaElement(
+      localeIdentifier,
+      name,
+      uuids,
     );
   }
 

@@ -17,8 +17,8 @@ enum MBMediaType {
 
 /// This class represents a MBurger media element.
 class MBMediaElement extends MBElement {
-  /// The medias of the element.
-  List<MBFile> medias;
+  /// The media of the element.
+  List<MBMedia> media;
 
   /// The type of media.
   MBMediaType mediaType;
@@ -34,7 +34,7 @@ class MBMediaElement extends MBElement {
         List<Map<String, dynamic>>.from(dictionary['value'] as List);
 
     if (value != null) {
-      medias = value.map((img) => MBFile(dictionary: img)).toList();
+      media = value.map((img) => MBMedia(dictionary: img)).toList();
     }
   }
 
@@ -54,20 +54,23 @@ class MBMediaElement extends MBElement {
   }
 
   /// The first media of the element if exists, [null] otherwise.
-  MBFile firstMedia() {
-    if (medias != null) {
-      if (medias.isNotEmpty) {
-        return medias.first;
+  MBMedia firstMedia() {
+    if (media != null) {
+      if (media.isNotEmpty) {
+        return media.first;
       }
     }
     return null;
   }
 }
 
-/// This class represents a file in MBurger.
-class MBFile {
+/// This class represents a media in MBurger.
+class MBMedia {
   /// The id of the file.
   int id;
+
+  /// The uuid of this image in the media center.
+  String uuid;
 
   /// The url of the media.
   String url;
@@ -81,8 +84,9 @@ class MBFile {
   /// Initializes a file with the dictionary returned by the MBurger APIs.
   /// - Parameters:
   ///   - [dictionary]: The [dictionary] returned by the APIs.
-  MBFile({Map<String, dynamic> dictionary}) {
+  MBMedia({Map<String, dynamic> dictionary}) {
     id = dictionary['id'] as int;
+    uuid = dictionary['uuid'] as String;
     url = dictionary['url'] as String;
     size = dictionary['size'] as int;
     mimeType = dictionary['mime_type'] as String;

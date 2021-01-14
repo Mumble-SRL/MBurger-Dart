@@ -1,10 +1,13 @@
 import 'package:mburger/mb_admin/mb_admin_visibility_settings.dart';
+import 'package:mburger/mb_admin/uploadable_elements/mb_uploadable_files_element.dart';
 
 import '../mb_manager.dart';
 import 'mb_admin_push_settings.dart';
 import 'uploadable_elements/mb_multipart_form.dart';
 import 'uploadable_elements/mb_uploadable_element.dart';
+import 'package:mburger/elements/mb_media_element.dart' show MBMedia;
 import 'package:http/http.dart' as http;
+import 'package:mime/mime.dart';
 
 /// The manager of the MBAdmin section, you will use this class to create, edit or delete data in MBurger.
 class MBAdmin {
@@ -93,6 +96,88 @@ class MBAdmin {
     MBManager.checkResponse(responseString, checkBody: false);
   }
 
+  /// Deletes a section.
+  /// - Parameters:
+  ///   - [sectionId]: The id of the section that needs to be deleted.
+  /// - Returns a [Future] that completes when the section is deleted correctly.
+  Future<void> deleteSection(int sectionId) async {
+    String apiName = 'api/sections/' + sectionId.toString();
+
+    var uri = Uri.https(MBManager.shared.endpoint, apiName);
+    http.Response response = await http.delete(
+      uri,
+      headers: await MBManager.shared.headers(),
+    );
+
+    MBManager.checkResponse(response.body, checkBody: false);
+  }
+
+  /// Uploads a media to the media center of MBurger
+  /// - Parameters:
+  ///   - [path]: The path of the file that needs to be uploaded to the media center.
+  /// - Returns a [Future] that completes with the media that has been created.
+  Future<MBMedia> uploadMedia(String path) async {
+    List<MBMedia> mediaUploaded = await uploadMediaList([path]);
+    if (mediaUploaded != null) {
+      return mediaUploaded.first;
+    }
+    return null;
+  }
+
+  /// Uploads an array of media to the media center of MBurger
+  /// - Parameters:
+  ///   - [paths]: The array of path of the files that needs to be uploaded to the media center.
+  /// - Returns a [Future] that completes with the media that has been created.
+  Future<List<MBMedia>> uploadMediaList(List<String> paths) async {
+    List<MBMultipartForm> form = [];
+    int index = 0;
+    for (String path in paths) {
+      String mime = lookupMimeType(path);
+      form.add(MBMultipartForm.file(
+        "media[$index]",
+        path,
+        MediaType.parse(mime),
+      ));
+      index++;
+    }
+    String apiName = 'api/media';
+    var uri = Uri.https(MBManager.shared.endpoint, apiName);
+    var request = http.MultipartRequest('POST', uri);
+
+    await _addMultipartFormsToRequest(request, form);
+
+    request.headers.addAll(await MBManager.shared.headers());
+    http.StreamedResponse response = await request.send();
+    final responseString = await response.stream.bytesToString();
+
+    List<dynamic> bodyList = MBManager.checkResponseForType<List<dynamic>>(
+      responseString,
+      checkBody: true,
+    );
+    if (bodyList != null) {
+      List<Map<String, dynamic>> bodyMaps =
+          List.castFrom<dynamic, Map<String, dynamic>>(bodyList);
+      return bodyMaps.map((d) => MBMedia(dictionary: d)).toList();
+    }
+    return [];
+  }
+
+  /// Deletes a media (image or file).
+  /// - Parameters:
+  ///   - [mediaId]: The id of the media that needs to be deleted.
+  /// - Returns a [Future] that completes when the media is deleted correctly.
+  Future<void> deleteMedia(int mediaId) async {
+    String apiName = 'api/media/' + mediaId.toString();
+
+    var uri = Uri.https(MBManager.shared.endpoint, apiName);
+    http.Response response = await http.delete(
+      uri,
+      headers: await MBManager.shared.headers(),
+    );
+
+    MBManager.checkResponse(response.body, checkBody: false);
+  }
+
   /// Add multipart forms to the request
   Future<void> _addMultipartFormsToRequest(
     http.MultipartRequest request,
@@ -113,37 +198,5 @@ class MBAdmin {
         }
       }
     }
-  }
-
-  /// Deletes a section.
-  /// - Parameters:
-  ///   - [sectionId]: The id of the section that needs to be deleted.
-  /// - Returns a [Future] that completes when the section is deleted correctly.
-  Future<void> deleteSection(int sectionId) async {
-    String apiName = 'api/sections/' + sectionId.toString();
-
-    var uri = Uri.https(MBManager.shared.endpoint, apiName);
-    http.Response response = await http.delete(
-      uri,
-      headers: await MBManager.shared.headers(),
-    );
-
-    MBManager.checkResponse(response.body, checkBody: false);
-  }
-
-  /// Deletes a media (image or file).
-  /// - Parameters:
-  ///   - [mediaId]: The id of the media that needs to be deleted.
-  /// - Returns a [Future] that completes when the media is deleted correctly.
-  Future<void> deleteMedia(int mediaId) async {
-    String apiName = 'api/media/' + mediaId.toString();
-
-    var uri = Uri.https(MBManager.shared.endpoint, apiName);
-    http.Response response = await http.delete(
-      uri,
-      headers: await MBManager.shared.headers(),
-    );
-
-    MBManager.checkResponse(response.body, checkBody: false);
   }
 }

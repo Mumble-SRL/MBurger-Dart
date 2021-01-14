@@ -42,7 +42,7 @@ export 'mb_admin/uploadable_elements/mb_uploadable_checkbox_elelment.dart';
 export 'mb_admin/uploadable_elements/mb_uploadable_dropdown_element.dart';
 export 'mb_admin/uploadable_elements/mb_uploadable_element.dart';
 export 'mb_admin/uploadable_elements/mb_uploadable_elements_factory.dart';
-export 'mb_admin/uploadable_elements/mb_uploadable_images_elements.dart';
+export 'mb_admin/uploadable_elements/mb_uploadable_images_element.dart';
 export 'mb_admin/uploadable_elements/mb_uploadable_multiple_element.dart';
 export 'mb_admin/uploadable_elements/mb_uploadable_relation_element.dart';
 export 'mb_admin/uploadable_elements/mb_uploadable_text_element.dart';
