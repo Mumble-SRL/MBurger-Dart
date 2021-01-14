@@ -27,23 +27,25 @@ class MBurgerExample extends StatelessWidget {
       appBar: AppBar(
         title: Text('MBurger Example'),
       ),
-      body: Column(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          MaterialButton(
-            child: Text('Get project'),
-            onPressed: () => _getProject(),
-          ),
-          MaterialButton(
-            child: Text('Get block'),
-            onPressed: () => _getBlock(),
-          ),
-          MaterialButton(
-            child: Text('Get section'),
-            onPressed: () => _getSection(),
-          )
-        ],
+      body: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            MaterialButton(
+              child: Text('Get project'),
+              onPressed: () => _getProject(),
+            ),
+            MaterialButton(
+              child: Text('Get block'),
+              onPressed: () => _getBlock(),
+            ),
+            MaterialButton(
+              child: Text('Get section'),
+              onPressed: () => _getSection(),
+            )
+          ],
+        ),
       ),
     );
   }

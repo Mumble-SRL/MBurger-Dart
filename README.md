@@ -141,6 +141,21 @@ MBPaginatedResponse<MBSection> sections =
       );
 ```
 
+# Media
+
+You can retrieve a media stored on MBurger with its id:
+
+```dart
+MBMedia media = await MBManager.shared.getMedia(MEDIA_ID);
+```
+
+To retrieve all the media that are saved in MBurger you can use this function:
+
+```dart
+List<MBMedia> media = await MBManager.shared.getAllMedia();
+```
+
+
 # MBAdmin
 
 If you need to create blocks and sections in your MBurger project you can use the MBAdmin package that comes with this SDK. 
@@ -194,15 +209,27 @@ To delete a section with an id:
 await MBAdmin.shared.deleteSection(SECTION_ID);
 ```
 
+## Upload a media
+
+You can upload a media, or an array of media, to the media center of MBurger with this 2 functions, providing the path to the files.
+
+```dart
+// Upload a file
+MBMedia media = await MBAdmin.shared.uploadMedia(FILE_PATH);
+
+// Upload a list of files
+List<MBMedia> media = await MBAdmin.shared.uploadMediaList([FILE_PATH1, FILE_PATH2]);
+```
+
 ## Delete a media
 
 > You can delete a media (an image or a video), giving its id with the function. 
 
-The id of the media is the field id of the objects `MBImage` and `MBFile`.
-
 ```dart
 await MBAdmin.shared.deleteMedia(mediaId);
 ```
+
+The id of the media is the field id of the objects `MBImage` and `MBMedia`.
 
 # MBAuth
 

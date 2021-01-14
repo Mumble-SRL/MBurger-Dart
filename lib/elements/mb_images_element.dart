@@ -34,6 +34,9 @@ class MBImage {
   /// The id of the image.
   int id;
 
+  /// The uuid of this image in the media center.
+  String uuid;
+
   /// The url of the image.
   String url;
 
@@ -48,6 +51,7 @@ class MBImage {
   ///   - [dictionary]: The [dictionary] returned by the APIs.
   MBImage({Map<String, dynamic> dictionary}) {
     id = dictionary['id'] as int;
+    uuid = dictionary['uuid'] as String;
     url = dictionary['url'] as String;
     size = dictionary['size'] as int;
     mimeType = dictionary['mime_type'] as String;

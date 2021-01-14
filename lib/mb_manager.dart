@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:device_info/device_info.dart';
+import 'package:mburger/elements/mb_media_element.dart';
 import 'package:mburger/mb_block.dart';
 import 'package:mburger/mb_plugin/mb_plugin.dart';
 import 'elements/mb_poll_element.dart';
@@ -350,6 +351,39 @@ class MBManager {
     return MBPollVoteResponse(dictionary: body);
   }
 
+  /// Retrieve the media of the project with the specified id.
+  /// - Parameters:
+  ///   - [mediaId]: The id of the media to retrieve.
+  /// - Returns a [Future] that completes with the [MBMedia] retrieved.
+  Future<MBMedia> getMedia(int mediaId) async {
+    Map<String, String> apiParameters = {};
+    String apiName = 'api/media/$mediaId';
+
+    apiParameters.addAll(await defaultParameters());
+
+    var uri = Uri.https(endpoint, apiName, apiParameters);
+    var response = await http.get(uri, headers: await headers());
+    Map<String, dynamic> body = MBManager.checkResponse(response.body);
+    return MBMedia(dictionary: body);
+  }
+
+  /// Retrieve all the media of the project.
+  /// - Returns a [Future] that completes with the all the [MBMedia] saved in the media center of the project.
+  Future<List<MBMedia>> getAllMedia() async {
+    Map<String, String> apiParameters = {};
+    String apiName = 'api/media';
+
+    apiParameters.addAll(await defaultParameters());
+
+    var uri = Uri.https(endpoint, apiName, apiParameters);
+    var response = await http.get(uri, headers: await headers());
+    List<dynamic> body =
+        MBManager.checkResponseForType<List<dynamic>>(response.body);
+    List<Map<String, dynamic>> bodyArray =
+        List.castFrom<dynamic, Map<String, dynamic>>(body);
+    return bodyArray.map((d) => MBMedia(dictionary: d)).toList();
+  }
+
   /// Checks the response of the api call and returns the body, it throws a [MBException] if it encounters an error.
   /// - Parameters:
   ///   - [response]: The [response] string that needs to be checked.
@@ -358,14 +392,28 @@ class MBManager {
   static Map<String, dynamic> checkResponse(
     String response, {
     bool checkBody = true,
+  }) =>
+      checkResponseForType<Map<String, dynamic>>(
+        response,
+        checkBody: checkBody,
+      );
+
+  /// Function to check the response of the api and parse the response as the type passed
+  /// - Parameters:
+  ///   - [T]: The class of the object in which the body will be casted.
+  ///   - [response]: The [response] string that needs to be checked.
+  ///   - [checkBody]: If [true] this function checks if in the response there's a "body" value, otherwise it skips this check, `true` by default.
+  /// - Returns an object of typ `T` which is the body of the response.
+  static T checkResponseForType<T>(
+    String response, {
+    bool checkBody = true,
   }) {
     final responseJson = json.decode(response);
     Map<String, dynamic> responseDecoded = responseJson as Map<String, dynamic>;
     int statusCode = responseDecoded["status_code"] as int ?? -1;
     if (statusCode == 0) {
       if (checkBody) {
-        Map<String, dynamic> responseBody =
-            responseDecoded["body"] as Map<String, dynamic>;
+        T responseBody = responseDecoded["body"] as T;
         if (responseBody != null) {
           return responseBody;
         } else {
@@ -375,7 +423,11 @@ class MBManager {
           );
         }
       } else {
-        return responseDecoded;
+        if (responseDecoded is T) {
+          return responseDecoded as T;
+        } else {
+          return null;
+        }
       }
     } else {
       MBException exception = _exceptionFromResponse(responseDecoded);
