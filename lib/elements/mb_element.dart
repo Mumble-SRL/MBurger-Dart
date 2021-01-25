@@ -3,6 +3,7 @@ import 'package:mburger/elements/mb_dropdown_element.dart';
 import 'package:mburger/elements/mb_markdown_element.dart';
 import 'package:mburger/elements/mb_media_element.dart';
 import 'package:mburger/elements/mb_relation_element.dart';
+import 'package:mburger/elements/mb_shopify_collection_element.dart';
 
 import 'mb_color_element.dart';
 import 'mb_poll_element.dart';
@@ -50,6 +51,9 @@ enum MBElementType {
 
   /// A color element.
   color,
+
+  /// An element representing a shopify collection.
+  shopifyCollection,
 }
 
 /// This class represents the base class for all MBurger elements. All the specialized elements are subclasses of this class.
@@ -119,6 +123,9 @@ class MBElementsUtilities {
       case 'color':
         return MBElementType.color;
         break;
+      case 'shopify_collection':
+        return MBElementType.shopifyCollection;
+        break;
       default:
         return MBElementType.undefined;
     }
@@ -164,6 +171,9 @@ class MBElementsUtilities {
         break;
       case MBElementType.color:
         return MBColorElement(dictionary: dictionary);
+        break;
+      case MBElementType.shopifyCollection:
+        return MBShopifyCollectionElement(dictionary: dictionary);
         break;
       default:
         return MBGeneralElement(dictionary: dictionary);
