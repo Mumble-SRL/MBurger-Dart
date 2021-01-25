@@ -1,4 +1,3 @@
-import 'package:http_parser/http_parser.dart';
 import 'package:mburger/mb_admin/uploadable_elements/mb_uploadable_files_element.dart';
 import 'package:mburger/mb_admin/uploadable_elements/mb_uploadable_media_element.dart';
 
