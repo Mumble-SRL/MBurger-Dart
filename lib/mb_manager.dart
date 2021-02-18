@@ -93,7 +93,7 @@ class MBManager {
   List<MBPlugin> get plugins => _plugins;
 
   /// Returns the plugin of the specified type in the array of plugins
-  MBPlugin pluginOf<T>() => plugins.firstWhere(
+  MBPlugin pluginOf<T>() => plugins?.firstWhere(
         (plugin) => plugin is T,
         orElse: () => null,
       );
