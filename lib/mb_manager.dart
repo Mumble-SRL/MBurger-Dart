@@ -492,9 +492,13 @@ class MBManager {
       'X-MBurger-Token': apiToken,
       'X-MBurger-Version': '3',
     };
-    if (await MBAuth.userLoggedIn() != null) {
+
+    bool userLoggedIn = await MBAuth.userLoggedIn();
+    if (userLoggedIn == true) {
       String token = await MBAuth.userToken();
-      headers['Authorization'] = 'Bearer $token';
+      if (token != null) {
+        headers['Authorization'] = 'Bearer $token';
+      }
     }
 
     if (contentTypeJson) {
