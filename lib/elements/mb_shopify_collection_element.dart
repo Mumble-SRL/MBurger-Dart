@@ -15,9 +15,11 @@ class MBShopifyCollectionElement extends MBElement {
     dynamic valueFromDictionary = dictionary['value'];
     List<Map<String, dynamic>> value;
     if (valueFromDictionary is String) {
-      List<dynamic> valueList =
-          json.decode(valueFromDictionary) as List<dynamic>;
-      value = List<Map<String, dynamic>>.from(valueList);
+      if (valueFromDictionary != '') {
+        List<dynamic> valueList =
+            json.decode(valueFromDictionary) as List<dynamic>;
+        value = List<Map<String, dynamic>>.from(valueList);
+      }
     } else if (valueFromDictionary is List) {
       value = List<Map<String, dynamic>>.from(valueFromDictionary);
     }
