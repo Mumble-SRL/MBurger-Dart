@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:mburger/elements/mb_element.dart';
 
 /// This class represents a MBurger shopify element.
@@ -10,8 +12,15 @@ class MBShopifyCollectionElement extends MBElement {
   ///   - [dictionary]: The [dictionary] returned by the APIs.
   MBShopifyCollectionElement({Map<String, dynamic> dictionary})
       : super(dictionary: dictionary) {
-    List<Map<String, dynamic>> value =
-        List<Map<String, dynamic>>.from(dictionary['value'] as List);
+    dynamic valueFromDictionary = dictionary['value'];
+    List<Map<String, dynamic>> value;
+    if (valueFromDictionary is String) {
+      List<dynamic> valueList =
+          json.decode(valueFromDictionary) as List<dynamic>;
+      value = List<Map<String, dynamic>>.from(valueList);
+    } else if (valueFromDictionary is List) {
+      value = List<Map<String, dynamic>>.from(valueFromDictionary);
+    }
 
     if (value != null) {
       collections =
