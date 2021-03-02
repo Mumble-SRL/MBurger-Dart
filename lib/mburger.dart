@@ -23,6 +23,7 @@ export 'elements/mb_color_element.dart';
 export 'elements/mb_date_element.dart';
 export 'elements/mb_dropdown_element.dart';
 export 'elements/mb_markdown_element.dart';
+export 'elements/mb_shopify_collection_element.dart';
 
 export 'parameters/mb_parameter.dart';
 export 'parameters/mb_sort_parameter.dart';

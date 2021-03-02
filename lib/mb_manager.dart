@@ -15,6 +15,18 @@ import 'parameters/mb_parameter.dart';
 import 'project/mb_project.dart';
 import 'response/mb_paginated_response.dart';
 
+/// The channel of MBurger that will be queried
+enum MBurgerChannel {
+  /// The stable channel of MBurger
+  stable,
+
+  /// The develop channel of MBurger
+  develop,
+
+  /// The master channel of MBurger, with the lastest changes
+  master,
+}
+
 /// The manager of the MBurger SDK, you will use this class to make requests to MBurger.
 class MBManager {
   MBManager._privateConstructor();
@@ -29,18 +41,27 @@ class MBManager {
   /// The API token used to make all the requests to the apis.
   String apiToken;
 
-  /// It's true if it's in development mode. Set this flag to use the MBurger development environment.
-  bool development = false;
+  /// The MBurger channel that will be queried (stable/develop/master).
+  MBurgerChannel channel = MBurgerChannel.stable;
 
   /// The locale used to make the requests.
   String locale;
 
   /// The endpoint of MBurger, it uses the [development] flag to switch between dev and prod environments.
   String get endpoint {
-    if (development) {
-      return 'dev.mburger.cloud';
-    } else {
-      return 'mburger.cloud';
+    switch (channel) {
+      case MBurgerChannel.stable:
+        return 'mburger.cloud';
+        break;
+      case MBurgerChannel.develop:
+        return 'dev.mburger.cloud';
+        break;
+      case MBurgerChannel.master:
+        return 'staging.mburger.cloud';
+        break;
+      default:
+        return 'mburger.cloud';
+        break;
     }
   }
 
@@ -72,7 +93,7 @@ class MBManager {
   List<MBPlugin> get plugins => _plugins;
 
   /// Returns the plugin of the specified type in the array of plugins
-  MBPlugin pluginOf<T>() => plugins.firstWhere(
+  MBPlugin pluginOf<T>() => plugins?.firstWhere(
         (plugin) => plugin is T,
         orElse: () => null,
       );
@@ -471,9 +492,13 @@ class MBManager {
       'X-MBurger-Token': apiToken,
       'X-MBurger-Version': '3',
     };
-    if (await MBAuth.userLoggedIn() != null) {
+
+    bool userLoggedIn = await MBAuth.userLoggedIn();
+    if (userLoggedIn == true) {
       String token = await MBAuth.userToken();
-      headers['Authorization'] = 'Bearer $token';
+      if (token != null) {
+        headers['Authorization'] = 'Bearer $token';
+      }
     }
 
     if (contentTypeJson) {
