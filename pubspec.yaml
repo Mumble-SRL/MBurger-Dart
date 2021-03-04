@@ -19,7 +19,7 @@ dependencies:
   http_parser: ^3.1.0
   intl: ^0.16.1
   mime: ^0.9.7
-  shared_preferences: ^2.0.3
+  shared_preferences: ^0.5.6+1
 
 dev_dependencies:
   flutter_test:
