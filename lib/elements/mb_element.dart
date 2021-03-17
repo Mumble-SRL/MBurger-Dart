@@ -58,24 +58,23 @@ enum MBElementType {
 
 /// This class represents the base class for all MBurger elements. All the specialized elements are subclasses of this class.
 abstract class MBElement {
-  /// The order of the element.
-  int order;
-
   /// The id of the element.
-  int id;
+  final int id;
 
   /// The type of the element.
-  MBElementType type;
+  final MBElementType type;
+
+  /// The order of the element.
+  final int order;
 
   /// Initializes the element with the dictionary returned by the MBurger APIs.
   /// - Parameters:
   ///   - [dictionary]: The [dictionary] returned by the APIs.
-  MBElement({Map<String, dynamic> dictionary}) {
-    id = dictionary['id'] as int;
-    order = dictionary['order'] as int;
-    type =
-        MBElementsUtilities.elementTypeFromString(dictionary['type'] as String);
-  }
+  MBElement({required Map<String, dynamic> dictionary})
+      : id = dictionary['id'] as int,
+        order = dictionary['order'] as int,
+        type = MBElementsUtilities.elementTypeFromString(
+            dictionary['type'] as String);
 }
 
 /// Utility class for elements
@@ -88,44 +87,32 @@ class MBElementsUtilities {
       case 'text':
       case 'textarea':
         return MBElementType.text;
-        break;
       case 'image':
         return MBElementType.images;
-        break;
       case 'audio':
       case 'video':
       case 'document':
       case 'file':
       case 'media':
         return MBElementType.media;
-        break;
       case 'checkbox':
         return MBElementType.checkbox;
-        break;
       case 'datetime':
         return MBElementType.date;
-        break;
       case 'address':
         return MBElementType.address;
-        break;
       case 'dropdown':
         return MBElementType.dropdown;
-        break;
       case 'poll':
         return MBElementType.poll;
-        break;
       case 'markdown':
         return MBElementType.markdown;
-        break;
       case 'relation':
         return MBElementType.relation;
-        break;
       case 'color':
         return MBElementType.color;
-        break;
       case 'shopify_collection':
         return MBElementType.shopifyCollection;
-        break;
       default:
         return MBElementType.undefined;
     }
@@ -141,43 +128,30 @@ class MBElementsUtilities {
     switch (type) {
       case MBElementType.text:
         return MBTextElement(dictionary: dictionary);
-        break;
       case MBElementType.images:
         return MBImagesElement(dictionary: dictionary);
-        break;
       case MBElementType.checkbox:
         return MBCheckboxElement(dictionary: dictionary);
-        break;
       case MBElementType.address:
         return MBAddressElement(dictionary: dictionary);
-        break;
       case MBElementType.poll:
         return MBPollElement(dictionary: dictionary);
-        break;
       case MBElementType.markdown:
         return MBMarkdownElement(dictionary: dictionary);
-        break;
       case MBElementType.dropdown:
         return MBDropdownElement(dictionary: dictionary);
-        break;
       case MBElementType.media:
         return MBMediaElement(dictionary: dictionary);
-        break;
       case MBElementType.date:
         return MBDateElement(dictionary: dictionary);
-        break;
       case MBElementType.relation:
         return MBRelationElement(dictionary: dictionary);
-        break;
       case MBElementType.color:
         return MBColorElement(dictionary: dictionary);
-        break;
       case MBElementType.shopifyCollection:
         return MBShopifyCollectionElement(dictionary: dictionary);
-        break;
       default:
         return MBGeneralElement(dictionary: dictionary);
-        break;
     }
   }
 }

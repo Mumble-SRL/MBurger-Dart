@@ -6,21 +6,19 @@ import 'mb_uploadable_element.dart';
 /// An uploadable element representing some images.
 class MBUploadableMediaElement extends MBUploadableElement {
   /// The array of uuids of the media.
-  final List<String> uuids;
+  final List<String> UUIds;
 
   MBUploadableMediaElement(
     String localeIdentifier,
     String elementName,
-    List<String> uuids,
-  )   : this.uuids = uuids,
+    List<String> UUIds,
+  )   : this.UUIds = UUIds,
         super(localeIdentifier, elementName);
 
-  List<MBMultipartForm> toForm() {
+  List<MBMultipartForm>? toForm() {
     List<MBMultipartForm> form = [];
-    if (uuids != null) {
-      String jsonEncodedUuids = json.encode(uuids);
-      form.add(MBMultipartForm.name(parameterName, jsonEncodedUuids));
-    }
+    String jsonEncodedUUIds = json.encode(UUIds);
+    form.add(MBMultipartForm.name(parameterName, jsonEncodedUUIds));
     return form;
   }
 }

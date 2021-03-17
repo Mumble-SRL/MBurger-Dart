@@ -9,13 +9,13 @@ class MBMultipartForm {
   final String name;
 
   /// The value of the parameter, if it's not a file
-  final String value;
+  final String? value;
 
   /// If it's a file, the path of the file
-  final String path;
+  final String? path;
 
   /// If it's a file, the mimeType of the file
-  final MediaType mimeType;
+  final MediaType? mimeType;
 
   /// Initializes a `MBMultipartForm` object with a name and a string value
   MBMultipartForm.name(

@@ -9,7 +9,10 @@ class MBSortParameter extends MBParameter {
   final bool ascending;
 
   /// Initializes a [MBSortParameter] with the filed and ascending value (defaults to [true]).
-  MBSortParameter({this.field, this.ascending = true});
+  MBSortParameter({
+    required this.field,
+    this.ascending = true,
+  });
 
   /// The representation of this parameter, how it will be passed to MBurger APIs.
   Map<String, String> get representation {

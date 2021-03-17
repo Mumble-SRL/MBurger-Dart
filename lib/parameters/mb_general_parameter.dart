@@ -10,7 +10,10 @@ class MBGeneralParameter extends MBParameter {
   final String value;
 
   /// Initializes a [MBGeneralParameter] with the key and the value.
-  MBGeneralParameter({this.key, this.value});
+  MBGeneralParameter({
+    required this.key,
+    required this.value,
+  });
 
   /// The representation of this parameter, how it will be passed to MBurger APIs.
   Map<String, String> get representation {

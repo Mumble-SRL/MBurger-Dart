@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:mburger/mb_admin/uploadable_elements/mb_multipart_form.dart';
 
 /// The possible visibility values for a section.
@@ -19,12 +18,12 @@ class MBAdminVisibilitySettings {
   final MBAdminVisibility visibility;
 
   /// If the visibiity is scheduled, the date the section will be published, for other visibilities it's ignored.
-  final DateTime availbaleAt;
+  final DateTime? availableAt;
 
   /// Initializes the visibility settings with a [visibility] and the date of availability, in case the visibility is MBAdminVisibility.scheduled`.
   MBAdminVisibilitySettings({
-    @required this.visibility,
-    this.availbaleAt,
+    required this.visibility,
+    this.availableAt,
   });
 
   /// Creates and initializes a `MBAdminVisibilitySettings` with the visible option
@@ -39,11 +38,11 @@ class MBAdminVisibilitySettings {
   factory MBAdminVisibilitySettings.scheduled(DateTime date) =>
       MBAdminVisibilitySettings(
         visibility: MBAdminVisibility.scheduled,
-        availbaleAt: date,
+        availableAt: date,
       );
 
   /// Converts this object to a list of multipart forms
-  List<MBMultipartForm> toForm() {
+  List<MBMultipartForm>? toForm() {
     List<MBMultipartForm> forms = [];
     switch (visibility) {
       case MBAdminVisibility.visible:
@@ -54,11 +53,11 @@ class MBAdminVisibilitySettings {
         break;
       case MBAdminVisibility.scheduled:
         forms.add(MBMultipartForm.name('visibility', 'scheduled'));
-        if (availbaleAt != null) {
+        if (availableAt != null) {
           forms.add(
             MBMultipartForm.name(
               'available_at',
-              (availbaleAt.millisecondsSinceEpoch ~/ 1000).toString(),
+              (availableAt!.millisecondsSinceEpoch ~/ 1000).toString(),
             ),
           );
         }

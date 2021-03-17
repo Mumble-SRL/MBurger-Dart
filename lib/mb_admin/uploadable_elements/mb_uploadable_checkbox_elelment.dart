@@ -7,12 +7,14 @@ class MBUploadableCheckboxElement extends MBUploadableElement {
   final bool value;
 
   MBUploadableCheckboxElement(
-      String localeIdentifier, String elementName, bool value)
-      : this.value = value,
+    String localeIdentifier,
+    String elementName,
+    bool value,
+  )   : this.value = value,
         super(localeIdentifier, elementName);
 
   @override
-  List<MBMultipartForm> toForm() {
+  List<MBMultipartForm>? toForm() {
     if (value) {
       return [MBMultipartForm.name(parameterName, "on")];
     }

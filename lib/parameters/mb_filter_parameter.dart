@@ -12,7 +12,10 @@ class MBFilterParameter extends MBParameter {
   /// - Parameters:
   ///   - [field]: The [field] used to filter.
   ///   - [value]: The [value] used to filter the elements.
-  MBFilterParameter({this.field, this.value});
+  MBFilterParameter({
+    required this.field,
+    required this.value,
+  });
 
   /// Initializes a filter parameter object to filter the sections that have at least an element with name ? = `name` and value = `value`.
   /// - Note: Using this initalizer the value becomes "name|value"
@@ -21,9 +24,9 @@ class MBFilterParameter extends MBParameter {
   ///   - [name]: The [name] used to filter the elements.
   ///   - [value]: The [value] used to filter the elements.
   MBFilterParameter.named({
-    this.field,
-    String value,
-    String name,
+    required this.field,
+    required String value,
+    required String name,
   }) : this.value = name + '|' + value;
 
   /// The representation of this parameter, how it will be passed to MBurger APIs.

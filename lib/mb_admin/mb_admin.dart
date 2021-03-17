@@ -1,5 +1,6 @@
 import 'package:mburger/mb_admin/mb_admin_visibility_settings.dart';
 import 'package:mburger/mb_admin/uploadable_elements/mb_uploadable_files_element.dart';
+import 'package:mburger/mb_exception.dart';
 
 import '../mb_manager.dart';
 import 'mb_admin_push_settings.dart';
@@ -30,8 +31,8 @@ class MBAdmin {
   Future<void> addSectionToBlock(
     int blockId,
     List<MBUploadableElement> elements, {
-    MBAdminPushSettings pushSettings,
-    MBAdminVisibilitySettings visibilitySettings,
+    MBAdminPushSettings? pushSettings,
+    MBAdminVisibilitySettings? visibilitySettings,
   }) async {
     String apiName = 'api/blocks/' + blockId.toString() + '/sections';
 
@@ -39,15 +40,15 @@ class MBAdmin {
     var request = http.MultipartRequest('POST', uri);
 
     for (MBUploadableElement element in elements) {
-      List<MBMultipartForm> forms = element.toForm();
+      List<MBMultipartForm>? forms = element.toForm();
       await _addMultipartFormsToRequest(request, forms);
     }
     if (pushSettings != null) {
-      List<MBMultipartForm> pushForms = pushSettings.toForm();
+      List<MBMultipartForm>? pushForms = pushSettings.toForm();
       await _addMultipartFormsToRequest(request, pushForms);
     }
     if (visibilitySettings != null) {
-      List<MBMultipartForm> visibilityForms = visibilitySettings.toForm();
+      List<MBMultipartForm>? visibilityForms = visibilitySettings.toForm();
       await _addMultipartFormsToRequest(request, visibilityForms);
     }
 
@@ -68,8 +69,8 @@ class MBAdmin {
   Future<void> editSection(
     int sectionId,
     List<MBUploadableElement> elements, {
-    MBAdminPushSettings pushSettings,
-    MBAdminVisibilitySettings visibilitySettings,
+    MBAdminPushSettings? pushSettings,
+    MBAdminVisibilitySettings? visibilitySettings,
   }) async {
     String apiName = 'api/sections/' + sectionId.toString() + '/update';
 
@@ -77,15 +78,15 @@ class MBAdmin {
     var request = http.MultipartRequest('POST', uri);
 
     for (MBUploadableElement element in elements) {
-      List<MBMultipartForm> forms = element.toForm();
+      List<MBMultipartForm>? forms = element.toForm();
       await _addMultipartFormsToRequest(request, forms);
     }
     if (pushSettings != null) {
-      List<MBMultipartForm> pushForms = pushSettings.toForm();
+      List<MBMultipartForm>? pushForms = pushSettings.toForm();
       await _addMultipartFormsToRequest(request, pushForms);
     }
     if (visibilitySettings != null) {
-      List<MBMultipartForm> visibilityForms = visibilitySettings.toForm();
+      List<MBMultipartForm>? visibilityForms = visibilitySettings.toForm();
       await _addMultipartFormsToRequest(request, visibilityForms);
     }
 
@@ -115,10 +116,10 @@ class MBAdmin {
   /// Uploads a media to the media center of MBurger
   /// - Parameters:
   ///   - [path]: The path of the file that needs to be uploaded to the media center.
-  /// - Returns a [Future] that completes with the media that has been created.
-  Future<MBMedia> uploadMedia(String path) async {
+  /// - Returns a [Future] that completes with the media that has been created, if there has been an error it returns `null`.
+  Future<MBMedia?> uploadMedia(String path) async {
     List<MBMedia> mediaUploaded = await uploadMediaList([path]);
-    if (mediaUploaded != null) {
+    if (mediaUploaded.isNotEmpty) {
       return mediaUploaded.first;
     }
     return null;
@@ -132,11 +133,16 @@ class MBAdmin {
     List<MBMultipartForm> form = [];
     int index = 0;
     for (String path in paths) {
-      String mime = lookupMimeType(path);
+      String? mime = lookupMimeType(path);
       form.add(MBMultipartForm.file(
         "media[$index]",
         path,
-        MediaType.parse(mime),
+        mime != null
+            ? MediaType.parse(mime)
+            : MediaType(
+                'application',
+                'octet-stream',
+              ), // General mime type if nothing else is found
       ));
       index++;
     }
@@ -154,12 +160,9 @@ class MBAdmin {
       responseString,
       checkBody: true,
     );
-    if (bodyList != null) {
-      List<Map<String, dynamic>> bodyMaps =
-          List.castFrom<dynamic, Map<String, dynamic>>(bodyList);
-      return bodyMaps.map((d) => MBMedia(dictionary: d)).toList();
-    }
-    return [];
+    List<Map<String, dynamic>> bodyMaps =
+        List.castFrom<dynamic, Map<String, dynamic>>(bodyList);
+    return bodyMaps.map((d) => MBMedia(dictionary: d)).toList();
   }
 
   /// Deletes a media (image or file).
@@ -181,19 +184,34 @@ class MBAdmin {
   /// Add multipart forms to the request
   Future<void> _addMultipartFormsToRequest(
     http.MultipartRequest request,
-    List<MBMultipartForm> forms,
+    List<MBMultipartForm>? forms,
   ) async {
-    if (forms != null) {
-      for (MBMultipartForm form in forms) {
-        if (!form.isFile) {
-          request.fields[form.name] = form.value;
+    if (forms == null) {
+      return;
+    }
+    for (MBMultipartForm form in forms) {
+      if (!form.isFile) {
+        if (form.value != null) {
+          request.fields[form.name] = form.value!;
         } else {
+          throw MBException(
+            statusCode: 451,
+            message: 'Multipart must have a value, if it\'s not a file',
+          );
+        }
+      } else {
+        if (form.path != null) {
           request.files.add(
             await http.MultipartFile.fromPath(
               form.name,
-              form.path,
+              form.path!,
               contentType: form.mimeType,
             ),
+          );
+        } else {
+          throw MBException(
+            statusCode: 452,
+            message: 'Multipart file must have a path',
           );
         }
       }

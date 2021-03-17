@@ -15,9 +15,9 @@ class MBPaginatedResponse<T> {
 
   /// Initializes a paginated response, with the items and information about pagination.
   MBPaginatedResponse({
-    this.from,
-    this.to,
-    this.total,
-    this.items,
+    required this.from,
+    required this.to,
+    required this.total,
+    required this.items,
   });
 }

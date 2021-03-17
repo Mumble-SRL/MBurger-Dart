@@ -4,13 +4,28 @@ import 'mb_element.dart';
 /// It is the counterpart of the 'text' and 'textarea' types on the dashboard
 class MBTextElement extends MBElement {
   /// The value of the element.
-  String value;
+  final String value;
+
+  /// Private initializer to initialize all variables using the factory initializer
+  /// - Parameters:
+  ///   - [dictionary]: The dictionary returned by the APIs
+  ///   - [value]: The textual value of the element
+  MBTextElement._({
+    required Map<String, dynamic> dictionary,
+    required this.value,
+  }) : super(dictionary: dictionary);
 
   /// Initializes a text element with the dictionary returned by the MBurger APIs.
   /// - Parameters:
   ///   - [dictionary]: The [dictionary] returned by the APIs.
-  MBTextElement({Map<String, dynamic> dictionary})
-      : super(dictionary: dictionary) {
-    value = dictionary['value'] as String;
+  factory MBTextElement({required Map<String, dynamic> dictionary}) {
+    String value = '';
+    if (dictionary['value'] is String) {
+      value = dictionary['value'] as String;
+    }
+    return MBTextElement._(
+      dictionary: dictionary,
+      value: value,
+    );
   }
 }

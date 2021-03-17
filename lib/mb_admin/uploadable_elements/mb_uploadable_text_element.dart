@@ -12,7 +12,7 @@ class MBUploadableTextElement extends MBUploadableElement {
         super(localeIdentifier, elementName);
 
   @override
-  List<MBMultipartForm> toForm() {
+  List<MBMultipartForm>? toForm() {
     return [MBMultipartForm.name(parameterName, text)];
   }
 }

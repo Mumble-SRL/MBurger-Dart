@@ -15,7 +15,7 @@ class MBUploadableElement {
   MBUploadableElement(this.localeIdentifier, this.elementName);
 
   /// Converts the element to an array of MBMultipartForm representing it.
-  List<MBMultipartForm> toForm() {
+  List<MBMultipartForm>? toForm() {
     return null;
   }
 }

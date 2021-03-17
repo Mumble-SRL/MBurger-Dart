@@ -53,8 +53,10 @@ class MBurgerExample extends StatelessWidget {
   /// Retrieves the project connected to the token
   _getProject() async {
     MBProject project = await MBManager.shared.getProject().catchError(
-          (error) => print(error),
-        );
+      (error) {
+        print(error);
+      },
+    );
     print(project);
   }
 
@@ -62,10 +64,14 @@ class MBurgerExample extends StatelessWidget {
   _getBlock() async {
     MBBlock block = await MBManager.shared
         .getBlock(
-          blockId: 1,
-          includeElements: true,
-        )
-        .catchError((error) => print(error));
+      blockId: 1,
+      includeElements: true,
+    )
+        .catchError(
+      (error) {
+        print(error);
+      },
+    );
     print(block);
   }
 
@@ -73,10 +79,14 @@ class MBurgerExample extends StatelessWidget {
   _getSection() async {
     MBSection section = await MBManager.shared
         .getSection(
-          sectionId: 1,
-          includeElements: true,
-        )
-        .catchError((error) => print(error));
+      sectionId: 1,
+      includeElements: true,
+    )
+        .catchError(
+      (error) {
+        print(error);
+      },
+    );
     print(section);
   }
 }

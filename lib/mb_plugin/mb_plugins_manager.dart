@@ -4,7 +4,7 @@ import 'package:mburger/mb_plugin/mb_plugin.dart';
 class MBPluginsManager {
   static void tagChanged(
     String tag, {
-    String value,
+    String? value,
   }) {
     for (MBPlugin plugin in MBManager.shared.plugins) {
       plugin.tagChanged(

@@ -17,16 +17,18 @@ class MBUploadableImagesElement extends MBUploadableElement {
   )   : this.images = images,
         super(localeIdentifier, elementName);
 
-  List<MBMultipartForm> toForm() {
+  List<MBMultipartForm>? toForm() {
     List<MBMultipartForm> form = [];
     int index = 0;
     for (String image in images) {
-      String mime = lookupMimeType(image);
+      String? mime = lookupMimeType(image);
       form.add(
         MBMultipartForm.file(
           "$parameterName[$index]",
           image,
-          MediaType.parse(mime),
+          mime != null
+              ? MediaType.parse(mime)
+              : MediaType('application', 'octet-stream'),
         ),
       );
       index++;

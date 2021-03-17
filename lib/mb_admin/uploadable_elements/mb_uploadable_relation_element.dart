@@ -14,7 +14,7 @@ class MBUploadableRelationElement extends MBUploadableElement {
         super(localeIdentifier, elementName);
 
   @override
-  List<MBMultipartForm> toForm() {
+  List<MBMultipartForm>? toForm() {
     List<MBMultipartForm> form = [];
     for (int i = 0; i < sectionIds.length; i++) {
       String value = sectionIds[i].toString();

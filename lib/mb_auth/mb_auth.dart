@@ -40,10 +40,10 @@ class MBAuth {
     String surname,
     String email,
     String password, {
-    String phone,
-    Uint8List image,
-    List<MBAuthContractAcceptanceParameter> contracts,
-    Map<String, dynamic> data,
+    String? phone,
+    Uint8List? image,
+    List<MBAuthContractAcceptanceParameter>? contracts,
+    Map<String, dynamic>? data,
   }) async {
     Map<String, String> parameters = {
       'name': name,
@@ -113,9 +113,9 @@ class MBAuth {
   static Future<void> authenticateUserWithSocial(
     String token,
     MBAuthSocialLoginType loginType, {
-    String name,
-    String surname,
-    List<MBAuthContractAcceptanceParameter> contracts,
+    String? name,
+    String? surname,
+    List<MBAuthContractAcceptanceParameter>? contracts,
   }) {
     Map<String, String> parameters = {};
     if (loginType == MBAuthSocialLoginType.apple) {
@@ -167,7 +167,10 @@ class MBAuth {
 
     Map<String, dynamic> body = MBManager.checkResponse(response.body);
 
-    String token = body['access_token'] as String;
+    String? token;
+    if (body['access_token'] is String) {
+      token = body['access_token'] as String;
+    }
 
     if (token == null) {
       throw MBException(statusCode: 1000, message: 'Token can\'t be found');
@@ -289,12 +292,12 @@ class MBAuth {
   ///   - [data]: Optional additional data.
   /// - Returns a [Future] that completes when the profile is changed correctly.
   static Future<MBUser> updateUser({
-    String name,
-    String surname,
-    String phone,
-    Uint8List image,
-    Map<String, dynamic> data,
-    List<MBAuthContractAcceptanceParameter> contracts,
+    String? name,
+    String? surname,
+    String? phone,
+    Uint8List? image,
+    Map<String, dynamic>? data,
+    List<MBAuthContractAcceptanceParameter>? contracts,
   }) async {
     String apiName = 'api/profile/update';
 
@@ -359,19 +362,20 @@ class MBAuth {
 
 //region token
 
-  static String _logedInKey() => 'com.mumble.mburger.userLoggedIn';
+  static String _loggedInKey() => 'com.mumble.mburger.userLoggedIn';
+
   static String _tokenKey() => 'com.mumble.mburger.token';
 
   static Future<void> _setUserLoggedIn(String token) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setBool(_logedInKey(), true);
+    await prefs.setBool(_loggedInKey(), true);
     final storage = FlutterSecureStorage();
     await storage.write(key: _tokenKey(), value: token);
   }
 
   static Future<void> _setUserLoggedOut() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setBool(_logedInKey(), false);
+    await prefs.setBool(_loggedInKey(), false);
     final storage = FlutterSecureStorage();
     await storage.delete(key: _tokenKey());
   }
@@ -380,15 +384,15 @@ class MBAuth {
   /// - Returns a [Future] that completes with a bool that represents if the user is logged in.
   static Future<bool> userLoggedIn() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool loggedIn = prefs.getBool(_logedInKey()) ?? false;
+    bool loggedIn = prefs.getBool(_loggedInKey()) ?? false;
     return loggedIn;
   }
 
   /// The token of the user.
   /// - Returns a [Future] that completes with the user token.
-  static Future<String> userToken() async {
+  static Future<String?> userToken() async {
     final storage = FlutterSecureStorage();
-    String token = await storage.read(key: _tokenKey());
+    String? token = await storage.read(key: _tokenKey());
     return token;
   }
 

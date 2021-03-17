@@ -8,7 +8,7 @@ abstract class MBPlugin {
 
   void tagChanged(
     String tag, {
-    String value,
+    String? value,
   }) {}
 
   void locationDataUpdated(
