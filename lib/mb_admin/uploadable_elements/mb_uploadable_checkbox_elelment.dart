@@ -6,6 +6,7 @@ class MBUploadableCheckboxElement extends MBUploadableElement {
   /// The value of the checkbox.
   final bool value;
 
+  /// Initializes a checkbox element with a locale, a name and it's value.
   MBUploadableCheckboxElement(
     String localeIdentifier,
     String elementName,
@@ -13,6 +14,7 @@ class MBUploadableCheckboxElement extends MBUploadableElement {
   )   : this.value = value,
         super(localeIdentifier, elementName);
 
+  /// Converts the element to an array of MBMultipartForm representing it.
   @override
   List<MBMultipartForm>? toForm() {
     if (value) {
