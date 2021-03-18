@@ -88,9 +88,15 @@ class MBManager {
   List<MBPlugin> get plugins => _plugins;
 
   /// Returns the plugin of the specified type in the array of plugins
-  MBPlugin? pluginOf<T>() => plugins.firstWhereOrNull(
-        (plugin) => plugin is T,
-      );
+  T? pluginOf<T>() {
+    MBPlugin? plugin = _plugins.firstWhereOrNull(
+      (plugin) => plugin is T,
+    );
+    if (plugin != null) {
+      return plugin as T;
+    }
+    return null;
+  }
 
   /// Retrieve the blocks of the project.
   /// - Parameters:
