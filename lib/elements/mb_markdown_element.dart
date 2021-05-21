@@ -3,13 +3,28 @@ import 'mb_element.dart';
 /// This class represents a MBurger markdown element.
 class MBMarkdownElement extends MBElement {
   /// The value of the element.
-  String value;
+  final String value;
+
+  /// Private initializer to initialize all variables using the factory initializer
+  /// - Parameters:
+  ///   - [dictionary]: The dictionary returned by the APIs
+  ///   - [value]: The textual value of the markdown
+  MBMarkdownElement._({
+    required Map<String, dynamic> dictionary,
+    required this.value,
+  }) : super(dictionary: dictionary);
 
   /// Initializes a text element with the dictionary returned by the MBurger APIs.
   /// - Parameters:
   ///   - [dictionary]: The [dictionary] returned by the APIs.
-  MBMarkdownElement({Map<String, dynamic> dictionary})
-      : super(dictionary: dictionary) {
-    value = dictionary['value'] as String;
+  factory MBMarkdownElement({required Map<String, dynamic> dictionary}) {
+    String value = '';
+    if (dictionary['value'] is String) {
+      value = dictionary['value'] as String;
+    }
+    return MBMarkdownElement._(
+      dictionary: dictionary,
+      value: value,
+    );
   }
 }

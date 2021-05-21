@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:mburger/mburger.dart';
 
 /// A parameter used to filter the elements wit a geofence.
@@ -22,10 +21,10 @@ class MBGeofenceParameter extends MBParameter {
   ///   - [southWestLatitude]: The [southWestLatitude].
   ///   - [southWestLongitude]: The [southWestLongitude].
   MBGeofenceParameter({
-    @required this.northEastLatitude,
-    @required this.northEastLongitude,
-    @required this.southWestLatitude,
-    @required this.southWestLongitude,
+    required this.northEastLatitude,
+    required this.northEastLongitude,
+    required this.southWestLatitude,
+    required this.southWestLongitude,
   });
 
   /// The representation of this parameter, how it will be passed to MBurger APIs.

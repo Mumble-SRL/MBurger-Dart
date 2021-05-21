@@ -12,10 +12,14 @@ class MBUploadableElement {
     return "elements[$localeIdentifier][$elementName]";
   }
 
-  MBUploadableElement(this.localeIdentifier, this.elementName);
+  /// Initializes an uploadable element with a locale identifier and a name
+  MBUploadableElement(
+    this.localeIdentifier,
+    this.elementName,
+  );
 
   /// Converts the element to an array of MBMultipartForm representing it.
-  List<MBMultipartForm> toForm() {
+  List<MBMultipartForm>? toForm() {
     return null;
   }
 }

@@ -1,19 +1,24 @@
 /// The status of a contract, accepted or declined by a user
 class MBUserContractStatus {
   /// The id of the contract
-  int id;
+  final int id;
 
   /// If the contract has been accepted or declined
-  bool accepted;
+  final bool accepted;
 
   MBUserContractStatus({
-    this.id,
-    this.accepted,
+    required this.id,
+    required this.accepted,
   });
 
-  MBUserContractStatus.fromDictionary(Map<String, dynamic> dictionary) {
-    id = dictionary['id'] as int;
-    accepted = dictionary['accepted'] as bool;
+  factory MBUserContractStatus.fromDictionary(Map<String, dynamic> dictionary) {
+    int id = dictionary['id'] is int ? dictionary['id'] as int : 0;
+    bool accepted =
+        dictionary['accepted'] is bool ? dictionary['accepted'] as bool : false;
+    return MBUserContractStatus(
+      id: id,
+      accepted: accepted,
+    );
   }
 
   Map<String, dynamic> toDictionary() {

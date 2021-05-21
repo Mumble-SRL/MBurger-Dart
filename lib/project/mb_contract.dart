@@ -1,28 +1,30 @@
 /// Represents a Legal contract in MBurger.
 class MBContract {
   /// The id of the contract.
-  int id;
+  final int id;
 
   /// The name of the contract.
-  String name;
+  final String name;
 
   /// The link of the contract, if setted.
-  String link;
+  final String? link;
 
   /// The text of the contract.
-  String text;
+  final String? text;
 
   /// If the contract is active or not.
-  bool active;
+  final bool active;
 
   /// Initializes a contract with the dictionary returned by the MBurger APIs.
   /// - Parameters:
   ///   - [dictionary]: The [dictionary] returned by the APIs.
-  MBContract.fromDictionary(Map<String, dynamic> dictionary) {
-    id = dictionary['id'] as int;
-    name = dictionary['name'] as String;
-    link = dictionary['link'] as String;
-    text = dictionary['text'] as String;
-    active = dictionary['active'] as bool;
-  }
+  MBContract.fromDictionary(Map<String, dynamic> dictionary)
+      : id = dictionary['id'] is int ? dictionary['id'] as int : 0,
+        name = dictionary['name'] is String ? dictionary['name'] as String : '',
+        link =
+            dictionary['link'] is String ? dictionary['link'] as String : null,
+        text =
+            dictionary['text'] is String ? dictionary['text'] as String : null,
+        active =
+            dictionary['active'] is bool ? dictionary['active'] as bool : false;
 }

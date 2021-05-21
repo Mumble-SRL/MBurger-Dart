@@ -3,39 +3,72 @@ import 'mb_element.dart';
 /// This class represents a MBurger dropdown element.
 class MBDropdownElement extends MBElement {
   /// The possible options of the dropdown.
-  List<MBDropdownElementOption> options;
+  final List<MBDropdownElementOption> options;
 
   /// The selected option of the dropdown.
-  String selectedOption;
+  final String? selectedOption;
+
+  /// Private initializer to initialize all variables using the factory initializer
+  /// - Parameters:
+  ///   - [dictionary]: The dictionary returned by the APIs
+  ///   - [options]: The options of the dropdown
+  ///   - [selectedOption]: The selected option
+  MBDropdownElement._({
+    required Map<String, dynamic> dictionary,
+    required this.options,
+    required this.selectedOption,
+  }) : super(dictionary: dictionary);
 
   /// Initializes a dropdown element with the dictionary returned by the MBurger APIs.
   /// - Parameters:
   ///   - [dictionary]: The [dictionary] returned by the APIs.
-  MBDropdownElement({Map<String, dynamic> dictionary})
-      : super(dictionary: dictionary) {
-    selectedOption = dictionary['value'] as String;
-    List<Map<String, dynamic>> options =
-        List<Map<String, dynamic>>.from(dictionary['options'] as List);
-    if (options != null) {
-      this.options =
-          options.map((o) => MBDropdownElementOption(dictionary: o)).toList();
+  factory MBDropdownElement({required Map<String, dynamic> dictionary}) {
+    String? selectedOption;
+    List<MBDropdownElementOption> options = [];
+
+    if (dictionary['value'] is String) {
+      selectedOption = dictionary['value'] as String;
     }
+
+    if (dictionary['options'] is List) {
+      List<Map<String, dynamic>> optionsMaps =
+          List<Map<String, dynamic>>.from(dictionary['options'] as List);
+      options = optionsMaps
+          .map((o) => MBDropdownElementOption.fromDictionary(dictionary: o))
+          .toList();
+    }
+
+    return MBDropdownElement._(
+      dictionary: dictionary,
+      options: options,
+      selectedOption: selectedOption,
+    );
   }
 }
 
 /// An option for dropdown elements
 class MBDropdownElementOption {
   /// The key of the option.
-  String key;
+  final String key;
 
   /// The value of the option.
-  String value;
+  final String value;
+
+  MBDropdownElementOption._({
+    required this.key,
+    required this.value,
+  });
 
   /// Initializes the option with the dictionary returned by the MBurger APIs.
   /// - Parameters:
   ///   - [dictionary]: The [dictionary] returned by the APIs.
-  MBDropdownElementOption({Map<String, dynamic> dictionary}) {
-    key = dictionary['key'] as String;
-    value = dictionary['value'] as String;
+  factory MBDropdownElementOption.fromDictionary(
+      {required Map<String, dynamic> dictionary}) {
+    String key = dictionary['key'] as String;
+    String value = dictionary['value'] as String;
+    return MBDropdownElementOption._(
+      key: key,
+      value: value,
+    );
   }
 }

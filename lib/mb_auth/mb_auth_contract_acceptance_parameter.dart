@@ -6,8 +6,13 @@ class MBAuthContractAcceptanceParameter {
   /// If the contract is accepted or not
   final bool accepted;
 
-  MBAuthContractAcceptanceParameter({this.contractId, this.accepted});
+  MBAuthContractAcceptanceParameter({
+    required this.contractId,
+    required this.accepted,
+  });
 
-  Map<String, dynamic> get representation =>
-      {"id": contractId, "accepted": accepted};
+  Map<String, dynamic> get representation => {
+        "id": contractId,
+        "accepted": accepted,
+      };
 }

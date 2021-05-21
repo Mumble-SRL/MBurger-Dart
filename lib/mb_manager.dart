@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:collection/collection.dart';
 import 'package:device_info/device_info.dart';
 import 'package:mburger/elements/mb_media_element.dart';
 import 'package:mburger/mb_block.dart';
@@ -39,53 +40,47 @@ class MBManager {
   }
 
   /// The API token used to make all the requests to the apis.
-  String apiToken;
+  String? apiToken;
 
   /// The MBurger channel that will be queried (stable/develop/master).
   MBurgerChannel channel = MBurgerChannel.stable;
 
   /// The locale used to make the requests.
-  String locale;
+  String? locale;
 
   /// The endpoint of MBurger, it uses the [development] flag to switch between dev and prod environments.
   String get endpoint {
     switch (channel) {
       case MBurgerChannel.stable:
         return 'mburger.cloud';
-        break;
       case MBurgerChannel.develop:
         return 'dev.mburger.cloud';
-        break;
       case MBurgerChannel.master:
         return 'staging.mburger.cloud';
-        break;
       default:
         return 'mburger.cloud';
-        break;
     }
   }
 
   /// The locale sent by the manger to the apis.
   String get localeForApi {
     if (locale != null) {
-      if (locale.length >= 2) {
-        return locale.substring(0, 2);
+      if (locale!.length >= 2) {
+        return locale!.substring(0, 2);
       }
     }
     return 'it';
   }
 
   /// Additional plugins for MBurger
-  List<MBPlugin> _plugins;
+  List<MBPlugin> _plugins = [];
 
   /// Additional plugins for MBurger
   set plugins(List<MBPlugin> plugins) {
     plugins.sort((p1, p2) => p1.startupOrder.compareTo(p2.startupOrder));
     _plugins = plugins;
     for (MBPlugin plugin in plugins) {
-      if (plugin.startupBlock != null) {
-        plugin.startupBlock();
-      }
+      plugin.startupBlock();
     }
   }
 
@@ -93,10 +88,15 @@ class MBManager {
   List<MBPlugin> get plugins => _plugins;
 
   /// Returns the plugin of the specified type in the array of plugins
-  MBPlugin pluginOf<T>() => plugins?.firstWhere(
-        (plugin) => plugin is T,
-        orElse: () => null,
-      );
+  T? pluginOf<T>() {
+    MBPlugin? plugin = _plugins.firstWhereOrNull(
+      (plugin) => plugin is T,
+    );
+    if (plugin != null) {
+      return plugin as T;
+    }
+    return null;
+  }
 
   /// Retrieve the blocks of the project.
   /// - Parameters:
@@ -116,14 +116,12 @@ class MBManager {
           includeElements ? 'sections.elements' : 'sections';
     }
 
-    if (parameters != null) {
-      parameters.forEach((parameter) {
-        Map<String, String> representation = parameter.representation;
-        if (representation != null) {
-          apiParameters.addAll(representation);
-        }
-      });
-    }
+    parameters.forEach((parameter) {
+      Map<String, String> representation = parameter.representation;
+      if (representation.isNotEmpty) {
+        apiParameters.addAll(representation);
+      }
+    });
 
     String apiName = 'api/blocks/';
 
@@ -151,15 +149,11 @@ class MBManager {
   ///   - [includeElements]: If [true] the elements in the sections of the blocks are included in the response, `false` by default.
   /// - Returns a [Future] that completes with a MBBlock which is the block retrieved.
   Future<MBBlock> getBlock({
-    int blockId,
+    required int blockId,
     List<MBParameter> parameters = const [],
     bool includeSections = false,
     bool includeElements = false,
   }) async {
-    if (blockId == null) {
-      throw MBException(statusCode: 1001, message: 'blockId must not be null');
-    }
-
     Map<String, String> apiParameters = {};
 
     if (includeSections) {
@@ -167,14 +161,12 @@ class MBManager {
           includeElements ? 'sections.elements' : 'sections';
     }
 
-    if (parameters != null) {
-      parameters.forEach((parameter) {
-        Map<String, String> representation = parameter.representation;
-        if (representation != null) {
-          apiParameters.addAll(representation);
-        }
-      });
-    }
+    parameters.forEach((parameter) {
+      Map<String, String> representation = parameter.representation;
+      if (representation.isNotEmpty) {
+        apiParameters.addAll(representation);
+      }
+    });
 
     String apiName = 'api/blocks/' + blockId.toString();
 
@@ -195,27 +187,22 @@ class MBManager {
   ///   - [includeElements]: If [true] of the elements in the sections of the blocks are included in the response, `false` by default.
   /// - Returns a [Future] that completes with a paginated response of [MBSection]: the sections retrieved and information about pagination.
   Future<MBPaginatedResponse<MBSection>> getSections({
-    int blockId,
+    required int blockId,
     List<MBParameter> parameters = const [],
     bool includeElements = false,
   }) async {
-    if (blockId == null) {
-      throw MBException(statusCode: 1002, message: 'blockId must not be null');
-    }
-
     Map<String, String> apiParameters = {};
 
     if (includeElements) {
       apiParameters['include'] = 'elements';
     }
-    if (parameters != null) {
-      parameters.forEach((parameter) {
-        Map<String, String> representation = parameter.representation;
-        if (representation != null) {
-          apiParameters.addAll(representation);
-        }
-      });
-    }
+
+    parameters.forEach((parameter) {
+      Map<String, String> representation = parameter.representation;
+      if (representation.isNotEmpty) {
+        apiParameters.addAll(representation);
+      }
+    });
 
     String apiName = 'api/blocks/' + blockId.toString() + '/sections';
 
@@ -242,29 +229,22 @@ class MBManager {
   ///   - [includeElements]: If [true] of the elements in the sections of the blocks are included in the response, `false` by default.
   /// - Returns a [Future] that completes with the [MBSection] retrieved.
   Future<MBSection> getSection({
-    int sectionId,
+    required int sectionId,
     List<MBParameter> parameters = const [],
     bool includeElements = false,
   }) async {
-    if (sectionId == null) {
-      throw MBException(
-          statusCode: 1002, message: 'sectionId must not be null');
-    }
-
     Map<String, String> apiParameters = {};
 
     if (includeElements) {
       apiParameters['include'] = 'elements';
     }
 
-    if (parameters != null) {
-      parameters.forEach((parameter) {
-        Map<String, String> representation = parameter.representation;
-        if (representation != null) {
-          apiParameters.addAll(representation);
-        }
-      });
-    }
+    parameters.forEach((parameter) {
+      Map<String, String> representation = parameter.representation;
+      if (representation.isNotEmpty) {
+        apiParameters.addAll(representation);
+      }
+    });
 
     String apiName = 'api/sections/' + sectionId.toString();
 
@@ -284,14 +264,10 @@ class MBManager {
   ///   - [includeElements]: If [true] of the elements in the sections of the blocks are included in the response, `false` by default.
   /// - Returns a [Future] that completes with the [MBSection] retrieved.
   Future<MBSection> getSectionWithSlug({
-    String slug,
+    required String slug,
     List<MBParameter> parameters = const [],
     bool includeElements = false,
   }) async {
-    if (slug == null) {
-      throw MBException(statusCode: 1002, message: 'slug must not be null');
-    }
-
     Map<String, String> apiParameters = {};
 
     apiParameters['use_slug'] = 'true';
@@ -299,14 +275,10 @@ class MBManager {
       apiParameters['include'] = 'elements';
     }
 
-    if (parameters != null) {
-      parameters.forEach((parameter) {
-        Map<String, String> representation = parameter.representation;
-        if (representation != null) {
-          apiParameters.addAll(representation);
-        }
-      });
-    }
+    parameters.forEach((parameter) {
+      Map<String, String> representation = parameter.representation;
+      apiParameters.addAll(representation);
+    });
 
     String apiName = 'api/sections/' + slug;
 
@@ -398,7 +370,7 @@ class MBManager {
 
     var uri = Uri.https(endpoint, apiName, apiParameters);
     var response = await http.get(uri, headers: await headers());
-    List<dynamic> body =
+    List<dynamic>? body =
         MBManager.checkResponseForType<List<dynamic>>(response.body);
     List<Map<String, dynamic>> bodyArray =
         List.castFrom<dynamic, Map<String, dynamic>>(body);
@@ -431,7 +403,10 @@ class MBManager {
   }) {
     final responseJson = json.decode(response);
     Map<String, dynamic> responseDecoded = responseJson as Map<String, dynamic>;
-    int statusCode = responseDecoded["status_code"] as int ?? -1;
+    int statusCode = -1;
+    if (responseDecoded["status_code"] is int) {
+      statusCode = responseDecoded["status_code"] as int;
+    }
     if (statusCode == 0) {
       if (checkBody) {
         T responseBody = responseDecoded["body"] as T;
@@ -447,7 +422,10 @@ class MBManager {
         if (responseDecoded is T) {
           return responseDecoded as T;
         } else {
-          return null;
+          throw MBException(
+            statusCode: 450,
+            message: "Wrong response type",
+          );
         }
       }
     } else {
@@ -457,10 +435,14 @@ class MBManager {
   }
 
   static MBException _exceptionFromResponse(
-      Map<String, dynamic> responseDecoded) {
-    int statusCode = responseDecoded["status_code"] as int ?? -1;
+    Map<String, dynamic> responseDecoded,
+  ) {
+    int statusCode = -1;
+    if (responseDecoded["status_code"] is int) {
+      statusCode = responseDecoded["status_code"] as int;
+    }
     String message = responseDecoded["message"] as String;
-    List<String> errors;
+    List<String>? errors;
     if (responseDecoded["errors"] != null) {
       errors = [];
       Map<String, dynamic> errorsDictionary =
@@ -489,13 +471,16 @@ class MBManager {
   Future<Map<String, String>> headers({bool contentTypeJson = false}) async {
     Map<String, String> headers = {
       'Accept': 'application/json',
-      'X-MBurger-Token': apiToken,
       'X-MBurger-Version': '3',
     };
 
+    if (apiToken != null) {
+      headers['X-MBurger-Token'] = apiToken!;
+    }
+
     bool userLoggedIn = await MBAuth.userLoggedIn();
     if (userLoggedIn == true) {
-      String token = await MBAuth.userToken();
+      String? token = await MBAuth.userToken();
       if (token != null) {
         headers['Authorization'] = 'Bearer $token';
       }

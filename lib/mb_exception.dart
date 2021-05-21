@@ -1,18 +1,16 @@
-import 'package:flutter/material.dart';
-
 /// An exception of MBurger
 class MBException implements Exception {
   /// The status code of the exception.
-  int statusCode;
+  final int statusCode;
 
   /// The message of the exception.
-  String message;
+  String? message;
 
   /// The errors of the exceptions.
-  List<String> errors;
+  List<String>? errors;
 
   MBException({
-    @required this.statusCode,
+    required this.statusCode,
     this.message,
     this.errors,
   });
@@ -20,10 +18,10 @@ class MBException implements Exception {
   @override
   String toString() {
     if (this.errors != null) {
-      if (this.errors.isNotEmpty) {
-        return this.errors.join('\n');
+      if (this.errors!.isNotEmpty) {
+        return this.errors!.join('\n');
       }
     }
-    return this.message;
+    return this.message ?? '';
   }
 }

@@ -4,15 +4,30 @@ import 'package:intl/intl.dart';
 /// This class represents a MBurger date element.
 class MBDateElement extends MBElement {
   /// The date value of the element.
-  DateTime date;
+  final DateTime? date;
+
+  /// Private initializer to initialize all variables using the factory initializer
+  /// - Parameters:
+  ///   - [dictionary]: The dictionary returned by the APIs
+  ///   - [date]: The date of this element
+  MBDateElement._({
+    required Map<String, dynamic> dictionary,
+    required this.date,
+  }) : super(dictionary: dictionary);
 
   /// Initializes a date element with the dictionary returned by the MBurger APIs.
   /// - Parameters:
   ///   - [dictionary]: The [dictionary] returned by the APIs.
-  MBDateElement({Map<String, dynamic> dictionary})
-      : super(dictionary: dictionary) {
-    DateFormat dateFormat = DateFormat('dd/MM/yyyy HH:mm');
-    String dateString = dictionary['value'] as String;
-    date = dateFormat.parse(dateString);
+  factory MBDateElement({required Map<String, dynamic> dictionary}) {
+    DateTime? date;
+    if (dictionary['value'] is String) {
+      DateFormat dateFormat = DateFormat('dd/MM/yyyy HH:mm');
+      String dateString = dictionary['value'] as String;
+      date = dateFormat.parse(dateString);
+    }
+    return MBDateElement._(
+      dictionary: dictionary,
+      date: date,
+    );
   }
 }

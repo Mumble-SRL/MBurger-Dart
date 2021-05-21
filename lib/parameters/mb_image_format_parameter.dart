@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:mburger/mburger.dart';
 
 /// The images format available for MBurger
@@ -24,7 +23,7 @@ class MBImageFormatParameter extends MBParameter {
   /// - Parameters:
   ///   - [format]: The image format.
   MBImageFormatParameter({
-    @required this.format,
+    required this.format,
   });
 
   /// The representation of this parameter, how it will be passed to MBurger APIs.
@@ -37,17 +36,12 @@ class MBImageFormatParameter extends MBParameter {
     switch (format) {
       case MBImageFormat.original:
         return 'original';
-        break;
       case MBImageFormat.thumb:
         return 'thumb';
-        break;
       case MBImageFormat.medium:
         return 'medium';
-        break;
       case MBImageFormat.large:
         return 'large';
-        break;
     }
-    return 'medium';
   }
 }

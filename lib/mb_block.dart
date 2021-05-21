@@ -3,35 +3,53 @@ import 'package:mburger/mb_section.dart';
 /// This class represent a MBurger Block.
 class MBBlock {
   /// The id of the block.
-  int id;
+  final int id;
 
   /// The title of the block.
-  String title;
+  final String title;
 
   /// The subtitle of the block.
-  String subtitle;
+  final String subtitle;
 
   /// The order index of the block.
-  int order;
+  final int order;
 
   /// The sections of the block.
-  List<MBSection> sections;
+  final List<MBSection> sections;
+
+  /// Initializes a `MBBlock` with all its data
+  MBBlock({
+    required this.id,
+    required this.title,
+    required this.subtitle,
+    required this.order,
+    required this.sections,
+  });
 
   /// Initializes a block with the dictionary returned by the MBurger APIs.
   /// - Parameters:
   ///   - [dictionary]: The [dictionary] returned by the APIs.
-  MBBlock.fromDictionary(Map<String, dynamic> dictionary) {
-    id = dictionary['id'] as int;
-    title = dictionary['title'] as String;
-    subtitle = dictionary['subtitle'] as String;
-    order = dictionary['order'] as int;
+  factory MBBlock.fromDictionary(Map<String, dynamic> dictionary) {
+    int id = dictionary['id'] as int;
+    String title = dictionary['title'] as String;
+    String subtitle = dictionary['subtitle'] as String;
+    int order = dictionary['order'] as int;
 
+    List<MBSection> sections = [];
     if (dictionary['sections'] != null) {
       List<Map<String, dynamic>> sectionsDictionaries =
           List.castFrom<dynamic, Map<String, dynamic>>(
               dictionary['sections'] as List);
-      this.sections =
+      sections =
           sectionsDictionaries.map((e) => MBSection.fromDictionary(e)).toList();
     }
+
+    return MBBlock(
+      id: id,
+      title: title,
+      subtitle: subtitle,
+      order: order,
+      sections: sections,
+    );
   }
 }

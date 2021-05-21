@@ -1,4 +1,4 @@
-## [1.0.0]
+## 2.0.0
 
-* Bumped to 1.0.0.
-* Added Shopify collection element.
+* Sound null safety is here.
+* Bugfixes.

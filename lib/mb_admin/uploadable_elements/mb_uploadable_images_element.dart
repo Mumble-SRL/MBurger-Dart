@@ -10,6 +10,7 @@ class MBUploadableImagesElement extends MBUploadableElement {
   /// The array of images.
   final List<String> images; // Images path in png
 
+  /// Initializes an images element with a locale identifier, a name and the paths of the images
   MBUploadableImagesElement(
     String localeIdentifier,
     String elementName,
@@ -17,16 +18,20 @@ class MBUploadableImagesElement extends MBUploadableElement {
   )   : this.images = images,
         super(localeIdentifier, elementName);
 
-  List<MBMultipartForm> toForm() {
+  /// Converts the element to an array of MBMultipartForm representing it.
+  @override
+  List<MBMultipartForm>? toForm() {
     List<MBMultipartForm> form = [];
     int index = 0;
     for (String image in images) {
-      String mime = lookupMimeType(image);
+      String? mime = lookupMimeType(image);
       form.add(
         MBMultipartForm.file(
           "$parameterName[$index]",
           image,
-          MediaType.parse(mime),
+          mime != null
+              ? MediaType.parse(mime)
+              : MediaType('application', 'octet-stream'),
         ),
       );
       index++;

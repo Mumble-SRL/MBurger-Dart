@@ -23,22 +23,42 @@ class MBMediaElement extends MBElement {
   /// The type of media.
   MBMediaType mediaType;
 
+  /// Private initializer to initialize all variables using the factory initializer
+  /// - Parameters:
+  ///   - [dictionary]: The dictionary returned by the APIs
+  ///   - [media]: The list of media
+  ///   - [mediaType]: The type of media
+  MBMediaElement._({
+    required Map<String, dynamic> dictionary,
+    required this.media,
+    required this.mediaType,
+  }) : super(dictionary: dictionary);
+
   /// Initializes a media element with the dictionary returned by the MBurger APIs.
   /// - Parameters:
   ///   - [dictionary]: The [dictionary] returned by the APIs.
-  MBMediaElement({Map<String, dynamic> dictionary})
-      : super(dictionary: dictionary) {
-    String type = dictionary['type'] as String;
-    mediaType = _mediaTypeForString(type);
-    List<Map<String, dynamic>> value =
-        List<Map<String, dynamic>>.from(dictionary['value'] as List);
-
-    if (value != null) {
+  factory MBMediaElement({required Map<String, dynamic> dictionary}) {
+    List<MBMedia> media = [];
+    if (dictionary['value'] is List) {
+      List<Map<String, dynamic>> value =
+          List<Map<String, dynamic>>.from(dictionary['value'] as List);
       media = value.map((img) => MBMedia(dictionary: img)).toList();
     }
+
+    String? type;
+    if (dictionary['type'] is String) {
+      type = dictionary['type'] as String;
+    }
+    MBMediaType mediaType = _mediaTypeForString(type);
+
+    return MBMediaElement._(
+      dictionary: dictionary,
+      media: media,
+      mediaType: mediaType,
+    );
   }
 
-  MBMediaType _mediaTypeForString(String mediaTypeString) {
+  static MBMediaType _mediaTypeForString(String? mediaTypeString) {
     if (mediaTypeString == null) {
       return MBMediaType.file;
     } else if (mediaTypeString == 'audio') {
@@ -54,11 +74,9 @@ class MBMediaElement extends MBElement {
   }
 
   /// The first media of the element if exists, [null] otherwise.
-  MBMedia firstMedia() {
-    if (media != null) {
-      if (media.isNotEmpty) {
-        return media.first;
-      }
+  MBMedia? firstMedia() {
+    if (media.isNotEmpty) {
+      return media.first;
     }
     return null;
   }
@@ -84,11 +102,12 @@ class MBMedia {
   /// Initializes a file with the dictionary returned by the MBurger APIs.
   /// - Parameters:
   ///   - [dictionary]: The [dictionary] returned by the APIs.
-  MBMedia({Map<String, dynamic> dictionary}) {
-    id = dictionary['id'] as int;
-    uuid = dictionary['uuid'] as String;
-    url = dictionary['url'] as String;
-    size = dictionary['size'] as int;
-    mimeType = dictionary['mime_type'] as String;
-  }
+  MBMedia({required Map<String, dynamic> dictionary})
+      : id = dictionary['id'] is int ? dictionary['id'] as int : 0,
+        uuid = dictionary['uuid'] is String ? dictionary['uuid'] as String : '',
+        url = dictionary['url'] is String ? dictionary['url'] as String : '',
+        size = dictionary['size'] is int ? dictionary['size'] as int : 0,
+        mimeType = dictionary['mime_type'] is String
+            ? dictionary['mime_type'] as String
+            : '';
 }

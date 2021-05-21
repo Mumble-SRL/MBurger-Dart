@@ -9,7 +9,10 @@ class MBPaginationParameter extends MBParameter {
   final int take;
 
   /// Initializes a [MBPaginationParameter] with the skip and take values.
-  MBPaginationParameter({this.skip, this.take});
+  MBPaginationParameter({
+    required this.skip,
+    required this.take,
+  });
 
   /// The representation of this parameter, how it will be passed to MBurger APIs.
   Map<String, String> get representation {

@@ -24,50 +24,64 @@ class MBUser {
   int id;
 
   /// The name of the user
-  String name;
+  String? name;
 
   /// The surname of the user
-  String surname;
+  String? surname;
 
   /// The email of the user
   String email;
 
   /// The phone of the user
-  String phone;
+  String? phone;
 
   /// The url of the profile image
-  String imageUrl;
+  String? imageUrl;
 
   /// Additional data for this user
-  Map<String, dynamic> data;
+  Map<String, dynamic>? data;
 
   /// Contracts associated with the user
-  List<MBUserContractStatus> contracts;
+  List<MBUserContractStatus>? contracts;
 
   /// The auth mode used to login
   MBUserAuthMode authMode;
 
+  /// Initializes a user with all its data
   MBUser({
-    this.id,
-    this.name,
-    this.surname,
-    this.email,
-    this.phone,
-    this.imageUrl,
-    this.data,
-    this.contracts,
-    this.authMode,
+    required this.id,
+    required this.name,
+    required this.surname,
+    required this.email,
+    required this.phone,
+    required this.imageUrl,
+    required this.data,
+    required this.contracts,
+    required this.authMode,
   });
 
   /// Initializes a user from the dictionary returned by the api
-  MBUser.fromDictionary(Map<String, dynamic> dictionary) {
-    id = dictionary['id'] as int;
-    name = dictionary['name'] as String;
-    surname = dictionary['surname'] as String;
-    email = dictionary['email'] as String;
-    phone = dictionary['phone'] as String;
-    imageUrl = dictionary['image'] as String;
+  factory MBUser.fromDictionary(Map<String, dynamic> dictionary) {
+    int id = dictionary['id'] as int;
+    String? name;
+    if (dictionary['name'] is String) {
+      name = dictionary['name'] as String;
+    }
+    String? surname;
+    if (dictionary['surname'] is String) {
+      surname = dictionary['surname'] as String;
+    }
+    String email = dictionary['email'] as String;
+    String? phone;
+    if (dictionary['phone'] is String) {
+      phone = dictionary['phone'] as String;
+    }
+    String? imageUrl;
+    if (dictionary['image'] is String) {
+      imageUrl = dictionary['image'] as String;
+    }
 
+    List<MBUserContractStatus>? contracts;
     if (dictionary['contracts'] != null) {
       List<Map<String, dynamic>> contractsArray =
           List.from(dictionary['contracts'] as List);
@@ -76,13 +90,27 @@ class MBUser {
           .toList();
     }
 
-    authMode = authModeFromString(dictionary["auth_mode"] as String);
+    MBUserAuthMode authMode =
+        _authModeFromString(dictionary["auth_mode"] as String);
 
+    Map<String, dynamic>? data;
     if (dictionary['data'] != null) {
       if (dictionary['data'] is Map<String, dynamic>) {
         data = dictionary['data'] as Map<String, dynamic>;
       }
     }
+
+    return MBUser(
+      id: id,
+      name: name,
+      surname: surname,
+      email: email,
+      phone: phone,
+      imageUrl: imageUrl,
+      data: data,
+      contracts: contracts,
+      authMode: authMode,
+    );
   }
 
   /// Converts this user to a dictionary
@@ -98,16 +126,14 @@ class MBUser {
     };
 
     if (contracts != null) {
-      dictionary['contracts'] = contracts.map((c) => c.toDictionary()).toList();
+      dictionary['contracts'] =
+          contracts!.map((c) => c.toDictionary()).toList();
     }
     return dictionary;
   }
 
   /// Generates a MBUserAuthMode from the string returned by the api
-  MBUserAuthMode authModeFromString(String authMode) {
-    if (authMode == null) {
-      return null;
-    }
+  static MBUserAuthMode _authModeFromString(String authMode) {
     if (authMode == 'email') {
       return MBUserAuthMode.email;
     } else if (authMode == 'facebook') {
@@ -125,9 +151,6 @@ class MBUser {
 
   /// Generates a string from a MBUserAuthMode
   String authModeToString(MBUserAuthMode authMode) {
-    if (authMode == null) {
-      return null;
-    }
     if (authMode == MBUserAuthMode.email) {
       return 'email';
     } else if (authMode == MBUserAuthMode.facebook) {
