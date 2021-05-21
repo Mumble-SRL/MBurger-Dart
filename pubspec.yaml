@@ -1,6 +1,6 @@
 name: mburger
 description: MBurger Dart client. You can use this package to interact with the MBurger headless CMS (https://www.mburger.cloud).
-documentation: https://docs.mumbleideas.it/mburger/
+documentation: https://docs.mburger.cloud
 version: 2.0.0
 authors:
   - Lorenzo Oliveto <lorenzo.oliveto@mumbleideas.it>
