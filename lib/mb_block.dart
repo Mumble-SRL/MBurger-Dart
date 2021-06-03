@@ -30,9 +30,12 @@ class MBBlock {
   /// - Parameters:
   ///   - [dictionary]: The [dictionary] returned by the APIs.
   factory MBBlock.fromDictionary(Map<String, dynamic> dictionary) {
-    int id = dictionary['id'] as int;
-    String title = dictionary['title'] as String;
-    String subtitle = dictionary['subtitle'] as String;
+    int id = dictionary['id'] is int ? dictionary['id'] as int : 0;
+    String title =
+        dictionary['title'] is String ? dictionary['title'] as String : '';
+    String subtitle = dictionary['subtitle'] is String
+        ? dictionary['subtitle'] as String
+        : '';
     int order = dictionary['order'] as int;
 
     List<MBSection> sections = [];
