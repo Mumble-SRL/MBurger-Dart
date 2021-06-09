@@ -1,3 +1,4 @@
+import 'package:mburger/elements/mb_custom_element.dart';
 import 'package:mburger/elements/mb_date_element.dart';
 import 'package:mburger/elements/mb_dropdown_element.dart';
 import 'package:mburger/elements/mb_markdown_element.dart';
@@ -54,6 +55,9 @@ enum MBElementType {
 
   /// An element representing a shopify collection.
   shopifyCollection,
+
+  /// A custom element that can be defined from the MBurger dashboard
+  custom,
 }
 
 /// This class represents the base class for all MBurger elements. All the specialized elements are subclasses of this class.
@@ -113,6 +117,8 @@ class MBElementsUtilities {
         return MBElementType.color;
       case 'shopify_collection':
         return MBElementType.shopifyCollection;
+      case 'custom':
+        return MBElementType.custom;
       default:
         return MBElementType.undefined;
     }
@@ -150,6 +156,8 @@ class MBElementsUtilities {
         return MBColorElement(dictionary: dictionary);
       case MBElementType.shopifyCollection:
         return MBShopifyCollectionElement(dictionary: dictionary);
+      case MBElementType.custom:
+        return MBCustomElement(dictionary: dictionary);
       default:
         return MBGeneralElement(dictionary: dictionary);
     }

@@ -1,4 +1,3 @@
-## 2.0.2
+## 2.0.3
 
-* Sound null safety is here.
-* Bugfixes.
+* Added the custom element, to allow the population of elements using external APIs.
