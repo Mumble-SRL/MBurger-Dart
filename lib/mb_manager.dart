@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:collection/collection.dart';
-import 'package:device_info/device_info.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:mburger/elements/mb_media_element.dart';
 import 'package:mburger/mb_block.dart';
 import 'package:mburger/mb_plugin/mb_plugin.dart';
@@ -499,14 +499,22 @@ class MBManager {
       'os': Platform.isIOS ? 'ios' : 'android',
       'locale': localeForApi,
     };
+    String? deviceId = await _deviceId();
+    if (deviceId != null) {
+      defaultParameters['device_id'] = deviceId;
+    }
+    return defaultParameters;
+  }
+
+  Future<String?> _deviceId() async {
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     if (Platform.isAndroid) {
       AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-      defaultParameters['device_id'] = androidInfo.androidId;
-    } else {
+      return androidInfo.androidId;
+    } else if (Platform.isIOS) {
       IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
-      defaultParameters['device_id'] = iosInfo.identifierForVendor;
+      return iosInfo.identifierForVendor;
     }
-    return defaultParameters;
+    return null;
   }
 }

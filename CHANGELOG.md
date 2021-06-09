@@ -1,3 +1,3 @@
-## 2.0.3
+## 2.0.4
 
-* Added the custom element, to allow the population of elements using external APIs.
+* Replaced device_info plugin with device_info_plus
