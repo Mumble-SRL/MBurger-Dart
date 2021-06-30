@@ -1,3 +1,3 @@
-## 2.0.3
+## 2.0.5
 
-* Added the custom element, to allow the population of elements using external APIs.
+* Added the fileName to MBMedia objects.

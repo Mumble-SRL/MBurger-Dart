@@ -99,6 +99,9 @@ class MBMedia {
   /// The MIME type of the media.
   String mimeType;
 
+  /// The file name of the media
+  String fileName;
+
   /// Initializes a file with the dictionary returned by the MBurger APIs.
   /// - Parameters:
   ///   - [dictionary]: The [dictionary] returned by the APIs.
@@ -109,5 +112,8 @@ class MBMedia {
         size = dictionary['size'] is int ? dictionary['size'] as int : 0,
         mimeType = dictionary['mime_type'] is String
             ? dictionary['mime_type'] as String
+            : '',
+        fileName = dictionary['file_name'] is String
+            ? dictionary['file_name'] as String
             : '';
 }
