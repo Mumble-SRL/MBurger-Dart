@@ -1,3 +1,3 @@
-## 2.0.4
+## 2.0.5
 
-* Replaced device_info plugin with device_info_plus
+* Added the fileName to MBMedia objects.
