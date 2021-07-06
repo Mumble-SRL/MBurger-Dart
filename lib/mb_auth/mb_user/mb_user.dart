@@ -125,6 +125,12 @@ class MBUser {
       'auth_mode': authModeToString(authMode),
     };
 
+    if(data != null){
+      if (data is Map<String, dynamic>) {
+        dictionary['data'] = data;
+      }
+    }
+
     if (contracts != null) {
       dictionary['contracts'] =
           contracts!.map((c) => c.toDictionary()).toList();
