@@ -1,3 +1,3 @@
-## 2.0.5
+## 2.0.6
 
-* Added the fileName to MBMedia objects.
+* Added data to the toDictionary function
