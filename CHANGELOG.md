@@ -1,3 +1,3 @@
-## 2.0.6
+## 2.0.7
 
-* Added data to the toDictionary function
+* Fixed some data not send in POST calls

@@ -75,7 +75,7 @@ class MBAuth {
     totalParameters.addAll(parameters);
     totalParameters.addAll(await MBManager.shared.defaultParameters());
 
-    var requestBody = json.encode(parameters);
+    var requestBody = json.encode(totalParameters);
 
     Map<String, String> headers =
         await MBManager.shared.headers(contentTypeJson: true);
@@ -154,7 +154,7 @@ class MBAuth {
     totalParameters.addAll(parameters);
     totalParameters.addAll(await MBManager.shared.defaultParameters());
 
-    var requestBody = json.encode(parameters);
+    var requestBody = json.encode(totalParameters);
 
     Map<String, String> headers =
         await MBManager.shared.headers(contentTypeJson: true);
