@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:android_id/android_id.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
 import 'package:http/http.dart' as http;
@@ -514,8 +515,9 @@ class MBManager {
     if (!kIsWeb) {
       DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
       if (Platform.isAndroid) {
-        AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-        return androidInfo.androidId;
+        const androidIdPlugin = AndroidId();
+        String? androidId = await androidIdPlugin.getId();
+        return androidId;
       } else if (Platform.isIOS) {
         IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
         return iosInfo.identifierForVendor;
