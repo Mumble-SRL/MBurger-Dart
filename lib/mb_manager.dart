@@ -1,5 +1,8 @@
 import 'dart:io';
 
+import 'package:android_id/android_id.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
+
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:collection/collection.dart';
@@ -116,12 +119,12 @@ class MBManager {
           includeElements ? 'sections.elements' : 'sections';
     }
 
-    parameters.forEach((parameter) {
+    for (MBParameter parameter in parameters) {
       Map<String, String> representation = parameter.representation;
       if (representation.isNotEmpty) {
         apiParameters.addAll(representation);
       }
-    });
+    }
 
     String apiName = 'api/blocks/';
 
@@ -161,14 +164,14 @@ class MBManager {
           includeElements ? 'sections.elements' : 'sections';
     }
 
-    parameters.forEach((parameter) {
+    for (MBParameter parameter in parameters) {
       Map<String, String> representation = parameter.representation;
       if (representation.isNotEmpty) {
         apiParameters.addAll(representation);
       }
-    });
+    }
 
-    String apiName = 'api/blocks/' + blockId.toString();
+    String apiName = 'api/blocks/$blockId';
 
     apiParameters.addAll(await defaultParameters());
 
@@ -197,14 +200,14 @@ class MBManager {
       apiParameters['include'] = 'elements';
     }
 
-    parameters.forEach((parameter) {
+    for (MBParameter parameter in parameters) {
       Map<String, String> representation = parameter.representation;
       if (representation.isNotEmpty) {
         apiParameters.addAll(representation);
       }
-    });
+    }
 
-    String apiName = 'api/blocks/' + blockId.toString() + '/sections';
+    String apiName = 'api/blocks/$blockId/sections';
 
     apiParameters.addAll(await defaultParameters());
 
@@ -239,14 +242,14 @@ class MBManager {
       apiParameters['include'] = 'elements';
     }
 
-    parameters.forEach((parameter) {
+    for (MBParameter parameter in parameters) {
       Map<String, String> representation = parameter.representation;
       if (representation.isNotEmpty) {
         apiParameters.addAll(representation);
       }
-    });
+    }
 
-    String apiName = 'api/sections/' + sectionId.toString();
+    String apiName = 'api/sections/$sectionId';
 
     apiParameters.addAll(await defaultParameters());
 
@@ -275,12 +278,12 @@ class MBManager {
       apiParameters['include'] = 'elements';
     }
 
-    parameters.forEach((parameter) {
+    for (MBParameter parameter in parameters) {
       Map<String, String> representation = parameter.representation;
       apiParameters.addAll(representation);
-    });
+    }
 
-    String apiName = 'api/sections/' + slug;
+    String apiName = 'api/sections/$slug';
 
     apiParameters.addAll(await defaultParameters());
 
@@ -496,9 +499,11 @@ class MBManager {
   /// - Returns a Future that completes with the map of default parameters.
   Future<Map<String, String>> defaultParameters() async {
     Map<String, String> defaultParameters = {
-      'os': Platform.isIOS ? 'ios' : 'android',
       'locale': localeForApi,
     };
+    if (!kIsWeb) {
+      defaultParameters['os'] = Platform.isIOS ? 'ios' : 'android';
+    }
     String? deviceId = await _deviceId();
     if (deviceId != null) {
       defaultParameters['device_id'] = deviceId;
@@ -507,13 +512,16 @@ class MBManager {
   }
 
   Future<String?> _deviceId() async {
-    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-    if (Platform.isAndroid) {
-      AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-      return androidInfo.androidId;
-    } else if (Platform.isIOS) {
-      IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
-      return iosInfo.identifierForVendor;
+    if (!kIsWeb) {
+      DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+      if (Platform.isAndroid) {
+        const androidIdPlugin = AndroidId();
+        String? androidId = await androidIdPlugin.getId();
+        return androidId;
+      } else if (Platform.isIOS) {
+        IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
+        return iosInfo.identifierForVendor;
+      }
     }
     return null;
   }

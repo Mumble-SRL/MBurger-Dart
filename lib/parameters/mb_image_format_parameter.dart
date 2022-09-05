@@ -27,6 +27,7 @@ class MBImageFormatParameter extends MBParameter {
   });
 
   /// The representation of this parameter, how it will be passed to MBurger APIs.
+  @override
   Map<String, String> get representation {
     return {'image_format': _formatToString(format)};
   }

@@ -34,7 +34,7 @@ class MBAdmin {
     MBAdminPushSettings? pushSettings,
     MBAdminVisibilitySettings? visibilitySettings,
   }) async {
-    String apiName = 'api/blocks/' + blockId.toString() + '/sections';
+    String apiName = 'api/blocks/$blockId/sections';
 
     var uri = Uri.https(MBManager.shared.endpoint, apiName);
     var request = http.MultipartRequest('POST', uri);
@@ -72,7 +72,7 @@ class MBAdmin {
     MBAdminPushSettings? pushSettings,
     MBAdminVisibilitySettings? visibilitySettings,
   }) async {
-    String apiName = 'api/sections/' + sectionId.toString() + '/update';
+    String apiName = 'api/sections/$sectionId/update';
 
     var uri = Uri.https(MBManager.shared.endpoint, apiName);
     var request = http.MultipartRequest('POST', uri);
@@ -102,7 +102,7 @@ class MBAdmin {
   ///   - [sectionId]: The id of the section that needs to be deleted.
   /// - Returns a [Future] that completes when the section is deleted correctly.
   Future<void> deleteSection(int sectionId) async {
-    String apiName = 'api/sections/' + sectionId.toString();
+    String apiName = 'api/sections/$sectionId';
 
     var uri = Uri.https(MBManager.shared.endpoint, apiName);
     http.Response response = await http.delete(
@@ -170,7 +170,7 @@ class MBAdmin {
   ///   - [mediaId]: The id of the media that needs to be deleted.
   /// - Returns a [Future] that completes when the media is deleted correctly.
   Future<void> deleteMedia(int mediaId) async {
-    String apiName = 'api/media/' + mediaId.toString();
+    String apiName = 'api/media/$mediaId';
 
     var uri = Uri.https(MBManager.shared.endpoint, apiName);
     http.Response response = await http.delete(

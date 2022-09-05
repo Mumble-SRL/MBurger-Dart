@@ -28,6 +28,7 @@ class MBGeofenceParameter extends MBParameter {
   });
 
   /// The representation of this parameter, how it will be passed to MBurger APIs.
+  @override
   Map<String, String> get representation {
     String key = 'filter[elements.geofence]';
     List<String> valueStrings = [

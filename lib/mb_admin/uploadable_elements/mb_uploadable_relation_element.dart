@@ -9,10 +9,9 @@ class MBUploadableRelationElement extends MBUploadableElement {
   /// Initializes a relation element with a locale identifier, a name and the ids of the sections selected.
   MBUploadableRelationElement(
     String localeIdentifier,
-    String elementName,
-    List<int> sectionIds,
-  )   : this.sectionIds = sectionIds,
-        super(localeIdentifier, elementName);
+    String elementName, {
+    required this.sectionIds,
+  }) : super(localeIdentifier, elementName);
 
   /// Converts the element to an array of MBMultipartForm representing it.
   @override

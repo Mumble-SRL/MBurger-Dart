@@ -13,10 +13,9 @@ class MBUploadableImagesElement extends MBUploadableElement {
   /// Initializes an images element with a locale identifier, a name and the paths of the images
   MBUploadableImagesElement(
     String localeIdentifier,
-    String elementName,
-    List<String> images,
-  )   : this.images = images,
-        super(localeIdentifier, elementName);
+    String elementName, {
+    required this.images,
+  }) : super(localeIdentifier, elementName);
 
   /// Converts the element to an array of MBMultipartForm representing it.
   @override

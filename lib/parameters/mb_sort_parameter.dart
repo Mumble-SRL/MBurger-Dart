@@ -15,8 +15,9 @@ class MBSortParameter extends MBParameter {
   });
 
   /// The representation of this parameter, how it will be passed to MBurger APIs.
+  @override
   Map<String, String> get representation {
-    String value = ascending ? field : ('-' + field);
+    String value = ascending ? field : ('-$field');
     return {'sort': value};
   }
 }

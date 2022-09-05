@@ -9,10 +9,9 @@ class MBUploadableTextElement extends MBUploadableElement {
   /// Initializes a text element with a locale identifier, a name and the ids of the text.
   MBUploadableTextElement(
     String localeIdentifier,
-    String elementName,
-    String text,
-  )   : this.text = text,
-        super(localeIdentifier, elementName);
+    String elementName, {
+    required this.text,
+  }) : super(localeIdentifier, elementName);
 
   /// Converts the element to an array of MBMultipartForm representing it.
   @override

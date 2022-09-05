@@ -26,7 +26,7 @@ class MBUploadableElementsFactory {
     return MBUploadableTextElement(
       localeIdentifier,
       name,
-      text,
+      text: text,
     );
   }
 
@@ -48,7 +48,7 @@ class MBUploadableElementsFactory {
     return MBUploadableImagesElement(
       localeIdentifier,
       name,
-      imagePaths,
+      images: imagePaths,
     );
   }
 
@@ -70,7 +70,7 @@ class MBUploadableElementsFactory {
     return MBUploadableFilesElement(
       localeIdentifier,
       name,
-      filePaths,
+      files: filePaths,
     );
   }
 
@@ -92,7 +92,7 @@ class MBUploadableElementsFactory {
     return MBUploadableMediaElement(
       localeIdentifier,
       name,
-      uuids,
+      uuIds: uuids,
     );
   }
 
@@ -101,7 +101,7 @@ class MBUploadableElementsFactory {
     return MBUploadableCheckboxElement(
       localeIdentifier,
       name,
-      value,
+      value: value,
     );
   }
 
@@ -113,7 +113,7 @@ class MBUploadableElementsFactory {
     return MBUploadableRelationElement(
       localeIdentifier,
       name,
-      sectionIds,
+      sectionIds: sectionIds,
     );
   }
 
@@ -125,7 +125,7 @@ class MBUploadableElementsFactory {
     return MBUploadableDropdownElement(
       localeIdentifier,
       name,
-      value,
+      value: value,
     );
   }
 
@@ -137,7 +137,7 @@ class MBUploadableElementsFactory {
     return MBUploadableMultipleElement(
       localeIdentifier,
       name,
-      values,
+      values: values,
     );
   }
 
@@ -146,7 +146,7 @@ class MBUploadableElementsFactory {
     return MBUploadableTextElement(
       localeIdentifier,
       'mburger_slug',
-      slug,
+      text: slug,
     );
   }
 }
