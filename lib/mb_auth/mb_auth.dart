@@ -369,14 +369,14 @@ class MBAuth {
   static Future<void> _setUserLoggedIn(String token) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setBool(_loggedInKey(), true);
-    final storage = FlutterSecureStorage();
+    const storage = FlutterSecureStorage();
     await storage.write(key: _tokenKey(), value: token);
   }
 
   static Future<void> _setUserLoggedOut() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setBool(_loggedInKey(), false);
-    final storage = FlutterSecureStorage();
+    const storage = FlutterSecureStorage();
     await storage.delete(key: _tokenKey());
   }
 
@@ -391,7 +391,7 @@ class MBAuth {
   /// The token of the user.
   /// - Returns a [Future] that completes with the user token.
   static Future<String?> userToken() async {
-    final storage = FlutterSecureStorage();
+    const storage = FlutterSecureStorage();
     String? token = await storage.read(key: _tokenKey());
     return token;
   }

@@ -17,11 +17,11 @@ class MBException implements Exception {
 
   @override
   String toString() {
-    if (this.errors != null) {
-      if (this.errors!.isNotEmpty) {
-        return this.errors!.join('\n');
+    if (errors != null) {
+      if (errors!.isNotEmpty) {
+        return errors!.join('\n');
       }
     }
-    return this.message ?? '';
+    return message ?? '';
   }
 }

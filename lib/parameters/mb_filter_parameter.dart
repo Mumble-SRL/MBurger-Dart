@@ -27,11 +27,12 @@ class MBFilterParameter extends MBParameter {
     required this.field,
     required String value,
     required String name,
-  }) : this.value = name + '|' + value;
+  }) : value = '$name|$value';
 
   /// The representation of this parameter, how it will be passed to MBurger APIs.
+  @override
   Map<String, String> get representation {
-    String key = 'filter[' + field + ']';
+    String key = 'filter[$field]';
     return {key: value};
   }
 }

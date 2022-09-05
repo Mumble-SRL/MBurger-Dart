@@ -1,3 +1,3 @@
-## 2.0.7
+## 2.0.8
 
-* Fixed some data not send in POST calls
+* Updated Flutter version to 3.3.0

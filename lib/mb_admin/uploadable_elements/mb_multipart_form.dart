@@ -21,15 +21,15 @@ class MBMultipartForm {
   MBMultipartForm.name(
     this.name,
     this.value,
-  )   : this.isFile = false,
-        this.path = null,
-        this.mimeType = null;
+  )   : isFile = false,
+        path = null,
+        mimeType = null;
 
   /// Initializes a `MBMultipartForm` object with name and a file
   MBMultipartForm.file(
     this.name,
     this.path,
     this.mimeType,
-  )   : this.isFile = true,
-        this.value = null;
+  )   : isFile = true,
+        value = null;
 }

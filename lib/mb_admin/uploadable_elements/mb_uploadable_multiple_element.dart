@@ -9,10 +9,9 @@ class MBUploadableMultipleElement extends MBUploadableElement {
   /// Initializes a multiple element with a locale identifier, a name and the values selected.
   MBUploadableMultipleElement(
     String localeIdentifier,
-    String elementName,
-    List<String> values,
-  )   : this.values = values,
-        super(localeIdentifier, elementName);
+    String elementName, {
+    required this.values,
+  }) : super(localeIdentifier, elementName);
 
   /// Converts the element to an array of MBMultipartForm representing it.
   @override
@@ -27,6 +26,6 @@ class MBUploadableMultipleElement extends MBUploadableElement {
 
   /// Returns the name of the parameter at index, to use in the form
   String _parameterNameForIndex(int index) {
-    return parameterName + '[' + index.toString() + ']';
+    return '$parameterName[$index]';
   }
 }
