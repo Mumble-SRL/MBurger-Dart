@@ -1,3 +1,3 @@
-## 2.0.8
+## 2.0.8+1
 
-* Updated Flutter version to 3.3.0
+* Downgraded `flutter_secure_storage` to 5.1.2
