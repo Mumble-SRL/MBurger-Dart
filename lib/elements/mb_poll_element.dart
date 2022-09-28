@@ -98,7 +98,7 @@ class MBPollAnswer {
   MBPollAnswer(this.name, this.votes);
 }
 
-/// The response returned by a vote poll from [MBManager.shared.votePoll].
+/// The response returned by a vote poll from [MBManager.votePoll].
 class MBPollVoteResponse {
   /// The index of my vote.
   int myVoteIndex;

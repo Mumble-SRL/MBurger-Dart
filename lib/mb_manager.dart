@@ -33,9 +33,22 @@ enum MBurgerChannel {
 
 /// The manager of the MBurger SDK, you will use this class to make requests to MBurger.
 class MBManager {
-  MBManager._privateConstructor();
+  /// Internal initializer, used when initializing the singleton
+  MBManager._privateConstructor({required this.channel});
 
-  static final MBManager _shared = MBManager._privateConstructor();
+  /// Initializes a [MBManager] with an [apiToken].
+  /// - Parameters:
+  ///   - [locale]: An optional locale used to call the make the requests.
+  ///   - [channel]: The MBurger channel to connect to, defaults to `stable`.
+  MBManager({
+    required this.apiToken,
+    this.locale,
+    this.channel = MBurgerChannel.stable,
+  });
+
+  static final MBManager _shared = MBManager._privateConstructor(
+    channel: MBurgerChannel.stable,
+  );
 
   /// The singleton that manages all the data sent and received to/from MBurger.
   static MBManager get shared {
@@ -46,7 +59,7 @@ class MBManager {
   String? apiToken;
 
   /// The MBurger channel that will be queried (stable/develop/master).
-  MBurgerChannel channel = MBurgerChannel.stable;
+  MBurgerChannel channel;
 
   /// The locale used to make the requests.
   String? locale;
@@ -326,20 +339,17 @@ class MBManager {
     apiParameters['element_id'] = pollId.toString();
     apiParameters['vote'] = answerIndex.toString();
 
-    apiParameters.addAll(await MBManager.shared.defaultParameters());
+    apiParameters.addAll(await defaultParameters());
 
     String apiName = 'api/vote-poll';
 
     var requestBody = json.encode(apiParameters);
 
-    Map<String, String> headers =
-        await MBManager.shared.headers(contentTypeJson: true);
-
-    var uri = Uri.https(MBManager.shared.endpoint, apiName);
+    var uri = Uri.https(endpoint, apiName);
 
     http.Response response = await http.post(
       uri,
-      headers: headers,
+      headers: await headers(contentTypeJson: true),
       body: requestBody,
     );
 

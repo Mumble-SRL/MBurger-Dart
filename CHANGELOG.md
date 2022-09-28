@@ -1,3 +1,3 @@
-## 2.0.8+1
+## 2.0.9
 
-* Downgraded `flutter_secure_storage` to 5.1.2
+* Bugfixes and minor improvements.
