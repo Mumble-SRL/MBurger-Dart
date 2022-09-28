@@ -34,6 +34,7 @@ class MBAuth {
   ///   - [image]: An optional profile image.
   ///   - [contracts]: If there are contracts in the project the user can accept/decline them and you can tell this to MBurger with this parameter.
   ///   - [data]: Optional additional data.
+  ///   - [manager]: An optional `MBManager` used to make calls instead of `MBManager.shared`.
   /// - Returns a [Future] that completes when the user is registered correctly.
   static Future<void> registerUser(
     String name,
@@ -44,6 +45,7 @@ class MBAuth {
     Uint8List? image,
     List<MBAuthContractAcceptanceParameter>? contracts,
     Map<String, dynamic>? data,
+    MBManager? manager,
   }) async {
     Map<String, String> parameters = {
       'name': name,
@@ -67,18 +69,20 @@ class MBAuth {
       parameters['data'] = json.encode(data);
     }
 
+    MBManager mbManager = manager ?? MBManager.shared;
+
     String apiName = 'api/register';
 
-    var uri = Uri.https(MBManager.shared.endpoint, apiName);
+    var uri = Uri.https(mbManager.endpoint, apiName);
 
     Map<String, String> totalParameters = {};
     totalParameters.addAll(parameters);
-    totalParameters.addAll(await MBManager.shared.defaultParameters());
+    totalParameters.addAll(await mbManager.defaultParameters());
 
     var requestBody = json.encode(totalParameters);
 
     Map<String, String> headers =
-        await MBManager.shared.headers(contentTypeJson: true);
+        await mbManager.headers(contentTypeJson: true);
 
     http.Response response = await http.post(
       uri,
@@ -93,13 +97,21 @@ class MBAuth {
   /// - Parameters:
   ///   - [email]: The email.
   ///   - [password]: The password.
+  ///   - [manager]: An optional `MBManager` used to make calls instead of `MBManager.shared`.
   /// - Returns a [Future] that completes when the user is authenticated correctly.
-  static Future<void> authenticateUser(String email, String password) {
-    return _authenticateUserWithParameters({
-      'mode': 'email',
-      'email': email,
-      'password': password,
-    });
+  static Future<void> authenticateUser(
+    String email,
+    String password, {
+    MBManager? manager,
+  }) {
+    return _authenticateUserWithParameters(
+      {
+        'mode': 'email',
+        'email': email,
+        'password': password,
+      },
+      manager: manager,
+    );
   }
 
   /// Authenticate a user with social.
@@ -109,6 +121,7 @@ class MBAuth {
   ///   - [name]: Used only when logging with apple, to set the name in MBurger.
   ///   - [surname]: Used only when logging with apple, to set the surname in MBurger.
   ///   - [contracts]: If there are contracts in the project the user can accept/decline them and you can tell this to MBurger with this parameter.
+  ///   - [manager]: An optional `MBManager` used to make calls instead of `MBManager.shared`.
   /// - Returns a [Future] that completes when the user is authenticated correctly.
   static Future<void> authenticateUserWithSocial(
     String token,
@@ -116,6 +129,7 @@ class MBAuth {
     String? name,
     String? surname,
     List<MBAuthContractAcceptanceParameter>? contracts,
+    MBManager? manager,
   }) {
     Map<String, String> parameters = {};
     if (loginType == MBAuthSocialLoginType.apple) {
@@ -140,24 +154,30 @@ class MBAuth {
       parameters['contracts'] = json.encode(contractsArray);
     }
 
-    return _authenticateUserWithParameters(parameters);
+    return _authenticateUserWithParameters(
+      parameters,
+      manager: manager,
+    );
   }
 
   static Future<void> _authenticateUserWithParameters(
-    Map<String, String> parameters,
-  ) async {
+    Map<String, String> parameters, {
+    required MBManager? manager,
+  }) async {
+    MBManager mbManager = manager ?? MBManager.shared;
+
     String apiName = 'api/authenticate';
 
-    var uri = Uri.https(MBManager.shared.endpoint, apiName);
+    var uri = Uri.https(mbManager.endpoint, apiName);
 
     Map<String, String> totalParameters = {};
     totalParameters.addAll(parameters);
-    totalParameters.addAll(await MBManager.shared.defaultParameters());
+    totalParameters.addAll(await mbManager.defaultParameters());
 
     var requestBody = json.encode(totalParameters);
 
     Map<String, String> headers =
-        await MBManager.shared.headers(contentTypeJson: true);
+        await mbManager.headers(contentTypeJson: true);
 
     http.Response response = await http.post(
       uri,
@@ -179,16 +199,22 @@ class MBAuth {
   }
 
   /// Logs out the current user.
+  /// - Parameters:
+  ///   - [manager]: An optional `MBManager` used to make calls instead of `MBManager.shared`.
   /// - Returns a [Future] that completes when the user is logged out correctly.
-  static Future<void> logoutCurrentUser() async {
+  static Future<void> logoutCurrentUser({
+    MBManager? manager,
+  }) async {
+    MBManager mbManager = manager ?? MBManager.shared;
+
     String apiName = 'api/logout';
 
-    var uri = Uri.https(MBManager.shared.endpoint, apiName);
+    var uri = Uri.https(mbManager.endpoint, apiName);
 
-    var requestBody = json.encode(await MBManager.shared.defaultParameters());
+    var requestBody = json.encode(await mbManager.defaultParameters());
 
     Map<String, String> headers =
-        await MBManager.shared.headers(contentTypeJson: true);
+        await mbManager.headers(contentTypeJson: true);
 
     http.Response response = await http.post(
       uri,
@@ -204,20 +230,26 @@ class MBAuth {
   /// Password reset, an email is sent to the user with the instructions to re-set the password.
   /// - Parameters:
   ///   - [email]: The email of the user.
+  ///   - [manager]: An optional `MBManager` used to make calls instead of `MBManager.shared`.
   /// - Returns a [Future] that completes when the api is called with success.
-  static Future<void> forgotPassword(String email) async {
+  static Future<void> forgotPassword(
+    String email, {
+    MBManager? manager,
+  }) async {
+    MBManager mbManager = manager ?? MBManager.shared;
+
     String apiName = 'api/forgot-password';
 
-    var uri = Uri.https(MBManager.shared.endpoint, apiName);
+    var uri = Uri.https(mbManager.endpoint, apiName);
 
     Map<String, String> apiParameters = {};
     apiParameters['email'] = email;
-    apiParameters.addAll(await MBManager.shared.defaultParameters());
+    apiParameters.addAll(await mbManager.defaultParameters());
 
     var requestBody = json.encode(apiParameters);
 
     Map<String, String> headers =
-        await MBManager.shared.headers(contentTypeJson: true);
+        await mbManager.headers(contentTypeJson: true);
 
     http.Response response = await http.post(
       uri,
@@ -232,24 +264,28 @@ class MBAuth {
   /// - Parameters:
   ///   - [oldPassword]: The old password of the user.
   ///   - [newPassword]: The new password of the user.
+  ///   - [manager]: An optional `MBManager` used to make calls instead of `MBManager.shared`.
   /// - Returns a [Future] that completes when the api is called with success.
   static Future<void> changePassword(
     String oldPassword,
-    String newPassword,
-  ) async {
+    String newPassword, {
+    MBManager? manager,
+  }) async {
+    MBManager mbManager = manager ?? MBManager.shared;
+
     String apiName = 'api/change-password';
 
-    var uri = Uri.https(MBManager.shared.endpoint, apiName);
+    var uri = Uri.https(mbManager.endpoint, apiName);
 
     Map<String, String> apiParameters = {};
     apiParameters['old_password'] = oldPassword;
     apiParameters['new_password'] = newPassword;
-    apiParameters.addAll(await MBManager.shared.defaultParameters());
+    apiParameters.addAll(await mbManager.defaultParameters());
 
     var requestBody = json.encode(apiParameters);
 
     Map<String, String> headers =
-        await MBManager.shared.headers(contentTypeJson: true);
+        await mbManager.headers(contentTypeJson: true);
 
     http.Response response = await http.post(
       uri,
@@ -263,15 +299,20 @@ class MBAuth {
 //region profile
 
   /// Returns the profile of the current user.
+  /// - Parameters:
+  ///   - [manager]: An optional `MBManager` used to make calls instead of `MBManager.shared`.
   /// - Returns a [Future] that completes with the profile of the current logged in user.
-  static Future<MBUser> getUserProfile() async {
+  static Future<MBUser> getUserProfile({
+    MBManager? manager,
+  }) async {
+    MBManager mbManager = manager ?? MBManager.shared;
+
     String apiName = 'api/profile';
 
-    Map<String, String> apiParameters =
-        await MBManager.shared.defaultParameters();
-    var uri = Uri.https(MBManager.shared.endpoint, apiName, apiParameters);
+    Map<String, String> apiParameters = await mbManager.defaultParameters();
+    var uri = Uri.https(mbManager.endpoint, apiName, apiParameters);
 
-    Map<String, String> headers = await MBManager.shared.headers();
+    Map<String, String> headers = await mbManager.headers();
 
     http.Response response = await http.get(
       uri,
@@ -290,6 +331,7 @@ class MBAuth {
   ///   - [image]: An optional profile image.
   ///   - [contracts]: If there are contracts in the project the user can accept/decline them and you can tell this to MBurger with this parameter.
   ///   - [data]: Optional additional data.
+  ///   - [manager]: An optional `MBManager` used to make calls instead of `MBManager.shared`.
   /// - Returns a [Future] that completes when the profile is changed correctly.
   static Future<MBUser> updateUser({
     String? name,
@@ -298,11 +340,13 @@ class MBAuth {
     Uint8List? image,
     Map<String, dynamic>? data,
     List<MBAuthContractAcceptanceParameter>? contracts,
+    MBManager? manager,
   }) async {
+    MBManager mbManager = manager ?? MBManager.shared;
+
     String apiName = 'api/profile/update';
 
-    Map<String, String> apiParameters =
-        await MBManager.shared.defaultParameters();
+    Map<String, String> apiParameters = await mbManager.defaultParameters();
     if (name != null) {
       apiParameters['name'] = name;
     }
@@ -323,10 +367,10 @@ class MBAuth {
           jsonEncode(contracts.map((c) => c.representation).toList());
     }
 
-    var uri = Uri.https(MBManager.shared.endpoint, apiName);
+    var uri = Uri.https(mbManager.endpoint, apiName);
 
     Map<String, String> headers =
-        await MBManager.shared.headers(contentTypeJson: true);
+        await mbManager.headers(contentTypeJson: true);
 
     String requestBody = jsonEncode(apiParameters);
 
@@ -341,15 +385,20 @@ class MBAuth {
   }
 
   /// Deletes the profile for the current logged in user.
+  /// - Parameters:
+  ///   - [manager]: An optional `MBManager` used to make calls instead of `MBManager.shared`.
   /// - Returns a [Future] that completes when the profile is deleted correctly.
-  static Future<void> deleteProfile() async {
+  static Future<void> deleteProfile({
+    MBManager? manager,
+  }) async {
+    MBManager mbManager = manager ?? MBManager.shared;
+
     String apiName = 'api/profile/delete';
 
-    Map<String, String> apiParameters =
-        await MBManager.shared.defaultParameters();
-    var uri = Uri.https(MBManager.shared.endpoint, apiName, apiParameters);
+    Map<String, String> apiParameters = await mbManager.defaultParameters();
+    var uri = Uri.https(mbManager.endpoint, apiName, apiParameters);
 
-    Map<String, String> headers = await MBManager.shared.headers();
+    Map<String, String> headers = await mbManager.headers();
 
     http.Response response = await http.delete(
       uri,

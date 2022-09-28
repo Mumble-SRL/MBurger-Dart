@@ -12,14 +12,16 @@ import 'package:mime/mime.dart';
 
 /// The manager of the MBAdmin section, you will use this class to create, edit or delete data in MBurger.
 class MBAdmin {
-  MBAdmin._privateConstructor();
+  /// Initializer an MBAdmin instance with a manager.
+  const MBAdmin({required this.manager});
 
-  static final MBAdmin _shared = MBAdmin._privateConstructor();
+  static final MBAdmin _shared = MBAdmin(manager: MBManager.shared);
 
   /// The singleton that manages all the MBAdmin part of MBurger.
-  static MBAdmin get shared {
-    return _shared;
-  }
+  static MBAdmin get shared => _shared;
+
+  /// The manager used to make API calls.
+  final MBManager manager;
 
   /// Adds a section to a block.
   /// - Parameters:
@@ -36,7 +38,7 @@ class MBAdmin {
   }) async {
     String apiName = 'api/blocks/$blockId/sections';
 
-    var uri = Uri.https(MBManager.shared.endpoint, apiName);
+    var uri = Uri.https(manager.endpoint, apiName);
     var request = http.MultipartRequest('POST', uri);
 
     for (MBUploadableElement element in elements) {
@@ -52,7 +54,7 @@ class MBAdmin {
       await _addMultipartFormsToRequest(request, visibilityForms);
     }
 
-    request.headers.addAll(await MBManager.shared.headers());
+    request.headers.addAll(await manager.headers());
     http.StreamedResponse response = await request.send();
     final responseString = await response.stream.bytesToString();
 
@@ -74,7 +76,7 @@ class MBAdmin {
   }) async {
     String apiName = 'api/sections/$sectionId/update';
 
-    var uri = Uri.https(MBManager.shared.endpoint, apiName);
+    var uri = Uri.https(manager.endpoint, apiName);
     var request = http.MultipartRequest('POST', uri);
 
     for (MBUploadableElement element in elements) {
@@ -90,7 +92,7 @@ class MBAdmin {
       await _addMultipartFormsToRequest(request, visibilityForms);
     }
 
-    request.headers.addAll(await MBManager.shared.headers());
+    request.headers.addAll(await manager.headers());
     http.StreamedResponse response = await request.send();
     final responseString = await response.stream.bytesToString();
 
@@ -104,10 +106,10 @@ class MBAdmin {
   Future<void> deleteSection(int sectionId) async {
     String apiName = 'api/sections/$sectionId';
 
-    var uri = Uri.https(MBManager.shared.endpoint, apiName);
+    var uri = Uri.https(manager.endpoint, apiName);
     http.Response response = await http.delete(
       uri,
-      headers: await MBManager.shared.headers(),
+      headers: await manager.headers(),
     );
 
     MBManager.checkResponse(response.body, checkBody: false);
@@ -147,12 +149,12 @@ class MBAdmin {
       index++;
     }
     String apiName = 'api/media';
-    var uri = Uri.https(MBManager.shared.endpoint, apiName);
+    var uri = Uri.https(manager.endpoint, apiName);
     var request = http.MultipartRequest('POST', uri);
 
     await _addMultipartFormsToRequest(request, form);
 
-    request.headers.addAll(await MBManager.shared.headers());
+    request.headers.addAll(await manager.headers());
     http.StreamedResponse response = await request.send();
     final responseString = await response.stream.bytesToString();
 
@@ -172,10 +174,10 @@ class MBAdmin {
   Future<void> deleteMedia(int mediaId) async {
     String apiName = 'api/media/$mediaId';
 
-    var uri = Uri.https(MBManager.shared.endpoint, apiName);
+    var uri = Uri.https(manager.endpoint, apiName);
     http.Response response = await http.delete(
       uri,
-      headers: await MBManager.shared.headers(),
+      headers: await manager.headers(),
     );
 
     MBManager.checkResponse(response.body, checkBody: false);

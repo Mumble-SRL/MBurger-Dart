@@ -339,20 +339,17 @@ class MBManager {
     apiParameters['element_id'] = pollId.toString();
     apiParameters['vote'] = answerIndex.toString();
 
-    apiParameters.addAll(await MBManager.shared.defaultParameters());
+    apiParameters.addAll(await defaultParameters());
 
     String apiName = 'api/vote-poll';
 
     var requestBody = json.encode(apiParameters);
 
-    Map<String, String> headers =
-        await MBManager.shared.headers(contentTypeJson: true);
-
-    var uri = Uri.https(MBManager.shared.endpoint, apiName);
+    var uri = Uri.https(endpoint, apiName);
 
     http.Response response = await http.post(
       uri,
-      headers: headers,
+      headers: await headers(contentTypeJson: true),
       body: requestBody,
     );
 
