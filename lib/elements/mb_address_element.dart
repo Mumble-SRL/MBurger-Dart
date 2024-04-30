@@ -34,9 +34,15 @@ class MBAddressElement extends MBElement {
     if (dictionary['value'] is Map<String, dynamic>) {
       Map<String, dynamic> addressDictionary =
           dictionary['value'] as Map<String, dynamic>;
-      address = addressDictionary['address'] as String;
-      latitude = addressDictionary['latitude'] as double;
-      longitude = addressDictionary['longitude'] as double;
+      address = addressDictionary['address'] != null
+          ? addressDictionary['address'] as String
+          : null;
+      latitude = addressDictionary['latitude'] != null
+          ? addressDictionary['latitude'] as double
+          : null;
+      longitude = addressDictionary['longitude'] != null
+          ? addressDictionary['longitude'] as double
+          : null;
     }
     return MBAddressElement._(
       dictionary: dictionary,
