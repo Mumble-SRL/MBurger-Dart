@@ -1,3 +1,3 @@
-## 2.1.1+1
+## 2.1.2
 
-* Fixes to MBAddressElement when the address is null.
+* Updated `intl` and `http` dependencies
