@@ -11,9 +11,9 @@ class MBCustomElement extends MBElement {
   ///   - [dictionary]: The dictionary returned by the APIs
   ///   - [collections]: The collections of this element
   MBCustomElement._({
-    required Map<String, dynamic> dictionary,
+    required super.dictionary,
     required this.value,
-  }) : super(dictionary: dictionary);
+  });
 
   /// Initializes a custom element with the dictionary returned by the MBurger APIs.
   /// - Parameters:

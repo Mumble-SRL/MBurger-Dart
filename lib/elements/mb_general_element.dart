@@ -10,9 +10,9 @@ class MBGeneralElement extends MBElement {
   ///   - [dictionary]: The dictionary returned by the APIs
   ///   - [value]: The value of the general element
   MBGeneralElement._({
-    required Map<String, dynamic> dictionary,
+    required super.dictionary,
     required this.value,
-  }) : super(dictionary: dictionary);
+  });
 
   /// Initializes a general element with the dictionary returned by the MBurger APIs.
   /// - Parameters:

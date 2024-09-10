@@ -10,9 +10,9 @@ class MBRelationElement extends MBElement {
   ///   - [dictionary]: The dictionary returned by the APIs
   ///   - [relations]: The relations of this element
   MBRelationElement._({
-    required Map<String, dynamic> dictionary,
+    required super.dictionary,
     required this.relations,
-  }) : super(dictionary: dictionary);
+  });
 
   /// Initializes a relation element with the dictionary returned by the MBurger APIs.
   /// - Parameters:

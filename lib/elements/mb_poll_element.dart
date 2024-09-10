@@ -22,12 +22,12 @@ class MBPollElement extends MBElement {
   ///   - [answer]: The answer
   ///   - [expiration]: The expiration date of the poll
   MBPollElement._({
-    required Map<String, dynamic> dictionary,
+    required super.dictionary,
     required this.answers,
     required this.answered,
     required this.answer,
     required this.expiration,
-  }) : super(dictionary: dictionary);
+  });
 
   /// Initializes a poll element with the dictionary returned by the MBurger APIs.
   /// - Parameters:

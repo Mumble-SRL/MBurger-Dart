@@ -10,9 +10,9 @@ class MBImagesElement extends MBElement {
   ///   - [dictionary]: The dictionary returned by the APIs
   ///   - [images]: The images of the element
   MBImagesElement._({
-    required Map<String, dynamic> dictionary,
+    required super.dictionary,
     required this.images,
-  }) : super(dictionary: dictionary);
+  });
 
   /// Initializes an images element with the dictionary returned by the MBurger APIs.
   /// - Parameters:

@@ -14,10 +14,10 @@ class MBDropdownElement extends MBElement {
   ///   - [options]: The options of the dropdown
   ///   - [selectedOption]: The selected option
   MBDropdownElement._({
-    required Map<String, dynamic> dictionary,
+    required super.dictionary,
     required this.options,
     required this.selectedOption,
-  }) : super(dictionary: dictionary);
+  });
 
   /// Initializes a dropdown element with the dictionary returned by the MBurger APIs.
   /// - Parameters:

@@ -1,3 +1,3 @@
-## 2.1.2
+## 2.1.3
 
-* Updated `intl` and `http` dependencies
+* Updated dependencies

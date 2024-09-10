@@ -11,9 +11,9 @@ class MBDateElement extends MBElement {
   ///   - [dictionary]: The dictionary returned by the APIs
   ///   - [date]: The date of this element
   MBDateElement._({
-    required Map<String, dynamic> dictionary,
+    required super.dictionary,
     required this.date,
-  }) : super(dictionary: dictionary);
+  });
 
   /// Initializes a date element with the dictionary returned by the MBurger APIs.
   /// - Parameters:

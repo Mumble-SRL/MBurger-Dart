@@ -12,9 +12,9 @@ class MBShopifyCollectionElement extends MBElement {
   ///   - [dictionary]: The dictionary returned by the APIs
   ///   - [collections]: The collections of this element
   MBShopifyCollectionElement._({
-    required Map<String, dynamic> dictionary,
+    required super.dictionary,
     required this.collections,
-  }) : super(dictionary: dictionary);
+  });
 
   /// Initializes a collection element with the dictionary returned by the MBurger APIs.
   /// - Parameters:

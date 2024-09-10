@@ -8,10 +8,10 @@ class MBUploadableDropdownElement extends MBUploadableElement {
 
   /// Initializes a dropdown element with a locale, a name and the selected value.
   MBUploadableDropdownElement(
-    String localeIdentifier,
-    String elementName, {
+    super.localeIdentifier,
+    super.elementName, {
     required this.value,
-  }) : super(localeIdentifier, elementName);
+  });
 
   /// Converts the element to an array of MBMultipartForm representing it.
   @override

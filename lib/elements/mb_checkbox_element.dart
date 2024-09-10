@@ -10,9 +10,9 @@ class MBCheckboxElement extends MBElement {
   ///   - [dictionary]: The dictionary returned by the APIs
   ///   - [value]: The value of the checkbox
   MBCheckboxElement._({
-    required Map<String, dynamic> dictionary,
+    required super.dictionary,
     required this.value,
-  }) : super(dictionary: dictionary);
+  });
 
   /// Initializes a checkbox element with the dictionary returned by the MBurger APIs.
   /// - Parameters:

@@ -11,9 +11,9 @@ class MBTextElement extends MBElement {
   ///   - [dictionary]: The dictionary returned by the APIs
   ///   - [value]: The textual value of the element
   MBTextElement._({
-    required Map<String, dynamic> dictionary,
+    required super.dictionary,
     required this.value,
-  }) : super(dictionary: dictionary);
+  });
 
   /// Initializes a text element with the dictionary returned by the MBurger APIs.
   /// - Parameters:

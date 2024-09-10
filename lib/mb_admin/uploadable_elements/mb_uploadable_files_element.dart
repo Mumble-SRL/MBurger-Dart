@@ -12,10 +12,10 @@ class MBUploadableFilesElement extends MBUploadableElement {
 
   /// Initializes a files element with a locale identifier, a name and the paths of the files
   MBUploadableFilesElement(
-    String localeIdentifier,
-    String elementName, {
+    super.localeIdentifier,
+    super.elementName, {
     required this.files,
-  }) : super(localeIdentifier, elementName);
+  });
 
   /// Converts the element to an array of MBMultipartForm representing it.
   @override
