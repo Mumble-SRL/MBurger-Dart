@@ -10,10 +10,10 @@ class MBUploadableMediaElement extends MBUploadableElement {
 
   /// Initializes a media element with a locale identifier, a name and the UUIDs of the media of MBurger.
   MBUploadableMediaElement(
-    String localeIdentifier,
-    String elementName, {
+    super.localeIdentifier,
+    super.elementName, {
     required this.uuIds,
-  }) : super(localeIdentifier, elementName);
+  });
 
   /// Converts the element to an array of MBMultipartForm representing it.
   @override

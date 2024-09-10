@@ -18,11 +18,11 @@ class MBAddressElement extends MBElement {
   ///   - [latitude]: The latitude
   ///   - [longitude]: The longitude
   MBAddressElement._({
-    required Map<String, dynamic> dictionary,
+    required super.dictionary,
     required this.address,
     required this.latitude,
     required this.longitude,
-  }) : super(dictionary: dictionary);
+  });
 
   /// Initializes an address element with the dictionary returned by the MBurger APIs.
   /// - Parameters:

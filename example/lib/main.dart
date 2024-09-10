@@ -3,10 +3,12 @@ import 'package:mburger/mburger.dart';
 
 void main() {
   MBManager.shared.apiToken = 'YOUR_API_TOKEN';
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -15,17 +17,19 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MBurgerExample(),
+      home: const MBurgerExample(),
     );
   }
 }
 
 class MBurgerExample extends StatelessWidget {
+  const MBurgerExample({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('MBurger Example'),
+        title: const Text('MBurger Example'),
       ),
       body: Center(
         child: Column(
@@ -33,15 +37,15 @@ class MBurgerExample extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             MaterialButton(
-              child: Text('Get project'),
+              child: const Text('Get project'),
               onPressed: () => _getProject(),
             ),
             MaterialButton(
-              child: Text('Get block'),
+              child: const Text('Get block'),
               onPressed: () => _getBlock(),
             ),
             MaterialButton(
-              child: Text('Get section'),
+              child: const Text('Get section'),
               onPressed: () => _getSection(),
             )
           ],
@@ -54,7 +58,7 @@ class MBurgerExample extends StatelessWidget {
   void _getProject() async {
     try {
       MBProject project = await MBManager.shared.getProject();
-      print(project);
+      debugPrint(project.toString());
     } catch (error) {
       debugPrint(error.toString());
     }
@@ -68,7 +72,7 @@ class MBurgerExample extends StatelessWidget {
         includeElements: true,
       );
 
-      print(block);
+      debugPrint(block.toString());
     } catch (error) {
       debugPrint(error.toString());
     }
@@ -81,7 +85,7 @@ class MBurgerExample extends StatelessWidget {
         sectionId: 1,
         includeElements: true,
       );
-      print(section);
+      debugPrint(section.toString());
     } catch (error) {
       debugPrint(error.toString());
     }

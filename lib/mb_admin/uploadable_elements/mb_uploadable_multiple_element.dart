@@ -8,10 +8,10 @@ class MBUploadableMultipleElement extends MBUploadableElement {
 
   /// Initializes a multiple element with a locale identifier, a name and the values selected.
   MBUploadableMultipleElement(
-    String localeIdentifier,
-    String elementName, {
+    super.localeIdentifier,
+    super.elementName, {
     required this.values,
-  }) : super(localeIdentifier, elementName);
+  });
 
   /// Converts the element to an array of MBMultipartForm representing it.
   @override

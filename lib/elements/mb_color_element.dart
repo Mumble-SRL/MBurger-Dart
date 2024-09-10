@@ -29,9 +29,9 @@ class MBColorElement extends MBElement {
   ///   - [dictionary]: The dictionary returned by the APIs
   ///   - [colorString]: The hex color string
   MBColorElement._({
-    required Map<String, dynamic> dictionary,
+    required super.dictionary,
     required this.colorString,
-  }) : super(dictionary: dictionary);
+  });
 
   /// Initializes a color element with the dictionary returned by the MBurger APIs.
   /// - Parameters:

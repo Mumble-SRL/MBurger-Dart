@@ -29,10 +29,10 @@ class MBMediaElement extends MBElement {
   ///   - [media]: The list of media
   ///   - [mediaType]: The type of media
   MBMediaElement._({
-    required Map<String, dynamic> dictionary,
+    required super.dictionary,
     required this.media,
     required this.mediaType,
-  }) : super(dictionary: dictionary);
+  });
 
   /// Initializes a media element with the dictionary returned by the MBurger APIs.
   /// - Parameters:
