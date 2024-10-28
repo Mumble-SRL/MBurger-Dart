@@ -1,5 +1,3 @@
-library mburger;
-
 export 'mb_manager.dart';
 export 'mb_exception.dart';
 export 'response/mb_paginated_response.dart';
