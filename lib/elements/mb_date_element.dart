@@ -23,7 +23,7 @@ class MBDateElement extends MBElement {
     if (dictionary['value'] is String) {
       DateFormat dateFormat = DateFormat('dd/MM/yyyy HH:mm');
       String dateString = dictionary['value'] as String;
-      date = dateFormat.parse(dateString);
+      date = dateFormat.tryParse(dateString);
     }
     return MBDateElement._(
       dictionary: dictionary,

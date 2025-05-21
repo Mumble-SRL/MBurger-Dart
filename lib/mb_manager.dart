@@ -73,6 +73,7 @@ class MBManager {
         return 'dev.mburger.cloud';
       case MBurgerChannel.master:
         return 'staging.mburger.cloud';
+      // ignore: unreachable_switch_default
       default:
         return 'mburger.cloud';
     }
