@@ -1,6 +1,6 @@
 name: mburger
 description: MBurger Dart client. You can use this package to interact with the MBurger headless CMS (https://www.mburger.cloud).
-version: 2.1.3+1
+version: 2.1.4
 homepage: https://web.mburger.cloud
 repository: https://github.com/Mumble-SRL/MBurger-Dart
 
@@ -10,15 +10,15 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  collection: ^1.18.0
+  collection: ^1.19.1
   android_id: ^0.4.0
-  device_info_plus: ^11.1.0
-  flutter_secure_storage: ^9.2.2
-  http: ^1.2.2
-  http_parser: ^4.0.2
-  intl: ^0.19.0
+  device_info_plus: ^11.4.0
+  flutter_secure_storage: ^9.2.4
+  http: ^1.4.0
+  http_parser: ^4.1.2
+  intl: ^0.20.2
   mime: ^2.0.0
-  shared_preferences: ^2.3.2
+  shared_preferences: ^2.5.3
 
 dev_dependencies:
   flutter_test:
