@@ -1,3 +1,3 @@
-## 2.1.4
+## 2.1.5
 
-* Updated dependencies for Flutter 3.32.0
+* Updated dependencies for Flutter 3.35.6
