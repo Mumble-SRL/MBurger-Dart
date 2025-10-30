@@ -395,7 +395,7 @@ class MBManager {
   /// - Parameters:
   ///   - [response]: The [response] string that needs to be checked.
   ///   - [checkBody]: If [true] this function checks if in the response there's a "body" value, otherwise it skips this check, `true` by default.
-  /// - Returns a Map<String, dynamic> object which is the body of the response.
+  /// - Returns a Map&lt;String, dynamic&gt; object which is the body of the response.
   static Map<String, dynamic> checkResponse(
     String response, {
     bool checkBody = true,
