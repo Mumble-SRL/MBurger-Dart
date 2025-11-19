@@ -21,7 +21,7 @@ You can install the MBurger SDK using pub, add this to your `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  mburger: ^2.1.5
+  mburger: ^2.1.6
 ```
 
 And then install packages from the command line with:
