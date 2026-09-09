@@ -1,3 +1,6 @@
+## 2.2.1
+* fix intl dependency
+
 ## 2.2.0
 
 * Added Swift Package Manager support for iOS, alongside the existing CocoaPods support
