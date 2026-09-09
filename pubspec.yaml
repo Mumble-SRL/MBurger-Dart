@@ -5,21 +5,21 @@ homepage: https://web.mburger.cloud
 repository: https://github.com/Mumble-SRL/MBurger-Dart
 
 environment:
-  sdk: ">=3.0.0 <4.0.0"
-  flutter: ">=3.0.0"
+  sdk: ^3.11.0
+  flutter: ">=3.44.0"
 
 dependencies:
   flutter:
     sdk: flutter
   collection: ^1.19.1
-  android_id: ^0.5.1
-  device_info_plus: ^12.3.0
-  flutter_secure_storage: ^10.0.0
+  android_id: ^0.5.2+1
+  device_info_plus: ^13.2.0
+  flutter_secure_storage: ^11.0.0
   http: ^1.6.0
   http_parser: ^4.1.2
-  intl: ^0.20.2
-  mime: ^2.0.0
-  shared_preferences: ^2.5.4
+  intl: ^0.20.3
+  mime: ^2.1.0
+  shared_preferences: ^2.5.5
 
 dev_dependencies:
   flutter_test:
